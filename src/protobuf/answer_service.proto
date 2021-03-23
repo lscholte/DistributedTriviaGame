@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package protobuf;
+
+option java_package = "protobuf.generated";
+option java_outer_classname = "AnswerServiceMessages";
+
+// A service which each player can use to submit an answer
+// to a question and find out if it is correct
+
+service AnswerService
+{
+	rpc Answer(AnswerRequest) returns (AnswerResponse);
+}
+
+message AnswerRequest
+{
+	optional string text = 1;
+}
+
+message AnswerResponse
+{
+	optional bool correct = 1;
+}

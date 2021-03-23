@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package protobuf;
+
+option java_package = "protobuf.generated";
+option java_outer_classname = "LobbyServiceMessages";
+
+// A service which players can use to create and join game lobbies.
+
+service LobbyService
+{
+	rpc CreateLobby(CreateLobbyRequest) returns (CreateLobbyResponse);
+	rpc JoinLobby(JoinLobbyRequest) returns (JoinLobbyResponse);
+}
+
+message CreateLobbyRequest
+{
+}
+
+message CreateLobbyResponse
+{
+	optional string lobby_id = 1;
+}
+
+enum JoinLobbyError
+{
+	SUCCESS = 0;
+	LOBBY_NOT_FOUND = 1;
+	LOBBY_FULL = 2;
+}
+
+message JoinLobbyRequest
+{
+	optional string lobby_id = 1;
+	optional string player_name = 2;
+}
+
+message JoinLobbyResponse
+{
+	optional JoinLobbyError	error = 1;
+}

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package protobuf;
+
+option java_package = "protobuf.generated";
+option java_outer_classname = "QuestionServiceMessages";
+
+
+// A service which a game state server can use to send
+// a question to a player. The expectation is that
+// a game state server has a communication channel open
+// with every player in a game and will send the same
+// question to each player.
+
+service QuestionService
+{
+	rpc AskQuestion(QuestionRequest) returns (QuestionResponse);
+}
+
+message QuestionRequest
+{
+	optional string text = 1;
+}
+
+message QuestionResponse
+{
+	//Just an empty response. Answer would go in a different request
+}
