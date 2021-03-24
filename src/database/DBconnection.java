@@ -7,8 +7,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
-import java.util.Iterator;
-
 public class DBconnection {
 
 
@@ -38,7 +36,7 @@ public class DBconnection {
         FindIterable<Document> iterDoc = collection.find(query);
 
         int i = 1;
-        // Getting the iterator
+        // iterrate through the query result
         for (Document question : iterDoc) {
             question.forEach((key, value) -> {
                 System.out.printf("%s: %s\n", key, value);
