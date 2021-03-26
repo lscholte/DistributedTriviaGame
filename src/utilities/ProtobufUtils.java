@@ -4,6 +4,8 @@ import com.google.protobuf.Message;
 
 public final class ProtobufUtils {
   
+  private ProtobufUtils() {}
+  
   public static String getPrintableMessage(Message message) {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder
