@@ -8,7 +8,9 @@ import java.util.concurrent.TimeUnit;
 import game.Server;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.ServerBuilder;
 import io.grpc.Status.Code;
+import io.grpc.stub.StreamObserver;
 import protobuf.generated.LobbyServiceGrpc;
 import protobuf.generated.LobbyServiceGrpc.LobbyServiceBlockingStub;
 import protobuf.generated.LobbyServiceMessages.CreateLobbyRequest;
@@ -16,15 +18,22 @@ import protobuf.generated.LobbyServiceMessages.CreateLobbyResponse;
 import protobuf.generated.LobbyServiceMessages.JoinLobbyError;
 import protobuf.generated.LobbyServiceMessages.JoinLobbyRequest;
 import protobuf.generated.LobbyServiceMessages.JoinLobbyResponse;
+import protobuf.generated.QuestionServiceGrpc.QuestionServiceImplBase;
+import protobuf.generated.QuestionServiceMessages.QuestionRequest;
+import protobuf.generated.QuestionServiceMessages.QuestionResponse;
 import io.grpc.StatusRuntimeException;
 import utilities.Logger;
 import utilities.ProtobufUtils;
 
 public class Client {
+  
+  public static final int PORT = 7767;
     
   private static final int RESPONSE_TIMEOUT_S = 10;
   
   private LobbyServiceBlockingStub lobbyServiceStub;
+  
+  private io.grpc.Server grpcServer;
   
   public Client() throws UnknownHostException, IOException {
     ManagedChannel channel = ManagedChannelBuilder
@@ -40,17 +49,21 @@ public class Client {
       catch (InterruptedException e) {
         e.printStackTrace();
       }
-    }));
-    
+    })); 
   }
   
-  public void start() {
+  public void start() throws IOException, InterruptedException {
     UUID lobbyUuid = createLobby();
     if (lobbyUuid != null) {
       joinLobby(lobbyUuid, "Test Player");
       
-      //TODO: Player should setup a question service so that it
-      //can receive questions from the game server
+      grpcServer = ServerBuilder
+          .forPort(PORT)
+          .addService(new QuestionService())
+          .build();
+      
+      grpcServer.start();
+      grpcServer.awaitTermination();
     }
   }
   
@@ -125,6 +138,21 @@ public class Client {
       default:
         Logger.logError(String.format("%s failed with error status code %s", requestType, code.toString()));
         break;
+    }
+  }
+  
+  private class QuestionService extends QuestionServiceImplBase {
+    
+    @Override
+    public void askQuestion(QuestionRequest request, StreamObserver<QuestionResponse> responseObserver) {      
+      Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
+      Logger.logInfo(String.format("Question: ", request.getText()));
+      
+      QuestionResponse.Builder responseBuilder = QuestionResponse.newBuilder();
+      QuestionResponse response = responseBuilder.build();
+      
+      responseObserver.onNext(response);
+      responseObserver.onCompleted();
     }
   }
 }
