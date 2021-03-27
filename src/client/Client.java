@@ -11,6 +11,10 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.ServerBuilder;
 import io.grpc.Status.Code;
 import io.grpc.stub.StreamObserver;
+import protobuf.generated.AnswerServiceGrpc;
+import protobuf.generated.AnswerServiceGrpc.AnswerServiceBlockingStub;
+import protobuf.generated.AnswerServiceMessages.AnswerRequest;
+import protobuf.generated.AnswerServiceMessages.AnswerResponse;
 import protobuf.generated.LobbyServiceGrpc;
 import protobuf.generated.LobbyServiceGrpc.LobbyServiceBlockingStub;
 import protobuf.generated.LobbyServiceMessages.CreateLobbyRequest;
@@ -32,11 +36,14 @@ public class Client {
   private static final int RESPONSE_TIMEOUT_S = 10;
   
   private LobbyServiceBlockingStub lobbyServiceStub;
+  private AnswerServiceBlockingStub answerServiceStub;
   
   private io.grpc.Server grpcServer;
   
+  private ManagedChannel channel;
+  
   public Client() throws UnknownHostException, IOException {
-    ManagedChannel channel = ManagedChannelBuilder
+    channel = ManagedChannelBuilder
         .forAddress("localhost", Server.PORT)
         .usePlaintext()
         .build();
@@ -56,6 +63,8 @@ public class Client {
     UUID lobbyUuid = createLobby();
     if (lobbyUuid != null) {
       joinLobby(lobbyUuid, "Test Player");
+      
+      answerServiceStub = AnswerServiceGrpc.newBlockingStub(channel);
       
       grpcServer = ServerBuilder
           .forPort(PORT)
@@ -125,7 +134,35 @@ public class Client {
     catch (StatusRuntimeException e) {
       handleGrpcError("JoinLobby", e.getStatus().getCode());
     }
-  }  
+  }
+  
+  public void answer(String answerText) {
+    //Build request 
+    AnswerRequest.Builder requestBuilder = AnswerRequest.newBuilder();
+    requestBuilder.setText(answerText);
+    
+    //Send request
+    AnswerRequest request = requestBuilder.build();
+    Logger.logInfo(String.format("Sending %s", ProtobufUtils.getPrintableMessage(request)));
+    
+    try {
+      AnswerResponse response = answerServiceStub
+        .withDeadlineAfter(RESPONSE_TIMEOUT_S, TimeUnit.SECONDS)
+        .answer(request);
+      
+      Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(response)));
+      
+      if (response.getCorrect()) {
+        Logger.logInfo("Answer was correct");
+      }
+      else {
+        Logger.logInfo("Answer was incorrect");
+      }
+    }
+    catch (StatusRuntimeException e) {
+      handleGrpcError("Answer", e.getStatus().getCode());
+    }
+  }
   
   private void handleGrpcError(String requestType, Code code) {
     switch (code) {
