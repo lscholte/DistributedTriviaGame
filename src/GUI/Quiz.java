@@ -3,6 +3,7 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Date;
 
 public class Quiz implements ActionListener {
 
@@ -34,7 +35,6 @@ public class Quiz implements ActionListener {
     int correct_guesses=0;
     int total_questions=questions.length;
     int result;
-    int seconds=10;
 
     JFrame frame = new JFrame();
     JTextField textField = new JTextField();
@@ -57,6 +57,7 @@ public class Quiz implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             seconds--;
+            
             seconds_left.setText(String.valueOf(seconds));
             if (seconds<=0){
                 displayAnswer();
@@ -173,17 +174,16 @@ public class Quiz implements ActionListener {
         frame.add(textField);
         frame.setVisible(true);
 
-        nextQuestion();
+//        nextQuestion();
     }
 
-    public void nextQuestion() {
-
+    public void nextQuestion(String questionText, Date deadline) {
         if (index >= total_questions){
             results();
         }
         else {
             textField.setText("Question " + (index+1));
-            textArea.setText(questions[index]);
+            textArea.setText(questionText);
             answer_labelA.setText(options[index][0]);
             answer_labelB.setText(options[index][1]);
             answer_labelC.setText(options[index][2]);
@@ -233,7 +233,7 @@ public class Quiz implements ActionListener {
                 buttonD.setEnabled(true);
 
                 index++;
-                nextQuestion();
+//                nextQuestion();
             }
         });
 

@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import GUI.Quiz;
 import game.Server;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -42,7 +43,10 @@ public class Client {
   
   private ManagedChannel channel;
   
+  private Quiz gui;
+  
   public Client() throws UnknownHostException, IOException {
+    gui = new Quiz();
     channel = ManagedChannelBuilder
         .forAddress("localhost", Server.PORT)
         .usePlaintext()
@@ -62,9 +66,6 @@ public class Client {
   public void start() throws IOException, InterruptedException {
     UUID lobbyUuid = createLobby();
     if (lobbyUuid != null) {
-      joinLobby(lobbyUuid, "Test Player");
-      
-      answerServiceStub = AnswerServiceGrpc.newBlockingStub(channel);
       
       grpcServer = ServerBuilder
           .forPort(PORT)
@@ -72,7 +73,10 @@ public class Client {
           .build();
       
       grpcServer.start();
-      grpcServer.awaitTermination();
+      
+      joinLobby(lobbyUuid, "Test Player");
+      
+      answerServiceStub = AnswerServiceGrpc.newBlockingStub(channel);
     }
   }
   
@@ -184,6 +188,8 @@ public class Client {
     public void askQuestion(QuestionRequest request, StreamObserver<QuestionResponse> responseObserver) {      
       Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
       Logger.logInfo(String.format("Question: ", request.getText()));
+      
+      gui.nextQuestion(request.getText());
       
       QuestionResponse.Builder responseBuilder = QuestionResponse.newBuilder();
       QuestionResponse response = responseBuilder.build();

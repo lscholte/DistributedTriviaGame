@@ -127,6 +127,8 @@ public class Server {
             .usePlaintext()
             .build();
         questionServiceStub = QuestionServiceGrpc.newBlockingStub(channel);
+        
+        askQuestion("Is this a test question?");
             
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
           try {
