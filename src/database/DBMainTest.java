@@ -10,7 +10,7 @@ public class DBMainTest {
 
         // connecting to locacl host MongoDB
         // assumption that trivia DB and testing collection are created
-        // TODO: change testing colletion to official questions collection
+        // TODO: change testing collection to official questions collection
         MongoConnection connection = new MongoConnection("localhost", 27017, "trivia","testing");
         int id_add = 5; // just for general pupose so no need to change everywhere
         int id_fetch = 2;
