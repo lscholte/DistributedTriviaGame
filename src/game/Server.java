@@ -1,7 +1,7 @@
 package game;
 
 import java.io.IOException;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import client.Client;
@@ -34,7 +34,6 @@ public class Server {
 
     private io.grpc.Server grpcServer;
 
-    //TODO: There should be many of these -- 1 for each player
     private QuestionServiceBlockingStub questionServiceStub;
 
     public Server() {
@@ -67,15 +66,15 @@ public class Server {
         //Send request
         QuestionRequest request = requestBuilder.build();
         Logger.logInfo(String.format("Sending %s", ProtobufUtils.getPrintableMessage(request)));
-
-        QuestionResponse response = questionServiceStub
-                .withDeadlineAfter(RESPONSE_TIMEOUT_S, TimeUnit.SECONDS)
-                .askQuestion(request);
-
-        Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(response)));
+            QuestionResponse response = questionServiceStub
+                    .withDeadlineAfter(RESPONSE_TIMEOUT_S, TimeUnit.SECONDS)
+                    .askQuestion(request);
+            Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(response)));
     }
 
     private class LobbyService extends LobbyServiceImplBase {
+
+        private Map<String, Lobby> lobbyMap = new HashMap<>();
 
         @Override
         public void createLobby(CreateLobbyRequest request, StreamObserver<CreateLobbyResponse> responseObserver) {
@@ -85,7 +84,8 @@ public class Server {
             responseBuilder.setLobbyId(UUID.randomUUID().toString());
             CreateLobbyResponse response = responseBuilder.build();
 
-            //TODO: Create a lobby
+            Lobby lobbyToBeCreated = new Lobby();
+            lobbyMap.put(lobbyToBeCreated.getLobbyID(), lobbyToBeCreated);
 
             responseObserver.onNext(response);
             responseObserver.onCompleted();
@@ -93,7 +93,12 @@ public class Server {
 
         @Override
         public void joinLobby(JoinLobbyRequest request, StreamObserver<JoinLobbyResponse> responseObserver) {
-            //TODO: add the player to the lobby.
+            String lobbyID = request.getLobbyId();
+            String playerName = request.getPlayerName();
+
+            Lobby lobby = lobbyMap.get(lobbyID);
+            lobby.addPlayerToLobby(playerName);
+
 
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
 
@@ -142,5 +147,23 @@ public class Server {
             return next.startCall(call, headers);
         }
 
+    }
+
+    private class Lobby{
+        private String lobbyID;
+        private List<String> players;
+
+        public Lobby(){
+            lobbyID = UUID.randomUUID().toString().replace("-", "");;
+            players = new ArrayList<>();
+        }
+
+        public void addPlayerToLobby(String playerID){
+            players.add(playerID);
+        }
+
+        public String getLobbyID(){
+            return lobbyID;
+        }
     }
 }
