@@ -56,12 +56,12 @@ public class Quiz implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            seconds--;
-            
-            seconds_left.setText(String.valueOf(seconds));
-            if (seconds<=0){
-                displayAnswer();
-            }
+//            seconds--;
+//            
+//            seconds_left.setText(String.valueOf(seconds));
+//            if (seconds<=0){
+//                displayAnswer();
+//            }
         }
     });
 
@@ -136,7 +136,7 @@ public class Quiz implements ActionListener {
         seconds_left.setBorder(BorderFactory.createBevelBorder(1));
         seconds_left.setOpaque(true);
         seconds_left.setHorizontalAlignment(JTextField.CENTER);
-        seconds_left.setText(String.valueOf(seconds));
+//        seconds_left.setText(String.valueOf(seconds));
 
         time_label.setBounds(535,475,100,25);
         time_label.setBackground(new Color(50,50,50));
@@ -224,8 +224,7 @@ public class Quiz implements ActionListener {
                 answer_labelD.setForeground(new Color(25,255,0));
 
                 answer = ' ';
-                seconds = 10;
-                seconds_left.setText(String.valueOf(seconds));
+//                seconds_left.setText(String.valueOf(seconds));
 
                 buttonA.setEnabled(true);
                 buttonB.setEnabled(true);
