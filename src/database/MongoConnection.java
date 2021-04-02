@@ -7,6 +7,8 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -44,11 +46,20 @@ public class MongoConnection {
         Document query = collection.find(filter).first();
 
         query.forEach((key, value) ->{
-            if(!key.equalsIgnoreCase("_id")){
-                if(key.equalsIgnoreCase("answer")){
-                    question.put("option 4", (String) value);
-                }
+            if(key.equalsIgnoreCase("question")){
                 question.put(key, (String) value);
+            }
+            if(key.equalsIgnoreCase("correct_answer")){
+                question.put("answer", (String) value);
+                question.put("option 1", (String) value);
+            }
+            if(key.equalsIgnoreCase("incorrect_answers")){
+                ArrayList<String> incorrect = new ArrayList<String>((Collection<? extends String>) value);
+                int i = 2;
+                for (String s : incorrect) {
+                    question.put("option "+i, s);
+                    i++;
+                }
             }
         });
 
