@@ -16,6 +16,7 @@ import io.grpc.ServerCallHandler;
 import io.grpc.ServerInterceptor;
 import io.grpc.stub.StreamObserver;
 import protobuf.generated.LobbyServiceGrpc.LobbyServiceImplBase;
+import protobuf.generated.LobbyServiceMessages;
 import protobuf.generated.LobbyServiceMessages.CreateLobbyRequest;
 import protobuf.generated.LobbyServiceMessages.CreateLobbyResponse;
 import protobuf.generated.LobbyServiceMessages.JoinLobbyRequest;
@@ -27,7 +28,7 @@ import protobuf.generated.QuestionServiceMessages.QuestionResponse;
 import utilities.Logger;
 import utilities.ProtobufUtils;
 
-public class Server {
+public class Server extends QuestionServiceGrpc.QuestionServiceImplBase {
     public static final int PORT = 7766;
 
     private static final int RESPONSE_TIMEOUT_S = 10;
@@ -40,7 +41,6 @@ public class Server {
         grpcServer = ServerBuilder
                 .forPort(PORT)
                 .addService(new LobbyService())
-                .intercept(new ClientInfoInterceptor())
                 .build();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -58,23 +58,19 @@ public class Server {
         grpcServer.awaitTermination();
     }
 
-    public void askQuestion(String questionText) {
-        //Build request 
+    @Override
+    public void askQuestion(QuestionRequest request, StreamObserver<QuestionResponse> responseObserver) {
+        //Build request
+        // Get the question text from db
+        String questionText = "Example question";
         QuestionRequest.Builder requestBuilder = QuestionRequest.newBuilder();
         requestBuilder.setText(questionText);
-
-        //Send request
-        QuestionRequest request = requestBuilder.build();
-        Logger.logInfo(String.format("Sending %s", ProtobufUtils.getPrintableMessage(request)));
-            QuestionResponse response = questionServiceStub
-                    .withDeadlineAfter(RESPONSE_TIMEOUT_S, TimeUnit.SECONDS)
-                    .askQuestion(request);
-            Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(response)));
     }
 
     private class LobbyService extends LobbyServiceImplBase {
 
-        private Map<String, Lobby> lobbyMap = new HashMap<>();
+        private Map<UUID, Lobby> lobbyMap = new HashMap<>();
+        private Map<String, StreamObserver<LobbyServiceMessages.questionStream>> observers = new HashMap<>();
 
         @Override
         public void createLobby(CreateLobbyRequest request, StreamObserver<CreateLobbyResponse> responseObserver) {
@@ -92,7 +88,9 @@ public class Server {
         }
 
         @Override
-        public void joinLobby(JoinLobbyRequest request, StreamObserver<JoinLobbyResponse> responseObserver) {
+        public void joinLobby(JoinLobbyRequest request,
+                              StreamObserver<LobbyServiceMessages.questionStream> responseObserver) {
+
             String lobbyID = request.getLobbyId();
             String playerName = request.getPlayerName();
 
@@ -102,59 +100,35 @@ public class Server {
 
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
 
-            JoinLobbyResponse.Builder responseBuilder = JoinLobbyResponse.newBuilder();
-            JoinLobbyResponse response = responseBuilder.build();
+            // Add the observer to map for that lobby
+            observers.put(playerName, responseObserver);
 
-            responseObserver.onNext(response);
-            responseObserver.onCompleted();
-        }
-    }
-
-    private class ClientInfoInterceptor implements ServerInterceptor {
-
-        /**
-         * Listens for a JoinLobby request and sets up a connection
-         * to the player's QuestionService.
-         */
-        @Override
-        public <ReqT, RespT> Listener<ReqT> interceptCall(
-                ServerCall<ReqT, RespT> call,
-                Metadata headers,
-                ServerCallHandler<ReqT, RespT> next) {
-            String callName = call.getMethodDescriptor().getFullMethodName();
-            if (callName.equals("protobuf.LobbyService/JoinLobby")) {
-                String address = call.getAttributes().get(Grpc.TRANSPORT_ATTR_REMOTE_ADDR).toString();
-                address = address.substring(1, address.indexOf(':'));
-                Logger.logInfo(String.format("Connecting QuestionService at %s:%d", address, Client.PORT));
-
-                ManagedChannel channel = ManagedChannelBuilder
-                        .forAddress(address, Client.PORT)
-                        .usePlaintext()
-                        .build();
-                questionServiceStub = QuestionServiceGrpc.newBlockingStub(channel);
-
-                askQuestion("Is this a test question?");
-
-                Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                    try {
-                        channel.shutdownNow().awaitTermination(5, TimeUnit.SECONDS);
-                    }
-                    catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }));
+            // Wait for the round to start
+            // Once the round has started
+            // Get a list of players in the lobby
+            List<String> players = lobby.getPlayers();
+            // Send the question to each player in the lobby
+            String question = "Example question";
+            for(String player: players){
+                StreamObserver<LobbyServiceMessages.questionStream> observer = observers.get(player);
+                LobbyServiceMessages.questionStream.Builder builder = LobbyServiceMessages.questionStream.newBuilder();
+                builder.setQuestion(question);
+                observer.onNext(builder.build());
             }
-            return next.startCall(call, headers);
+            // Once the round is completed
+            for(String player: players){
+                StreamObserver<LobbyServiceMessages.questionStream> observer = observers.get(player);
+                observer.onCompleted();
+            }
         }
-
     }
 
     private class Lobby{
-        private String lobbyID;
+        private UUID lobbyID;
         private List<String> players;
 
         public Lobby(){
-            lobbyID = UUID.randomUUID().toString().replace("-", "");;
+            lobbyID = UUID.randomUUID();
             players = new ArrayList<>();
         }
 
@@ -162,8 +136,12 @@ public class Server {
             players.add(playerID);
         }
 
-        public String getLobbyID(){
+        public UUID getLobbyID(){
             return lobbyID;
+        }
+
+        public List<String> getPlayers(){
+            return players;
         }
     }
 }
