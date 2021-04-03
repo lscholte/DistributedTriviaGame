@@ -70,7 +70,7 @@ public class Server extends QuestionServiceGrpc.QuestionServiceImplBase {
     private class LobbyService extends LobbyServiceImplBase {
 
         private Map<UUID, Lobby> lobbyMap = new HashMap<>();
-        private Map<String, StreamObserver<LobbyServiceMessages.questionStream>> observers = new HashMap<>();
+        private Map<String, StreamObserver<LobbyServiceMessages.QuestionStream>> observers = new HashMap<>();
 
         @Override
         public void createLobby(CreateLobbyRequest request, StreamObserver<CreateLobbyResponse> responseObserver) {
@@ -89,7 +89,7 @@ public class Server extends QuestionServiceGrpc.QuestionServiceImplBase {
 
         @Override
         public void joinLobby(JoinLobbyRequest request,
-                              StreamObserver<LobbyServiceMessages.questionStream> responseObserver) {
+                              StreamObserver<LobbyServiceMessages.QuestionStream> responseObserver) {
 
             String lobbyID = request.getLobbyId();
             String playerName = request.getPlayerName();
@@ -110,14 +110,14 @@ public class Server extends QuestionServiceGrpc.QuestionServiceImplBase {
             // Send the question to each player in the lobby
             String question = "Example question";
             for(String player: players){
-                StreamObserver<LobbyServiceMessages.questionStream> observer = observers.get(player);
-                LobbyServiceMessages.questionStream.Builder builder = LobbyServiceMessages.questionStream.newBuilder();
+                StreamObserver<LobbyServiceMessages.QuestionStream> observer = observers.get(player);
+                LobbyServiceMessages.QuestionStream.Builder builder = LobbyServiceMessages.QuestionStream.newBuilder();
                 builder.setQuestion(question);
                 observer.onNext(builder.build());
             }
             // Once the round is completed
             for(String player: players){
-                StreamObserver<LobbyServiceMessages.questionStream> observer = observers.get(player);
+                StreamObserver<LobbyServiceMessages.QuestionStream> observer = observers.get(player);
                 observer.onCompleted();
             }
         }

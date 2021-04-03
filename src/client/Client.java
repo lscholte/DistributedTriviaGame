@@ -3,6 +3,7 @@ package client;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -24,6 +25,7 @@ import protobuf.generated.LobbyServiceMessages.CreateLobbyResponse;
 import protobuf.generated.LobbyServiceMessages.JoinLobbyError;
 import protobuf.generated.LobbyServiceMessages.JoinLobbyRequest;
 import protobuf.generated.LobbyServiceMessages.JoinLobbyResponse;
+import protobuf.generated.LobbyServiceMessages.QuestionStream;
 import protobuf.generated.QuestionServiceGrpc.QuestionServiceImplBase;
 import protobuf.generated.QuestionServiceMessages.QuestionRequest;
 import protobuf.generated.QuestionServiceMessages.QuestionResponse;
@@ -115,18 +117,19 @@ public class Client {
         Logger.logInfo(String.format("Sending %s", ProtobufUtils.getPrintableMessage(request)));
 
         try {
-            JoinLobbyResponse response = lobbyServiceStub
-                    .withDeadlineAfter(RESPONSE_TIMEOUT_S, TimeUnit.SECONDS).joinLobby(request);
+            Iterator<QuestionStream> response = lobbyServiceStub
+                    .withDeadlineAfter(RESPONSE_TIMEOUT_S, TimeUnit.SECONDS)
+                    .joinLobby(request);
 
-            Logger.logInfo(
-                    String.format("Received %s", ProtobufUtils.getPrintableMessage(response)));
-
-            if (response.getError() == JoinLobbyError.SUCCESS) {
-                Logger.logInfo(String.format("Successfully joined lobby %s as %s",
-                        lobbyUuid.toString(), playerName));
-            } else {
-                Logger.logInfo("Failed to join the lobby");
-            }
+//            Logger.logInfo(
+//                    String.format("Received %s", ProtobufUtils.getPrintableMessage(response)));
+//
+//            if (response.getError() == JoinLobbyError.SUCCESS) {
+//                Logger.logInfo(String.format("Successfully joined lobby %s as %s",
+//                        lobbyUuid.toString(), playerName));
+//            } else {
+//                Logger.logInfo("Failed to join the lobby");
+//            }
         } catch (StatusRuntimeException e) {
             handleGrpcError("JoinLobby", e.getStatus().getCode());
         }

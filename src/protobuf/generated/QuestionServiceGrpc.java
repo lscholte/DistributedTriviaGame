@@ -5,7 +5,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
 /**
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.36.1)",
+    value = "by gRPC proto compiler (version 1.36.0)",
     comments = "Source: question_service.proto")
 public final class QuestionServiceGrpc {
 

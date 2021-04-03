@@ -2671,8 +2671,8 @@ public final class LobbyServiceMessages {
 
   }
 
-  public interface questionStreamOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:protobuf.questionStream)
+  public interface QuestionStreamOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protobuf.QuestionStream)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -2710,18 +2710,18 @@ public final class LobbyServiceMessages {
         getQuestionBytes();
   }
   /**
-   * Protobuf type {@code protobuf.questionStream}
+   * Protobuf type {@code protobuf.QuestionStream}
    */
-  public static final class questionStream extends
+  public static final class QuestionStream extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:protobuf.questionStream)
-      questionStreamOrBuilder {
+      // @@protoc_insertion_point(message_implements:protobuf.QuestionStream)
+      QuestionStreamOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use questionStream.newBuilder() to construct.
-    private questionStream(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use QuestionStream.newBuilder() to construct.
+    private QuestionStream(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private questionStream() {
+    private QuestionStream() {
       lobbyId_ = "";
       question_ = "";
     }
@@ -2730,7 +2730,7 @@ public final class LobbyServiceMessages {
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new questionStream();
+      return new QuestionStream();
     }
 
     @java.lang.Override
@@ -2738,7 +2738,7 @@ public final class LobbyServiceMessages {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private questionStream(
+    private QuestionStream(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2790,15 +2790,15 @@ public final class LobbyServiceMessages {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_questionStream_descriptor;
+      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_QuestionStream_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_questionStream_fieldAccessorTable
+      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_QuestionStream_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              protobuf.generated.LobbyServiceMessages.questionStream.class, protobuf.generated.LobbyServiceMessages.questionStream.Builder.class);
+              protobuf.generated.LobbyServiceMessages.QuestionStream.class, protobuf.generated.LobbyServiceMessages.QuestionStream.Builder.class);
     }
 
     private int bitField0_;
@@ -2939,10 +2939,10 @@ public final class LobbyServiceMessages {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof protobuf.generated.LobbyServiceMessages.questionStream)) {
+      if (!(obj instanceof protobuf.generated.LobbyServiceMessages.QuestionStream)) {
         return super.equals(obj);
       }
-      protobuf.generated.LobbyServiceMessages.questionStream other = (protobuf.generated.LobbyServiceMessages.questionStream) obj;
+      protobuf.generated.LobbyServiceMessages.QuestionStream other = (protobuf.generated.LobbyServiceMessages.QuestionStream) obj;
 
       if (hasLobbyId() != other.hasLobbyId()) return false;
       if (hasLobbyId()) {
@@ -2978,69 +2978,69 @@ public final class LobbyServiceMessages {
       return hash;
     }
 
-    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(byte[] data)
+    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(java.io.InputStream input)
+    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.questionStream parseDelimitedFrom(java.io.InputStream input)
+    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static protobuf.generated.LobbyServiceMessages.questionStream parseDelimitedFrom(
+    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -3053,7 +3053,7 @@ public final class LobbyServiceMessages {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(protobuf.generated.LobbyServiceMessages.questionStream prototype) {
+    public static Builder newBuilder(protobuf.generated.LobbyServiceMessages.QuestionStream prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -3069,26 +3069,26 @@ public final class LobbyServiceMessages {
       return builder;
     }
     /**
-     * Protobuf type {@code protobuf.questionStream}
+     * Protobuf type {@code protobuf.QuestionStream}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:protobuf.questionStream)
-        protobuf.generated.LobbyServiceMessages.questionStreamOrBuilder {
+        // @@protoc_insertion_point(builder_implements:protobuf.QuestionStream)
+        protobuf.generated.LobbyServiceMessages.QuestionStreamOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_questionStream_descriptor;
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_QuestionStream_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_questionStream_fieldAccessorTable
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_QuestionStream_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                protobuf.generated.LobbyServiceMessages.questionStream.class, protobuf.generated.LobbyServiceMessages.questionStream.Builder.class);
+                protobuf.generated.LobbyServiceMessages.QuestionStream.class, protobuf.generated.LobbyServiceMessages.QuestionStream.Builder.class);
       }
 
-      // Construct using protobuf.generated.LobbyServiceMessages.questionStream.newBuilder()
+      // Construct using protobuf.generated.LobbyServiceMessages.QuestionStream.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -3116,17 +3116,17 @@ public final class LobbyServiceMessages {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_questionStream_descriptor;
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_QuestionStream_descriptor;
       }
 
       @java.lang.Override
-      public protobuf.generated.LobbyServiceMessages.questionStream getDefaultInstanceForType() {
-        return protobuf.generated.LobbyServiceMessages.questionStream.getDefaultInstance();
+      public protobuf.generated.LobbyServiceMessages.QuestionStream getDefaultInstanceForType() {
+        return protobuf.generated.LobbyServiceMessages.QuestionStream.getDefaultInstance();
       }
 
       @java.lang.Override
-      public protobuf.generated.LobbyServiceMessages.questionStream build() {
-        protobuf.generated.LobbyServiceMessages.questionStream result = buildPartial();
+      public protobuf.generated.LobbyServiceMessages.QuestionStream build() {
+        protobuf.generated.LobbyServiceMessages.QuestionStream result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -3134,8 +3134,8 @@ public final class LobbyServiceMessages {
       }
 
       @java.lang.Override
-      public protobuf.generated.LobbyServiceMessages.questionStream buildPartial() {
-        protobuf.generated.LobbyServiceMessages.questionStream result = new protobuf.generated.LobbyServiceMessages.questionStream(this);
+      public protobuf.generated.LobbyServiceMessages.QuestionStream buildPartial() {
+        protobuf.generated.LobbyServiceMessages.QuestionStream result = new protobuf.generated.LobbyServiceMessages.QuestionStream(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
@@ -3185,16 +3185,16 @@ public final class LobbyServiceMessages {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof protobuf.generated.LobbyServiceMessages.questionStream) {
-          return mergeFrom((protobuf.generated.LobbyServiceMessages.questionStream)other);
+        if (other instanceof protobuf.generated.LobbyServiceMessages.QuestionStream) {
+          return mergeFrom((protobuf.generated.LobbyServiceMessages.QuestionStream)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(protobuf.generated.LobbyServiceMessages.questionStream other) {
-        if (other == protobuf.generated.LobbyServiceMessages.questionStream.getDefaultInstance()) return this;
+      public Builder mergeFrom(protobuf.generated.LobbyServiceMessages.QuestionStream other) {
+        if (other == protobuf.generated.LobbyServiceMessages.QuestionStream.getDefaultInstance()) return this;
         if (other.hasLobbyId()) {
           bitField0_ |= 0x00000001;
           lobbyId_ = other.lobbyId_;
@@ -3220,11 +3220,11 @@ public final class LobbyServiceMessages {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        protobuf.generated.LobbyServiceMessages.questionStream parsedMessage = null;
+        protobuf.generated.LobbyServiceMessages.QuestionStream parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (protobuf.generated.LobbyServiceMessages.questionStream) e.getUnfinishedMessage();
+          parsedMessage = (protobuf.generated.LobbyServiceMessages.QuestionStream) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -3413,48 +3413,48 @@ public final class LobbyServiceMessages {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:protobuf.questionStream)
+      // @@protoc_insertion_point(builder_scope:protobuf.QuestionStream)
     }
 
-    // @@protoc_insertion_point(class_scope:protobuf.questionStream)
-    private static final protobuf.generated.LobbyServiceMessages.questionStream DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:protobuf.QuestionStream)
+    private static final protobuf.generated.LobbyServiceMessages.QuestionStream DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new protobuf.generated.LobbyServiceMessages.questionStream();
+      DEFAULT_INSTANCE = new protobuf.generated.LobbyServiceMessages.QuestionStream();
     }
 
-    public static protobuf.generated.LobbyServiceMessages.questionStream getDefaultInstance() {
+    public static protobuf.generated.LobbyServiceMessages.QuestionStream getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<questionStream>
-        PARSER = new com.google.protobuf.AbstractParser<questionStream>() {
+    private static final com.google.protobuf.Parser<QuestionStream>
+        PARSER = new com.google.protobuf.AbstractParser<QuestionStream>() {
       @java.lang.Override
-      public questionStream parsePartialFrom(
+      public QuestionStream parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new questionStream(input, extensionRegistry);
+        return new QuestionStream(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<questionStream> parser() {
+    public static com.google.protobuf.Parser<QuestionStream> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<questionStream> getParserForType() {
+    public com.google.protobuf.Parser<QuestionStream> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public protobuf.generated.LobbyServiceMessages.questionStream getDefaultInstanceForType() {
+    public protobuf.generated.LobbyServiceMessages.QuestionStream getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface answerStreamOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:protobuf.answerStream)
+  public interface AnswerStreamOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protobuf.AnswerStream)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -3492,18 +3492,18 @@ public final class LobbyServiceMessages {
         getAnswerBytes();
   }
   /**
-   * Protobuf type {@code protobuf.answerStream}
+   * Protobuf type {@code protobuf.AnswerStream}
    */
-  public static final class answerStream extends
+  public static final class AnswerStream extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:protobuf.answerStream)
-      answerStreamOrBuilder {
+      // @@protoc_insertion_point(message_implements:protobuf.AnswerStream)
+      AnswerStreamOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use answerStream.newBuilder() to construct.
-    private answerStream(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use AnswerStream.newBuilder() to construct.
+    private AnswerStream(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private answerStream() {
+    private AnswerStream() {
       playerName_ = "";
       answer_ = "";
     }
@@ -3512,7 +3512,7 @@ public final class LobbyServiceMessages {
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new answerStream();
+      return new AnswerStream();
     }
 
     @java.lang.Override
@@ -3520,7 +3520,7 @@ public final class LobbyServiceMessages {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private answerStream(
+    private AnswerStream(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3572,15 +3572,15 @@ public final class LobbyServiceMessages {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_answerStream_descriptor;
+      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_AnswerStream_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_answerStream_fieldAccessorTable
+      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_AnswerStream_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              protobuf.generated.LobbyServiceMessages.answerStream.class, protobuf.generated.LobbyServiceMessages.answerStream.Builder.class);
+              protobuf.generated.LobbyServiceMessages.AnswerStream.class, protobuf.generated.LobbyServiceMessages.AnswerStream.Builder.class);
     }
 
     private int bitField0_;
@@ -3721,10 +3721,10 @@ public final class LobbyServiceMessages {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof protobuf.generated.LobbyServiceMessages.answerStream)) {
+      if (!(obj instanceof protobuf.generated.LobbyServiceMessages.AnswerStream)) {
         return super.equals(obj);
       }
-      protobuf.generated.LobbyServiceMessages.answerStream other = (protobuf.generated.LobbyServiceMessages.answerStream) obj;
+      protobuf.generated.LobbyServiceMessages.AnswerStream other = (protobuf.generated.LobbyServiceMessages.AnswerStream) obj;
 
       if (hasPlayerName() != other.hasPlayerName()) return false;
       if (hasPlayerName()) {
@@ -3760,69 +3760,69 @@ public final class LobbyServiceMessages {
       return hash;
     }
 
-    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(byte[] data)
+    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(java.io.InputStream input)
+    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.answerStream parseDelimitedFrom(java.io.InputStream input)
+    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static protobuf.generated.LobbyServiceMessages.answerStream parseDelimitedFrom(
+    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -3835,7 +3835,7 @@ public final class LobbyServiceMessages {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(protobuf.generated.LobbyServiceMessages.answerStream prototype) {
+    public static Builder newBuilder(protobuf.generated.LobbyServiceMessages.AnswerStream prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -3851,26 +3851,26 @@ public final class LobbyServiceMessages {
       return builder;
     }
     /**
-     * Protobuf type {@code protobuf.answerStream}
+     * Protobuf type {@code protobuf.AnswerStream}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:protobuf.answerStream)
-        protobuf.generated.LobbyServiceMessages.answerStreamOrBuilder {
+        // @@protoc_insertion_point(builder_implements:protobuf.AnswerStream)
+        protobuf.generated.LobbyServiceMessages.AnswerStreamOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_answerStream_descriptor;
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_AnswerStream_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_answerStream_fieldAccessorTable
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_AnswerStream_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                protobuf.generated.LobbyServiceMessages.answerStream.class, protobuf.generated.LobbyServiceMessages.answerStream.Builder.class);
+                protobuf.generated.LobbyServiceMessages.AnswerStream.class, protobuf.generated.LobbyServiceMessages.AnswerStream.Builder.class);
       }
 
-      // Construct using protobuf.generated.LobbyServiceMessages.answerStream.newBuilder()
+      // Construct using protobuf.generated.LobbyServiceMessages.AnswerStream.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -3898,17 +3898,17 @@ public final class LobbyServiceMessages {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_answerStream_descriptor;
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_AnswerStream_descriptor;
       }
 
       @java.lang.Override
-      public protobuf.generated.LobbyServiceMessages.answerStream getDefaultInstanceForType() {
-        return protobuf.generated.LobbyServiceMessages.answerStream.getDefaultInstance();
+      public protobuf.generated.LobbyServiceMessages.AnswerStream getDefaultInstanceForType() {
+        return protobuf.generated.LobbyServiceMessages.AnswerStream.getDefaultInstance();
       }
 
       @java.lang.Override
-      public protobuf.generated.LobbyServiceMessages.answerStream build() {
-        protobuf.generated.LobbyServiceMessages.answerStream result = buildPartial();
+      public protobuf.generated.LobbyServiceMessages.AnswerStream build() {
+        protobuf.generated.LobbyServiceMessages.AnswerStream result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -3916,8 +3916,8 @@ public final class LobbyServiceMessages {
       }
 
       @java.lang.Override
-      public protobuf.generated.LobbyServiceMessages.answerStream buildPartial() {
-        protobuf.generated.LobbyServiceMessages.answerStream result = new protobuf.generated.LobbyServiceMessages.answerStream(this);
+      public protobuf.generated.LobbyServiceMessages.AnswerStream buildPartial() {
+        protobuf.generated.LobbyServiceMessages.AnswerStream result = new protobuf.generated.LobbyServiceMessages.AnswerStream(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
@@ -3967,16 +3967,16 @@ public final class LobbyServiceMessages {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof protobuf.generated.LobbyServiceMessages.answerStream) {
-          return mergeFrom((protobuf.generated.LobbyServiceMessages.answerStream)other);
+        if (other instanceof protobuf.generated.LobbyServiceMessages.AnswerStream) {
+          return mergeFrom((protobuf.generated.LobbyServiceMessages.AnswerStream)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(protobuf.generated.LobbyServiceMessages.answerStream other) {
-        if (other == protobuf.generated.LobbyServiceMessages.answerStream.getDefaultInstance()) return this;
+      public Builder mergeFrom(protobuf.generated.LobbyServiceMessages.AnswerStream other) {
+        if (other == protobuf.generated.LobbyServiceMessages.AnswerStream.getDefaultInstance()) return this;
         if (other.hasPlayerName()) {
           bitField0_ |= 0x00000001;
           playerName_ = other.playerName_;
@@ -4002,11 +4002,11 @@ public final class LobbyServiceMessages {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        protobuf.generated.LobbyServiceMessages.answerStream parsedMessage = null;
+        protobuf.generated.LobbyServiceMessages.AnswerStream parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (protobuf.generated.LobbyServiceMessages.answerStream) e.getUnfinishedMessage();
+          parsedMessage = (protobuf.generated.LobbyServiceMessages.AnswerStream) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -4195,41 +4195,41 @@ public final class LobbyServiceMessages {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:protobuf.answerStream)
+      // @@protoc_insertion_point(builder_scope:protobuf.AnswerStream)
     }
 
-    // @@protoc_insertion_point(class_scope:protobuf.answerStream)
-    private static final protobuf.generated.LobbyServiceMessages.answerStream DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:protobuf.AnswerStream)
+    private static final protobuf.generated.LobbyServiceMessages.AnswerStream DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new protobuf.generated.LobbyServiceMessages.answerStream();
+      DEFAULT_INSTANCE = new protobuf.generated.LobbyServiceMessages.AnswerStream();
     }
 
-    public static protobuf.generated.LobbyServiceMessages.answerStream getDefaultInstance() {
+    public static protobuf.generated.LobbyServiceMessages.AnswerStream getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<answerStream>
-        PARSER = new com.google.protobuf.AbstractParser<answerStream>() {
+    private static final com.google.protobuf.Parser<AnswerStream>
+        PARSER = new com.google.protobuf.AbstractParser<AnswerStream>() {
       @java.lang.Override
-      public answerStream parsePartialFrom(
+      public AnswerStream parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new answerStream(input, extensionRegistry);
+        return new AnswerStream(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<answerStream> parser() {
+    public static com.google.protobuf.Parser<AnswerStream> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<answerStream> getParserForType() {
+    public com.google.protobuf.Parser<AnswerStream> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public protobuf.generated.LobbyServiceMessages.answerStream getDefaultInstanceForType() {
+    public protobuf.generated.LobbyServiceMessages.AnswerStream getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -4256,15 +4256,15 @@ public final class LobbyServiceMessages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_protobuf_JoinLobbyResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_protobuf_questionStream_descriptor;
+    internal_static_protobuf_QuestionStream_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_protobuf_questionStream_fieldAccessorTable;
+      internal_static_protobuf_QuestionStream_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_protobuf_answerStream_descriptor;
+    internal_static_protobuf_AnswerStream_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_protobuf_answerStream_fieldAccessorTable;
+      internal_static_protobuf_AnswerStream_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -4282,9 +4282,9 @@ public final class LobbyServiceMessages {
       "layer_name\"w\n\021JoinLobbyResponse\022,\n\005error" +
       "\030\001 \001(\0162\030.protobuf.JoinLobbyErrorH\000\210\001\001\022\031\n" +
       "\014questionText\030\002 \001(\tH\001\210\001\001B\010\n\006_errorB\017\n\r_q" +
-      "uestionText\"X\n\016questionStream\022\025\n\010lobby_i" +
+      "uestionText\"X\n\016QuestionStream\022\025\n\010lobby_i" +
       "d\030\001 \001(\tH\000\210\001\001\022\025\n\010question\030\002 \001(\tH\001\210\001\001B\013\n\t_" +
-      "lobby_idB\013\n\t_question\"X\n\014answerStream\022\030\n" +
+      "lobby_idB\013\n\t_question\"X\n\014AnswerStream\022\030\n" +
       "\013player_name\030\001 \001(\tH\000\210\001\001\022\023\n\006answer\030\002 \001(\tH" +
       "\001\210\001\001B\016\n\014_player_nameB\t\n\007_answer*B\n\016JoinL" +
       "obbyError\022\013\n\007SUCCESS\020\000\022\023\n\017LOBBY_NOT_FOUN" +
@@ -4292,7 +4292,7 @@ public final class LobbyServiceMessages {
       "CreateLobby\022\034.protobuf.CreateLobbyReques" +
       "t\032\035.protobuf.CreateLobbyResponse\022C\n\tJoin" +
       "Lobby\022\032.protobuf.JoinLobbyRequest\032\030.prot" +
-      "obuf.questionStream0\001B*\n\022protobuf.genera" +
+      "obuf.QuestionStream0\001B*\n\022protobuf.genera" +
       "tedB\024LobbyServiceMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
@@ -4323,17 +4323,17 @@ public final class LobbyServiceMessages {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_JoinLobbyResponse_descriptor,
         new java.lang.String[] { "Error", "QuestionText", "Error", "QuestionText", });
-    internal_static_protobuf_questionStream_descriptor =
+    internal_static_protobuf_QuestionStream_descriptor =
       getDescriptor().getMessageTypes().get(4);
-    internal_static_protobuf_questionStream_fieldAccessorTable = new
+    internal_static_protobuf_QuestionStream_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_protobuf_questionStream_descriptor,
+        internal_static_protobuf_QuestionStream_descriptor,
         new java.lang.String[] { "LobbyId", "Question", "LobbyId", "Question", });
-    internal_static_protobuf_answerStream_descriptor =
+    internal_static_protobuf_AnswerStream_descriptor =
       getDescriptor().getMessageTypes().get(5);
-    internal_static_protobuf_answerStream_fieldAccessorTable = new
+    internal_static_protobuf_AnswerStream_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_protobuf_answerStream_descriptor,
+        internal_static_protobuf_AnswerStream_descriptor,
         new java.lang.String[] { "PlayerName", "Answer", "PlayerName", "Answer", });
   }
 
