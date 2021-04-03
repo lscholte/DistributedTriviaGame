@@ -1953,6 +1953,23 @@ public final class LobbyServiceMessages {
      * @return The error.
      */
     protobuf.generated.LobbyServiceMessages.JoinLobbyError getError();
+
+    /**
+     * <code>string questionText = 2;</code>
+     * @return Whether the questionText field is set.
+     */
+    boolean hasQuestionText();
+    /**
+     * <code>string questionText = 2;</code>
+     * @return The questionText.
+     */
+    java.lang.String getQuestionText();
+    /**
+     * <code>string questionText = 2;</code>
+     * @return The bytes for questionText.
+     */
+    com.google.protobuf.ByteString
+        getQuestionTextBytes();
   }
   /**
    * Protobuf type {@code protobuf.JoinLobbyResponse}
@@ -1968,6 +1985,7 @@ public final class LobbyServiceMessages {
     }
     private JoinLobbyResponse() {
       error_ = 0;
+      questionText_ = "";
     }
 
     @java.lang.Override
@@ -2005,6 +2023,12 @@ public final class LobbyServiceMessages {
               int rawValue = input.readEnum();
               bitField0_ |= 0x00000001;
               error_ = rawValue;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+              bitField0_ |= 0x00000002;
+              questionText_ = s;
               break;
             }
             default: {
@@ -2066,6 +2090,52 @@ public final class LobbyServiceMessages {
       return result == null ? protobuf.generated.LobbyServiceMessages.JoinLobbyError.UNRECOGNIZED : result;
     }
 
+    public static final int QUESTIONTEXT_FIELD_NUMBER = 2;
+    private volatile java.lang.Object questionText_;
+    /**
+     * <code>string questionText = 2;</code>
+     * @return Whether the questionText field is set.
+     */
+    @java.lang.Override
+    public boolean hasQuestionText() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>string questionText = 2;</code>
+     * @return The questionText.
+     */
+    @java.lang.Override
+    public java.lang.String getQuestionText() {
+      java.lang.Object ref = questionText_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        questionText_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string questionText = 2;</code>
+     * @return The bytes for questionText.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getQuestionTextBytes() {
+      java.lang.Object ref = questionText_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        questionText_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -2083,6 +2153,9 @@ public final class LobbyServiceMessages {
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeEnum(1, error_);
       }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, questionText_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2095,6 +2168,9 @@ public final class LobbyServiceMessages {
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, error_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, questionText_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2115,6 +2191,11 @@ public final class LobbyServiceMessages {
       if (hasError()) {
         if (error_ != other.error_) return false;
       }
+      if (hasQuestionText() != other.hasQuestionText()) return false;
+      if (hasQuestionText()) {
+        if (!getQuestionText()
+            .equals(other.getQuestionText())) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -2129,6 +2210,10 @@ public final class LobbyServiceMessages {
       if (hasError()) {
         hash = (37 * hash) + ERROR_FIELD_NUMBER;
         hash = (53 * hash) + error_;
+      }
+      if (hasQuestionText()) {
+        hash = (37 * hash) + QUESTIONTEXT_FIELD_NUMBER;
+        hash = (53 * hash) + getQuestionText().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -2265,6 +2350,8 @@ public final class LobbyServiceMessages {
         super.clear();
         error_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        questionText_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -2297,6 +2384,10 @@ public final class LobbyServiceMessages {
           to_bitField0_ |= 0x00000001;
         }
         result.error_ = error_;
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.questionText_ = questionText_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2348,6 +2439,11 @@ public final class LobbyServiceMessages {
         if (other == protobuf.generated.LobbyServiceMessages.JoinLobbyResponse.getDefaultInstance()) return this;
         if (other.hasError()) {
           setError(other.getError());
+        }
+        if (other.hasQuestionText()) {
+          bitField0_ |= 0x00000002;
+          questionText_ = other.questionText_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2439,6 +2535,89 @@ public final class LobbyServiceMessages {
         onChanged();
         return this;
       }
+
+      private java.lang.Object questionText_ = "";
+      /**
+       * <code>string questionText = 2;</code>
+       * @return Whether the questionText field is set.
+       */
+      public boolean hasQuestionText() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>string questionText = 2;</code>
+       * @return The questionText.
+       */
+      public java.lang.String getQuestionText() {
+        java.lang.Object ref = questionText_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          questionText_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string questionText = 2;</code>
+       * @return The bytes for questionText.
+       */
+      public com.google.protobuf.ByteString
+          getQuestionTextBytes() {
+        java.lang.Object ref = questionText_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          questionText_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string questionText = 2;</code>
+       * @param value The questionText to set.
+       * @return This builder for chaining.
+       */
+      public Builder setQuestionText(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        questionText_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string questionText = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearQuestionText() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        questionText_ = getDefaultInstance().getQuestionText();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string questionText = 2;</code>
+       * @param value The bytes for questionText to set.
+       * @return This builder for chaining.
+       */
+      public Builder setQuestionTextBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        bitField0_ |= 0x00000002;
+        questionText_ = value;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -2492,6 +2671,1570 @@ public final class LobbyServiceMessages {
 
   }
 
+  public interface questionStreamOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protobuf.questionStream)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string lobby_id = 1;</code>
+     * @return Whether the lobbyId field is set.
+     */
+    boolean hasLobbyId();
+    /**
+     * <code>string lobby_id = 1;</code>
+     * @return The lobbyId.
+     */
+    java.lang.String getLobbyId();
+    /**
+     * <code>string lobby_id = 1;</code>
+     * @return The bytes for lobbyId.
+     */
+    com.google.protobuf.ByteString
+        getLobbyIdBytes();
+
+    /**
+     * <code>string question = 2;</code>
+     * @return Whether the question field is set.
+     */
+    boolean hasQuestion();
+    /**
+     * <code>string question = 2;</code>
+     * @return The question.
+     */
+    java.lang.String getQuestion();
+    /**
+     * <code>string question = 2;</code>
+     * @return The bytes for question.
+     */
+    com.google.protobuf.ByteString
+        getQuestionBytes();
+  }
+  /**
+   * Protobuf type {@code protobuf.questionStream}
+   */
+  public static final class questionStream extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:protobuf.questionStream)
+      questionStreamOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use questionStream.newBuilder() to construct.
+    private questionStream(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private questionStream() {
+      lobbyId_ = "";
+      question_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new questionStream();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private questionStream(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+              bitField0_ |= 0x00000001;
+              lobbyId_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+              bitField0_ |= 0x00000002;
+              question_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_questionStream_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_questionStream_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              protobuf.generated.LobbyServiceMessages.questionStream.class, protobuf.generated.LobbyServiceMessages.questionStream.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int LOBBY_ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object lobbyId_;
+    /**
+     * <code>string lobby_id = 1;</code>
+     * @return Whether the lobbyId field is set.
+     */
+    @java.lang.Override
+    public boolean hasLobbyId() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>string lobby_id = 1;</code>
+     * @return The lobbyId.
+     */
+    @java.lang.Override
+    public java.lang.String getLobbyId() {
+      java.lang.Object ref = lobbyId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        lobbyId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string lobby_id = 1;</code>
+     * @return The bytes for lobbyId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getLobbyIdBytes() {
+      java.lang.Object ref = lobbyId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        lobbyId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int QUESTION_FIELD_NUMBER = 2;
+    private volatile java.lang.Object question_;
+    /**
+     * <code>string question = 2;</code>
+     * @return Whether the question field is set.
+     */
+    @java.lang.Override
+    public boolean hasQuestion() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>string question = 2;</code>
+     * @return The question.
+     */
+    @java.lang.Override
+    public java.lang.String getQuestion() {
+      java.lang.Object ref = question_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        question_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string question = 2;</code>
+     * @return The bytes for question.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getQuestionBytes() {
+      java.lang.Object ref = question_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        question_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, lobbyId_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, question_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, lobbyId_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, question_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof protobuf.generated.LobbyServiceMessages.questionStream)) {
+        return super.equals(obj);
+      }
+      protobuf.generated.LobbyServiceMessages.questionStream other = (protobuf.generated.LobbyServiceMessages.questionStream) obj;
+
+      if (hasLobbyId() != other.hasLobbyId()) return false;
+      if (hasLobbyId()) {
+        if (!getLobbyId()
+            .equals(other.getLobbyId())) return false;
+      }
+      if (hasQuestion() != other.hasQuestion()) return false;
+      if (hasQuestion()) {
+        if (!getQuestion()
+            .equals(other.getQuestion())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasLobbyId()) {
+        hash = (37 * hash) + LOBBY_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getLobbyId().hashCode();
+      }
+      if (hasQuestion()) {
+        hash = (37 * hash) + QUESTION_FIELD_NUMBER;
+        hash = (53 * hash) + getQuestion().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protobuf.generated.LobbyServiceMessages.questionStream parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static protobuf.generated.LobbyServiceMessages.questionStream parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protobuf.generated.LobbyServiceMessages.questionStream parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(protobuf.generated.LobbyServiceMessages.questionStream prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code protobuf.questionStream}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:protobuf.questionStream)
+        protobuf.generated.LobbyServiceMessages.questionStreamOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_questionStream_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_questionStream_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                protobuf.generated.LobbyServiceMessages.questionStream.class, protobuf.generated.LobbyServiceMessages.questionStream.Builder.class);
+      }
+
+      // Construct using protobuf.generated.LobbyServiceMessages.questionStream.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        lobbyId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        question_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_questionStream_descriptor;
+      }
+
+      @java.lang.Override
+      public protobuf.generated.LobbyServiceMessages.questionStream getDefaultInstanceForType() {
+        return protobuf.generated.LobbyServiceMessages.questionStream.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public protobuf.generated.LobbyServiceMessages.questionStream build() {
+        protobuf.generated.LobbyServiceMessages.questionStream result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public protobuf.generated.LobbyServiceMessages.questionStream buildPartial() {
+        protobuf.generated.LobbyServiceMessages.questionStream result = new protobuf.generated.LobbyServiceMessages.questionStream(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.lobbyId_ = lobbyId_;
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.question_ = question_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof protobuf.generated.LobbyServiceMessages.questionStream) {
+          return mergeFrom((protobuf.generated.LobbyServiceMessages.questionStream)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(protobuf.generated.LobbyServiceMessages.questionStream other) {
+        if (other == protobuf.generated.LobbyServiceMessages.questionStream.getDefaultInstance()) return this;
+        if (other.hasLobbyId()) {
+          bitField0_ |= 0x00000001;
+          lobbyId_ = other.lobbyId_;
+          onChanged();
+        }
+        if (other.hasQuestion()) {
+          bitField0_ |= 0x00000002;
+          question_ = other.question_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        protobuf.generated.LobbyServiceMessages.questionStream parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (protobuf.generated.LobbyServiceMessages.questionStream) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object lobbyId_ = "";
+      /**
+       * <code>string lobby_id = 1;</code>
+       * @return Whether the lobbyId field is set.
+       */
+      public boolean hasLobbyId() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <code>string lobby_id = 1;</code>
+       * @return The lobbyId.
+       */
+      public java.lang.String getLobbyId() {
+        java.lang.Object ref = lobbyId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          lobbyId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string lobby_id = 1;</code>
+       * @return The bytes for lobbyId.
+       */
+      public com.google.protobuf.ByteString
+          getLobbyIdBytes() {
+        java.lang.Object ref = lobbyId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          lobbyId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string lobby_id = 1;</code>
+       * @param value The lobbyId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLobbyId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        lobbyId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string lobby_id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLobbyId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        lobbyId_ = getDefaultInstance().getLobbyId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string lobby_id = 1;</code>
+       * @param value The bytes for lobbyId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLobbyIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        bitField0_ |= 0x00000001;
+        lobbyId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object question_ = "";
+      /**
+       * <code>string question = 2;</code>
+       * @return Whether the question field is set.
+       */
+      public boolean hasQuestion() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>string question = 2;</code>
+       * @return The question.
+       */
+      public java.lang.String getQuestion() {
+        java.lang.Object ref = question_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          question_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string question = 2;</code>
+       * @return The bytes for question.
+       */
+      public com.google.protobuf.ByteString
+          getQuestionBytes() {
+        java.lang.Object ref = question_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          question_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string question = 2;</code>
+       * @param value The question to set.
+       * @return This builder for chaining.
+       */
+      public Builder setQuestion(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        question_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string question = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearQuestion() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        question_ = getDefaultInstance().getQuestion();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string question = 2;</code>
+       * @param value The bytes for question to set.
+       * @return This builder for chaining.
+       */
+      public Builder setQuestionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        bitField0_ |= 0x00000002;
+        question_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:protobuf.questionStream)
+    }
+
+    // @@protoc_insertion_point(class_scope:protobuf.questionStream)
+    private static final protobuf.generated.LobbyServiceMessages.questionStream DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new protobuf.generated.LobbyServiceMessages.questionStream();
+    }
+
+    public static protobuf.generated.LobbyServiceMessages.questionStream getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<questionStream>
+        PARSER = new com.google.protobuf.AbstractParser<questionStream>() {
+      @java.lang.Override
+      public questionStream parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new questionStream(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<questionStream> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<questionStream> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public protobuf.generated.LobbyServiceMessages.questionStream getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface answerStreamOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protobuf.answerStream)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string player_name = 1;</code>
+     * @return Whether the playerName field is set.
+     */
+    boolean hasPlayerName();
+    /**
+     * <code>string player_name = 1;</code>
+     * @return The playerName.
+     */
+    java.lang.String getPlayerName();
+    /**
+     * <code>string player_name = 1;</code>
+     * @return The bytes for playerName.
+     */
+    com.google.protobuf.ByteString
+        getPlayerNameBytes();
+
+    /**
+     * <code>string answer = 2;</code>
+     * @return Whether the answer field is set.
+     */
+    boolean hasAnswer();
+    /**
+     * <code>string answer = 2;</code>
+     * @return The answer.
+     */
+    java.lang.String getAnswer();
+    /**
+     * <code>string answer = 2;</code>
+     * @return The bytes for answer.
+     */
+    com.google.protobuf.ByteString
+        getAnswerBytes();
+  }
+  /**
+   * Protobuf type {@code protobuf.answerStream}
+   */
+  public static final class answerStream extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:protobuf.answerStream)
+      answerStreamOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use answerStream.newBuilder() to construct.
+    private answerStream(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private answerStream() {
+      playerName_ = "";
+      answer_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new answerStream();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private answerStream(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+              bitField0_ |= 0x00000001;
+              playerName_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+              bitField0_ |= 0x00000002;
+              answer_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_answerStream_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_answerStream_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              protobuf.generated.LobbyServiceMessages.answerStream.class, protobuf.generated.LobbyServiceMessages.answerStream.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int PLAYER_NAME_FIELD_NUMBER = 1;
+    private volatile java.lang.Object playerName_;
+    /**
+     * <code>string player_name = 1;</code>
+     * @return Whether the playerName field is set.
+     */
+    @java.lang.Override
+    public boolean hasPlayerName() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>string player_name = 1;</code>
+     * @return The playerName.
+     */
+    @java.lang.Override
+    public java.lang.String getPlayerName() {
+      java.lang.Object ref = playerName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        playerName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string player_name = 1;</code>
+     * @return The bytes for playerName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getPlayerNameBytes() {
+      java.lang.Object ref = playerName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        playerName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ANSWER_FIELD_NUMBER = 2;
+    private volatile java.lang.Object answer_;
+    /**
+     * <code>string answer = 2;</code>
+     * @return Whether the answer field is set.
+     */
+    @java.lang.Override
+    public boolean hasAnswer() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>string answer = 2;</code>
+     * @return The answer.
+     */
+    @java.lang.Override
+    public java.lang.String getAnswer() {
+      java.lang.Object ref = answer_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        answer_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string answer = 2;</code>
+     * @return The bytes for answer.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getAnswerBytes() {
+      java.lang.Object ref = answer_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        answer_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, playerName_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, answer_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, playerName_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, answer_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof protobuf.generated.LobbyServiceMessages.answerStream)) {
+        return super.equals(obj);
+      }
+      protobuf.generated.LobbyServiceMessages.answerStream other = (protobuf.generated.LobbyServiceMessages.answerStream) obj;
+
+      if (hasPlayerName() != other.hasPlayerName()) return false;
+      if (hasPlayerName()) {
+        if (!getPlayerName()
+            .equals(other.getPlayerName())) return false;
+      }
+      if (hasAnswer() != other.hasAnswer()) return false;
+      if (hasAnswer()) {
+        if (!getAnswer()
+            .equals(other.getAnswer())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasPlayerName()) {
+        hash = (37 * hash) + PLAYER_NAME_FIELD_NUMBER;
+        hash = (53 * hash) + getPlayerName().hashCode();
+      }
+      if (hasAnswer()) {
+        hash = (37 * hash) + ANSWER_FIELD_NUMBER;
+        hash = (53 * hash) + getAnswer().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protobuf.generated.LobbyServiceMessages.answerStream parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static protobuf.generated.LobbyServiceMessages.answerStream parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protobuf.generated.LobbyServiceMessages.answerStream parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(protobuf.generated.LobbyServiceMessages.answerStream prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code protobuf.answerStream}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:protobuf.answerStream)
+        protobuf.generated.LobbyServiceMessages.answerStreamOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_answerStream_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_answerStream_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                protobuf.generated.LobbyServiceMessages.answerStream.class, protobuf.generated.LobbyServiceMessages.answerStream.Builder.class);
+      }
+
+      // Construct using protobuf.generated.LobbyServiceMessages.answerStream.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        playerName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        answer_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_answerStream_descriptor;
+      }
+
+      @java.lang.Override
+      public protobuf.generated.LobbyServiceMessages.answerStream getDefaultInstanceForType() {
+        return protobuf.generated.LobbyServiceMessages.answerStream.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public protobuf.generated.LobbyServiceMessages.answerStream build() {
+        protobuf.generated.LobbyServiceMessages.answerStream result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public protobuf.generated.LobbyServiceMessages.answerStream buildPartial() {
+        protobuf.generated.LobbyServiceMessages.answerStream result = new protobuf.generated.LobbyServiceMessages.answerStream(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.playerName_ = playerName_;
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.answer_ = answer_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof protobuf.generated.LobbyServiceMessages.answerStream) {
+          return mergeFrom((protobuf.generated.LobbyServiceMessages.answerStream)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(protobuf.generated.LobbyServiceMessages.answerStream other) {
+        if (other == protobuf.generated.LobbyServiceMessages.answerStream.getDefaultInstance()) return this;
+        if (other.hasPlayerName()) {
+          bitField0_ |= 0x00000001;
+          playerName_ = other.playerName_;
+          onChanged();
+        }
+        if (other.hasAnswer()) {
+          bitField0_ |= 0x00000002;
+          answer_ = other.answer_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        protobuf.generated.LobbyServiceMessages.answerStream parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (protobuf.generated.LobbyServiceMessages.answerStream) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object playerName_ = "";
+      /**
+       * <code>string player_name = 1;</code>
+       * @return Whether the playerName field is set.
+       */
+      public boolean hasPlayerName() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <code>string player_name = 1;</code>
+       * @return The playerName.
+       */
+      public java.lang.String getPlayerName() {
+        java.lang.Object ref = playerName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          playerName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string player_name = 1;</code>
+       * @return The bytes for playerName.
+       */
+      public com.google.protobuf.ByteString
+          getPlayerNameBytes() {
+        java.lang.Object ref = playerName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          playerName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string player_name = 1;</code>
+       * @param value The playerName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPlayerName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        playerName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string player_name = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPlayerName() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        playerName_ = getDefaultInstance().getPlayerName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string player_name = 1;</code>
+       * @param value The bytes for playerName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPlayerNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        bitField0_ |= 0x00000001;
+        playerName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object answer_ = "";
+      /**
+       * <code>string answer = 2;</code>
+       * @return Whether the answer field is set.
+       */
+      public boolean hasAnswer() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>string answer = 2;</code>
+       * @return The answer.
+       */
+      public java.lang.String getAnswer() {
+        java.lang.Object ref = answer_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          answer_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string answer = 2;</code>
+       * @return The bytes for answer.
+       */
+      public com.google.protobuf.ByteString
+          getAnswerBytes() {
+        java.lang.Object ref = answer_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          answer_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string answer = 2;</code>
+       * @param value The answer to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAnswer(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        answer_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string answer = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAnswer() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        answer_ = getDefaultInstance().getAnswer();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string answer = 2;</code>
+       * @param value The bytes for answer to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAnswerBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        bitField0_ |= 0x00000002;
+        answer_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:protobuf.answerStream)
+    }
+
+    // @@protoc_insertion_point(class_scope:protobuf.answerStream)
+    private static final protobuf.generated.LobbyServiceMessages.answerStream DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new protobuf.generated.LobbyServiceMessages.answerStream();
+    }
+
+    public static protobuf.generated.LobbyServiceMessages.answerStream getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<answerStream>
+        PARSER = new com.google.protobuf.AbstractParser<answerStream>() {
+      @java.lang.Override
+      public answerStream parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new answerStream(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<answerStream> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<answerStream> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public protobuf.generated.LobbyServiceMessages.answerStream getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_protobuf_CreateLobbyRequest_descriptor;
   private static final 
@@ -2512,6 +4255,16 @@ public final class LobbyServiceMessages {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_protobuf_JoinLobbyResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_protobuf_questionStream_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_protobuf_questionStream_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_protobuf_answerStream_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_protobuf_answerStream_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2526,16 +4279,21 @@ public final class LobbyServiceMessages {
       "lobby_id\030\001 \001(\tH\000\210\001\001B\013\n\t_lobby_id\"`\n\020Join" +
       "LobbyRequest\022\025\n\010lobby_id\030\001 \001(\tH\000\210\001\001\022\030\n\013p" +
       "layer_name\030\002 \001(\tH\001\210\001\001B\013\n\t_lobby_idB\016\n\014_p" +
-      "layer_name\"K\n\021JoinLobbyResponse\022,\n\005error" +
-      "\030\001 \001(\0162\030.protobuf.JoinLobbyErrorH\000\210\001\001B\010\n" +
-      "\006_error*B\n\016JoinLobbyError\022\013\n\007SUCCESS\020\000\022\023" +
-      "\n\017LOBBY_NOT_FOUND\020\001\022\016\n\nLOBBY_FULL\020\0022\240\001\n\014" +
-      "LobbyService\022J\n\013CreateLobby\022\034.protobuf.C" +
-      "reateLobbyRequest\032\035.protobuf.CreateLobby" +
-      "Response\022D\n\tJoinLobby\022\032.protobuf.JoinLob" +
-      "byRequest\032\033.protobuf.JoinLobbyResponseB*" +
-      "\n\022protobuf.generatedB\024LobbyServiceMessag" +
-      "esb\006proto3"
+      "layer_name\"w\n\021JoinLobbyResponse\022,\n\005error" +
+      "\030\001 \001(\0162\030.protobuf.JoinLobbyErrorH\000\210\001\001\022\031\n" +
+      "\014questionText\030\002 \001(\tH\001\210\001\001B\010\n\006_errorB\017\n\r_q" +
+      "uestionText\"X\n\016questionStream\022\025\n\010lobby_i" +
+      "d\030\001 \001(\tH\000\210\001\001\022\025\n\010question\030\002 \001(\tH\001\210\001\001B\013\n\t_" +
+      "lobby_idB\013\n\t_question\"X\n\014answerStream\022\030\n" +
+      "\013player_name\030\001 \001(\tH\000\210\001\001\022\023\n\006answer\030\002 \001(\tH" +
+      "\001\210\001\001B\016\n\014_player_nameB\t\n\007_answer*B\n\016JoinL" +
+      "obbyError\022\013\n\007SUCCESS\020\000\022\023\n\017LOBBY_NOT_FOUN" +
+      "D\020\001\022\016\n\nLOBBY_FULL\020\0022\237\001\n\014LobbyService\022J\n\013" +
+      "CreateLobby\022\034.protobuf.CreateLobbyReques" +
+      "t\032\035.protobuf.CreateLobbyResponse\022C\n\tJoin" +
+      "Lobby\022\032.protobuf.JoinLobbyRequest\032\030.prot" +
+      "obuf.questionStream0\001B*\n\022protobuf.genera" +
+      "tedB\024LobbyServiceMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2564,7 +4322,19 @@ public final class LobbyServiceMessages {
     internal_static_protobuf_JoinLobbyResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_JoinLobbyResponse_descriptor,
-        new java.lang.String[] { "Error", "Error", });
+        new java.lang.String[] { "Error", "QuestionText", "Error", "QuestionText", });
+    internal_static_protobuf_questionStream_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_protobuf_questionStream_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_protobuf_questionStream_descriptor,
+        new java.lang.String[] { "LobbyId", "Question", "LobbyId", "Question", });
+    internal_static_protobuf_answerStream_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_protobuf_answerStream_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_protobuf_answerStream_descriptor,
+        new java.lang.String[] { "PlayerName", "Answer", "PlayerName", "Answer", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
