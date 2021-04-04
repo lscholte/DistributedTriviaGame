@@ -3,8 +3,10 @@ package client;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import GUI.Quiz;
 import game.Server;
@@ -26,6 +28,8 @@ import protobuf.generated.LobbyServiceMessages.StartGameRequest;
 import protobuf.generated.QuestionServiceGrpc.QuestionServiceImplBase;
 import protobuf.generated.QuestionServiceMessages.AskQuestionRequest;
 import protobuf.generated.QuestionServiceMessages.AskQuestionResponse;
+import protobuf.generated.QuestionServiceMessages.UpdateScoresRequest;
+import protobuf.generated.QuestionServiceMessages.UpdateScoresResponse;
 import io.grpc.StatusRuntimeException;
 import utilities.Logger;
 import utilities.ProtobufUtils;
@@ -44,7 +48,7 @@ public class Client {
     private Quiz gui;
 
     public Client() throws UnknownHostException, IOException {
-        gui = new Quiz();
+        gui = new Quiz(this);
         channel = ManagedChannelBuilder.forAddress("localhost", Server.PORT).usePlaintext().build();
         
         lobbyServiceBlockingStub = LobbyServiceGrpc.newBlockingStub(channel);
@@ -138,10 +142,10 @@ public class Client {
         }
     }
 
-    public void answer(String answerText) {
+    public boolean answer(MultipleChoiceAnswer answer) {
         // Build request
         AnswerRequest.Builder requestBuilder = AnswerRequest.newBuilder();
-        requestBuilder.setText(answerText);
+//        requestBuilder.setText(answerText);
 
         // Send request
         AnswerRequest request = requestBuilder.build();
@@ -156,12 +160,15 @@ public class Client {
 
             if (response.getCorrect()) {
                 Logger.logInfo("Answer was correct");
+                return true;
             } else {
                 Logger.logInfo("Answer was incorrect");
+                return false;
             }
         } catch (StatusRuntimeException e) {
             handleGrpcError("Answer", e.getStatus().getCode());
         }
+        return false;
     }
 
     private void handleGrpcError(String requestType, Code code) {
@@ -180,6 +187,20 @@ public class Client {
     }
 
     private class QuestionService extends QuestionServiceImplBase {
+        
+        @Override
+        public void updateScores(UpdateScoresRequest request,
+                StreamObserver<UpdateScoresResponse> responseObserver) {
+            
+            Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
+            List<Player> players = request.getPlayersList().stream().map(p -> new Player(p.getName(), p.getScore())).collect(Collectors.toList());
+                        
+            gui.updateScores(players);
+            
+            UpdateScoresResponse.Builder responseBuilder = UpdateScoresResponse.newBuilder();
+            responseObserver.onNext(responseBuilder.build());
+            responseObserver.onCompleted();
+        }        
 
         @Override
         public void askQuestion(AskQuestionRequest request,

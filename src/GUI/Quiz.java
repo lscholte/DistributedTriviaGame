@@ -2,6 +2,9 @@ package GUI;
 
 import javax.swing.*;
 
+import client.Client;
+import client.MultipleChoiceAnswer;
+import client.Player;
 import client.Question;
 
 import java.awt.*;
@@ -9,14 +12,6 @@ import java.awt.event.*;
 import java.util.Date;
 
 public class Quiz implements ActionListener {
-
-
-    char[] answers = {
-            'A',
-            'B',
-            'C',
-            'D'
-    };
 
     char guess;
     char answer;
@@ -27,6 +22,7 @@ public class Quiz implements ActionListener {
 
     JFrame frame = new JFrame();
     JTextField textField = new JTextField();
+    JTextArea scoreArea = new JTextArea();
     JTextArea textArea = new JTextArea();
     JButton buttonA = new JButton();
     JButton buttonB = new JButton();
@@ -40,29 +36,20 @@ public class Quiz implements ActionListener {
     JLabel seconds_left = new JLabel();
     JTextField number_right = new JTextField();
     JTextField percentage = new JTextField();
-
-//    Timer Timer = new Timer(1000, new ActionListener() {
-//
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            seconds--;
-//            
-//            seconds_left.setText(String.valueOf(seconds));
-//            if (seconds<=0){
-//                displayAnswer();
-//            }
-//        }
-//    });
-    
+        
     private Timer timer;
+    
+    private Client client;
 
-    public Quiz()   {
+    public Quiz(Client client)   {
+        this.client = client;
+        
         frame.setDefaultCloseOperation((JFrame.EXIT_ON_CLOSE));
         frame.setSize(650,650);
         frame.getContentPane().setBackground(new Color(50,50,50));
         frame.setLayout(null);
         frame.setResizable(false);
-
+        
         // Title Area
         textField.setBounds(0,0,650,50);
         textField.setBackground(new Color(25,25,25));
@@ -71,52 +58,60 @@ public class Quiz implements ActionListener {
         textField.setHorizontalAlignment(JTextField.CENTER);
         textField.setEditable(false);
         textField.setText("Title");
-
+        
+        // Score Area
+        scoreArea.setBounds(0,50,650,100);
+        scoreArea.setLineWrap(true);
+        scoreArea.setWrapStyleWord(true);
+        scoreArea.setBackground(new Color(25,25,25));
+        scoreArea.setForeground(new Color(25,255,0));
+        scoreArea.setBorder(BorderFactory.createBevelBorder(1));
+        scoreArea.setEditable(false);
+        
         // Question Area
-        textArea.setBounds(0,50,650,50);
+        textArea.setBounds(0,150,650,50);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setBackground(new Color(25,25,25));
         textArea.setForeground(new Color(25,255,0));
         textArea.setBorder(BorderFactory.createBevelBorder(1));
         textArea.setEditable(false);
-        textArea.setText("Question Displayed Here");
 
         // Button Work
-        buttonA.setBounds(0,100,100,100);
+        buttonA.setBounds(0,200,100,100);
         buttonA.setFocusable(false);
         buttonA.addActionListener(this);
         buttonA.setText("A");
-        buttonB.setBounds(0,200,100,100);
+        buttonB.setBounds(0,300,100,100);
         buttonB.setFocusable(false);
         buttonB.addActionListener(this);
         buttonB.setText("B");
-        buttonC.setBounds(0,300,100,100);
+        buttonC.setBounds(0,400,100,100);
         buttonC.setFocusable(false);
         buttonC.addActionListener(this);
         buttonC.setText("C");
-        buttonD.setBounds(0,400,100,100);
+        buttonD.setBounds(0,500,100,100);
         buttonD.setFocusable(false);
         buttonD.addActionListener(this);
         buttonD.setText("D");
 
         // Answer Labels
-        answer_labelA.setBounds(125,100,500,100);
+        answer_labelA.setBounds(125,200,500,100);
         answer_labelA.setBackground(new Color(50,50,50));
         answer_labelA.setForeground(new Color(25,255,0));
         answer_labelA.setText("Testing label 1");
 
-        answer_labelB.setBounds(125,200,500,100);
+        answer_labelB.setBounds(125,300,500,100);
         answer_labelB.setBackground(new Color(50,50,50));
         answer_labelB.setForeground(new Color(25,255,0));
         answer_labelB.setText("Testing label 2");
 
-        answer_labelC.setBounds(125,300,500,100);
+        answer_labelC.setBounds(125,400,500,100);
         answer_labelC.setBackground(new Color(50,50,50));
         answer_labelC.setForeground(new Color(25,255,0));
         answer_labelC.setText("Testing label 3");
 
-        answer_labelD.setBounds(125,400,500,100);
+        answer_labelD.setBounds(125,500,500,100);
         answer_labelD.setBackground(new Color(50,50,50));
         answer_labelD.setForeground(new Color(25,255,0));
         answer_labelD.setText("Testing label 4");
@@ -151,6 +146,7 @@ public class Quiz implements ActionListener {
 
 //        frame.add(percentage);
 //        frame.add(number_right);
+        
         frame.add(time_label);
         frame.add(seconds_left);
         frame.add(answer_labelA);
@@ -161,11 +157,24 @@ public class Quiz implements ActionListener {
         frame.add(buttonB);
         frame.add(buttonC);
         frame.add(buttonD);
+        frame.add(scoreArea);
         frame.add(textArea);
         frame.add(textField);
         frame.setVisible(true);
 
 //        nextQuestion();
+    }
+    
+    public void updateScores(java.util.List<Player> players) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Player player : players) {
+            stringBuilder
+                .append(player.getName())
+                .append(": ")
+                .append(player.getScore())
+                .append(System.lineSeparator());
+        }
+        scoreArea.setText(stringBuilder.toString());
     }
 
     public void nextQuestion(Question question, Date deadline) {
@@ -184,6 +193,11 @@ public class Quiz implements ActionListener {
             answer_labelC.setText(question.getOptions().get(2));
             answer_labelD.setText(question.getOptions().get(3));
             
+            buttonA.setEnabled(true);
+            buttonB.setEnabled(true);
+            buttonC.setEnabled(true);
+            buttonD.setEnabled(true);
+            
             timer = new Timer(100, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -197,52 +211,52 @@ public class Quiz implements ActionListener {
 
     }
 
-    public void displayAnswer() {
-//        Timer.stop();
-        buttonA.setEnabled(false);
-        buttonB.setEnabled(false);
-        buttonC.setEnabled(false);
-        buttonD.setEnabled(false);
-
-        if (answers[index] != 'A'){
-            answer_labelA.setForeground(new Color(255,0,0));
-        }
-        if (answers[index] != 'B'){
-            answer_labelB.setForeground(new Color(255,0,0));
-        }
-        if (answers[index] != 'C'){
-            answer_labelC.setForeground(new Color(255,0,0));
-        }
-        if (answers[index] != 'D'){
-            answer_labelD.setForeground(new Color(255,0,0));
-        }
-
-        Timer pause = new Timer(2000, new ActionListener() {
-
-            //Flip colors back to green
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                answer_labelA.setForeground(new Color(25,255,0));
-                answer_labelB.setForeground(new Color(25,255,0));
-                answer_labelC.setForeground(new Color(25,255,0));
-                answer_labelD.setForeground(new Color(25,255,0));
-
-                answer = ' ';
-//                seconds_left.setText(String.valueOf(seconds));
-
-                buttonA.setEnabled(true);
-                buttonB.setEnabled(true);
-                buttonC.setEnabled(true);
-                buttonD.setEnabled(true);
-
-                index++;
-//                nextQuestion();
-            }
-        });
-
-        pause.setRepeats(false);
-        pause.start();
-    }
+//    public void displayAnswer() {
+////        Timer.stop();
+//        buttonA.setEnabled(false);
+//        buttonB.setEnabled(false);
+//        buttonC.setEnabled(false);
+//        buttonD.setEnabled(false);
+//
+//        if (answers[index] != 'A'){
+//            answer_labelA.setForeground(new Color(255,0,0));
+//        }
+//        if (answers[index] != 'B'){
+//            answer_labelB.setForeground(new Color(255,0,0));
+//        }
+//        if (answers[index] != 'C'){
+//            answer_labelC.setForeground(new Color(255,0,0));
+//        }
+//        if (answers[index] != 'D'){
+//            answer_labelD.setForeground(new Color(255,0,0));
+//        }
+//
+//        Timer pause = new Timer(2000, new ActionListener() {
+//
+//            //Flip colors back to green
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                answer_labelA.setForeground(new Color(25,255,0));
+//                answer_labelB.setForeground(new Color(25,255,0));
+//                answer_labelC.setForeground(new Color(25,255,0));
+//                answer_labelD.setForeground(new Color(25,255,0));
+//
+//                answer = ' ';
+////                seconds_left.setText(String.valueOf(seconds));
+//
+//                buttonA.setEnabled(true);
+//                buttonB.setEnabled(true);
+//                buttonC.setEnabled(true);
+//                buttonD.setEnabled(true);
+//
+//                index++;
+////                nextQuestion();
+//            }
+//        });
+//
+//        pause.setRepeats(false);
+//        pause.start();
+//    }
 
     public void results() {
         buttonA.setEnabled(false);
@@ -273,35 +287,28 @@ public class Quiz implements ActionListener {
         buttonC.setEnabled(false);
         buttonD.setEnabled(false);
 
+        boolean isCorrect = false;
         if (e.getSource()==buttonA){
-            answer = 'A';
-            if(answer == answers[index]) {
-                correct_guesses++;
-            }
+            isCorrect = client.answer(MultipleChoiceAnswer.A);
         }
 
         if (e.getSource()==buttonB){
-            answer = 'B';
-            if(answer == answers[index]) {
-                correct_guesses++;
-            }
+            isCorrect = client.answer(MultipleChoiceAnswer.B);
         }
 
         if (e.getSource()==buttonC){
-            answer = 'C';
-            if(answer == answers[index]) {
-                correct_guesses++;
-            }
+            isCorrect = client.answer(MultipleChoiceAnswer.C);
         }
 
         if (e.getSource()==buttonD){
-            answer = 'D';
-            if(answer == answers[index]) {
-                correct_guesses++;
-            }
+            isCorrect = client.answer(MultipleChoiceAnswer.D);
+        }
+        
+        if(isCorrect) {
+            correct_guesses++;
         }
 
-        displayAnswer();
+//        displayAnswer();
 
     }
 }

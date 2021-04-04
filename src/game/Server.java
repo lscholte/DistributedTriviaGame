@@ -20,9 +20,10 @@ import protobuf.generated.LobbyServiceMessages.JoinLobbyResponse;
 import protobuf.generated.LobbyServiceMessages.StartGameRequest;
 import protobuf.generated.LobbyServiceMessages.StartGameResponse;
 import protobuf.generated.QuestionServiceGrpc;
-import protobuf.generated.QuestionServiceGrpc.QuestionServiceStub;
 import protobuf.generated.QuestionServiceMessages.AskQuestionRequest;
 import protobuf.generated.QuestionServiceMessages.AskQuestionResponse;
+import protobuf.generated.QuestionServiceMessages.UpdateScoresRequest;
+import protobuf.generated.QuestionServiceMessages.UpdateScoresResponse;
 import utilities.Logger;
 import utilities.ProtobufUtils;
 
@@ -33,6 +34,8 @@ public class Server {
     private static final int QUESTION_DEADLINE_S = 10;
 
     private io.grpc.Server grpcServer;
+    
+    private Map<UUID, Lobby> lobbyMap = new HashMap<>();
 
     public Server() {
         grpcServer = ServerBuilder
@@ -57,8 +60,6 @@ public class Server {
     }
 
     private class LobbyService extends LobbyServiceImplBase {
-
-        private Map<UUID, Lobby> lobbyMap = new HashMap<>();
 
         @Override
         public void createLobby(CreateLobbyRequest request, StreamObserver<CreateLobbyResponse> responseObserver) {
@@ -110,23 +111,47 @@ public class Server {
             List<Player> players = lobby.getPlayers();
 
             for (int i = 1; i <= 10; ++i) {
+                //Build an UpdateScoresRequest
+                UpdateScoresRequest.Builder updateScoresRequestBuilder = UpdateScoresRequest.newBuilder();
+                for (Player player : players) {
+                    UpdateScoresRequest.Player.Builder playerBuilder = UpdateScoresRequest.Player.newBuilder();
+                    playerBuilder.setName(player.getName());
+                    playerBuilder.setScore(player.getScore());
+                    updateScoresRequestBuilder.addPlayers(playerBuilder.build());
+                }
+                UpdateScoresRequest updateScoresRequest = updateScoresRequestBuilder.build();
+                
+                //Build an AskQuestionRequest
                 String question = "Example question " + i;
-                for (Player player: players) {
-                    AskQuestionRequest.Builder questionRequestBuilder = AskQuestionRequest.newBuilder();
-                    questionRequestBuilder.setQuestion(question);
-                    questionRequestBuilder.setDeadline(new Date().getTime() + QUESTION_DEADLINE_S * 1000);
-                    
-                    List<String> options = new ArrayList<String>(4);
-                    options.add("Option A -- Question " + i);
-                    options.add("Option B -- Question " + i);
-                    options.add("Option C -- Question " + i);
-                    options.add("Option D -- Question " + i);
-                    questionRequestBuilder.addAllOptions(options);
-                    
-                    AskQuestionRequest questionRequest = questionRequestBuilder.build();
-                    
-                    Logger.logInfo(String.format("Sending %s to player %s", ProtobufUtils.getPrintableMessage(questionRequest), player.getName()));
 
+                AskQuestionRequest.Builder questionRequestBuilder = AskQuestionRequest.newBuilder();
+                questionRequestBuilder.setQuestion(question);
+                questionRequestBuilder.setDeadline(new Date().getTime() + QUESTION_DEADLINE_S * 1000);
+                
+                List<String> options = new ArrayList<String>(4);
+                options.add("Option A -- Question " + i);
+                options.add("Option B -- Question " + i);
+                options.add("Option C -- Question " + i);
+                options.add("Option D -- Question " + i);
+                questionRequestBuilder.addAllOptions(options);
+                
+                AskQuestionRequest questionRequest = questionRequestBuilder.build();
+                
+                //Send the requests to each player
+                for (Player player: players) {
+                    Logger.logInfo(String.format("Sending %s to player %s", ProtobufUtils.getPrintableMessage(updateScoresRequest), player.getName()));
+                    player.getQuestionServiceStub().updateScores(updateScoresRequestBuilder.build(), new StreamObserver<UpdateScoresResponse>() {
+                        @Override
+                        public void onNext(UpdateScoresResponse response) {}
+                        
+                        @Override
+                        public void onCompleted() {}
+                        
+                        @Override
+                        public void onError(Throwable throwable) {}
+                    });
+                                        
+                    Logger.logInfo(String.format("Sending %s to player %s", ProtobufUtils.getPrintableMessage(questionRequest), player.getName()));
                     player.getQuestionServiceStub().askQuestion(questionRequest, new StreamObserver<AskQuestionResponse>() {
                         @Override
                         public void onNext(AskQuestionResponse response) {}
@@ -138,6 +163,7 @@ public class Server {
                         public void onError(Throwable throwable) {}
                     });
                 }
+                
                 //Just a quick experiment to send questions every 10 seconds
                 try {
                     Thread.sleep(QUESTION_DEADLINE_S * 1000);
@@ -156,7 +182,7 @@ public class Server {
             
             AnswerResponse.Builder responseBuilder = AnswerResponse.newBuilder();
             responseBuilder.setCorrect(true); //TODO: or false if answer is wrong
-            
+                        
             responseObserver.onNext(responseBuilder.build());
             responseObserver.onCompleted();
         }

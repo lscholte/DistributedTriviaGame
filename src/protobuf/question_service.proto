@@ -15,6 +15,7 @@ option java_outer_classname = "QuestionServiceMessages";
 service QuestionService
 {
 	rpc AskQuestion(AskQuestionRequest) returns (AskQuestionResponse);
+	rpc UpdateScores(UpdateScoresRequest) returns (UpdateScoresResponse);
 }
 
 message AskQuestionRequest
@@ -27,4 +28,18 @@ message AskQuestionRequest
 message AskQuestionResponse
 {
 	//Just an empty response. Answer would go in a different request
+}
+
+message UpdateScoresRequest
+{
+	message Player
+	{
+		optional string name = 1;
+		optional int32 score = 2;
+	}
+	repeated Player players = 1;
+}
+
+message UpdateScoresResponse
+{
 }
