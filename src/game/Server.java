@@ -76,12 +76,12 @@ public class Server extends QuestionServiceGrpc.QuestionServiceImplBase {
         public void createLobby(CreateLobbyRequest request, StreamObserver<CreateLobbyResponse> responseObserver) {
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
 
-            CreateLobbyResponse.Builder responseBuilder = CreateLobbyResponse.newBuilder();
-            responseBuilder.setLobbyId(UUID.randomUUID().toString());
-            CreateLobbyResponse response = responseBuilder.build();
-
             Lobby lobbyToBeCreated = new Lobby();
             lobbyMap.put(lobbyToBeCreated.getLobbyID(), lobbyToBeCreated);
+            
+            CreateLobbyResponse.Builder responseBuilder = CreateLobbyResponse.newBuilder();
+            responseBuilder.setLobbyId(lobbyToBeCreated.getLobbyID().toString());
+            CreateLobbyResponse response = responseBuilder.build();
 
             responseObserver.onNext(response);
             responseObserver.onCompleted();
@@ -91,14 +91,15 @@ public class Server extends QuestionServiceGrpc.QuestionServiceImplBase {
         public void joinLobby(JoinLobbyRequest request,
                               StreamObserver<LobbyServiceMessages.QuestionStream> responseObserver) {
 
-            String lobbyID = request.getLobbyId();
+            Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
+
+            UUID lobbyID = UUID.fromString(request.getLobbyId());
             String playerName = request.getPlayerName();
 
             Lobby lobby = lobbyMap.get(lobbyID);
             lobby.addPlayerToLobby(playerName);
 
 
-            Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
 
             // Add the observer to map for that lobby
             observers.put(playerName, responseObserver);

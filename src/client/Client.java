@@ -117,10 +117,10 @@ public class Client {
         Logger.logInfo(String.format("Sending %s", ProtobufUtils.getPrintableMessage(request)));
 
         try {
-            Iterator<QuestionStream> response = lobbyServiceStub
+            Iterator<QuestionStream> questionStream = lobbyServiceStub
                     .withDeadlineAfter(RESPONSE_TIMEOUT_S, TimeUnit.SECONDS)
                     .joinLobby(request);
-
+            
 //            Logger.logInfo(
 //                    String.format("Received %s", ProtobufUtils.getPrintableMessage(response)));
 //
