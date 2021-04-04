@@ -1189,6 +1189,17 @@ public final class LobbyServiceMessages {
      */
     com.google.protobuf.ByteString
         getPlayerNameBytes();
+
+    /**
+     * <code>uint32 player_port = 3;</code>
+     * @return Whether the playerPort field is set.
+     */
+    boolean hasPlayerPort();
+    /**
+     * <code>uint32 player_port = 3;</code>
+     * @return The playerPort.
+     */
+    int getPlayerPort();
   }
   /**
    * Protobuf type {@code protobuf.JoinLobbyRequest}
@@ -1248,6 +1259,11 @@ public final class LobbyServiceMessages {
               java.lang.String s = input.readStringRequireUtf8();
               bitField0_ |= 0x00000002;
               playerName_ = s;
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              playerPort_ = input.readUInt32();
               break;
             }
             default: {
@@ -1375,6 +1391,25 @@ public final class LobbyServiceMessages {
       }
     }
 
+    public static final int PLAYER_PORT_FIELD_NUMBER = 3;
+    private int playerPort_;
+    /**
+     * <code>uint32 player_port = 3;</code>
+     * @return Whether the playerPort field is set.
+     */
+    @java.lang.Override
+    public boolean hasPlayerPort() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>uint32 player_port = 3;</code>
+     * @return The playerPort.
+     */
+    @java.lang.Override
+    public int getPlayerPort() {
+      return playerPort_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1395,6 +1430,9 @@ public final class LobbyServiceMessages {
       if (((bitField0_ & 0x00000002) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, playerName_);
       }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeUInt32(3, playerPort_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1409,6 +1447,10 @@ public final class LobbyServiceMessages {
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, playerName_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(3, playerPort_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1435,6 +1477,11 @@ public final class LobbyServiceMessages {
         if (!getPlayerName()
             .equals(other.getPlayerName())) return false;
       }
+      if (hasPlayerPort() != other.hasPlayerPort()) return false;
+      if (hasPlayerPort()) {
+        if (getPlayerPort()
+            != other.getPlayerPort()) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -1453,6 +1500,10 @@ public final class LobbyServiceMessages {
       if (hasPlayerName()) {
         hash = (37 * hash) + PLAYER_NAME_FIELD_NUMBER;
         hash = (53 * hash) + getPlayerName().hashCode();
+      }
+      if (hasPlayerPort()) {
+        hash = (37 * hash) + PLAYER_PORT_FIELD_NUMBER;
+        hash = (53 * hash) + getPlayerPort();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -1591,6 +1642,8 @@ public final class LobbyServiceMessages {
         bitField0_ = (bitField0_ & ~0x00000001);
         playerName_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        playerPort_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -1627,6 +1680,10 @@ public final class LobbyServiceMessages {
           to_bitField0_ |= 0x00000002;
         }
         result.playerName_ = playerName_;
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.playerPort_ = playerPort_;
+          to_bitField0_ |= 0x00000004;
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1685,6 +1742,9 @@ public final class LobbyServiceMessages {
           bitField0_ |= 0x00000002;
           playerName_ = other.playerName_;
           onChanged();
+        }
+        if (other.hasPlayerPort()) {
+          setPlayerPort(other.getPlayerPort());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1878,6 +1938,45 @@ public final class LobbyServiceMessages {
   checkByteStringIsUtf8(value);
         bitField0_ |= 0x00000002;
         playerName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int playerPort_ ;
+      /**
+       * <code>uint32 player_port = 3;</code>
+       * @return Whether the playerPort field is set.
+       */
+      @java.lang.Override
+      public boolean hasPlayerPort() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <code>uint32 player_port = 3;</code>
+       * @return The playerPort.
+       */
+      @java.lang.Override
+      public int getPlayerPort() {
+        return playerPort_;
+      }
+      /**
+       * <code>uint32 player_port = 3;</code>
+       * @param value The playerPort to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPlayerPort(int value) {
+        bitField0_ |= 0x00000004;
+        playerPort_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 player_port = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPlayerPort() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        playerPort_ = 0;
         onChanged();
         return this;
       }
@@ -3733,24 +3832,25 @@ public final class LobbyServiceMessages {
     java.lang.String[] descriptorData = {
       "\n\023lobby_service.proto\022\010protobuf\"\024\n\022Creat" +
       "eLobbyRequest\"9\n\023CreateLobbyResponse\022\025\n\010" +
-      "lobby_id\030\001 \001(\tH\000\210\001\001B\013\n\t_lobby_id\"`\n\020Join" +
-      "LobbyRequest\022\025\n\010lobby_id\030\001 \001(\tH\000\210\001\001\022\030\n\013p" +
-      "layer_name\030\002 \001(\tH\001\210\001\001B\013\n\t_lobby_idB\016\n\014_p" +
-      "layer_name\"w\n\021JoinLobbyResponse\022,\n\005error" +
-      "\030\001 \001(\0162\030.protobuf.JoinLobbyErrorH\000\210\001\001\022\031\n" +
-      "\014questionText\030\002 \001(\tH\001\210\001\001B\010\n\006_errorB\017\n\r_q" +
-      "uestionText\"6\n\020StartGameRequest\022\025\n\010lobby" +
-      "_id\030\001 \001(\tH\000\210\001\001B\013\n\t_lobby_id\"\023\n\021StartGame" +
-      "Response*B\n\016JoinLobbyError\022\013\n\007SUCCESS\020\000\022" +
-      "\023\n\017LOBBY_NOT_FOUND\020\001\022\016\n\nLOBBY_FULL\020\0022\346\001\n" +
-      "\014LobbyService\022J\n\013CreateLobby\022\034.protobuf." +
-      "CreateLobbyRequest\032\035.protobuf.CreateLobb" +
-      "yResponse\022D\n\tJoinLobby\022\032.protobuf.JoinLo" +
-      "bbyRequest\032\033.protobuf.JoinLobbyResponse\022" +
-      "D\n\tStartGame\022\032.protobuf.StartGameRequest" +
-      "\032\033.protobuf.StartGameResponseB*\n\022protobu" +
-      "f.generatedB\024LobbyServiceMessagesb\006proto" +
-      "3"
+      "lobby_id\030\001 \001(\tH\000\210\001\001B\013\n\t_lobby_id\"\212\001\n\020Joi" +
+      "nLobbyRequest\022\025\n\010lobby_id\030\001 \001(\tH\000\210\001\001\022\030\n\013" +
+      "player_name\030\002 \001(\tH\001\210\001\001\022\030\n\013player_port\030\003 " +
+      "\001(\rH\002\210\001\001B\013\n\t_lobby_idB\016\n\014_player_nameB\016\n" +
+      "\014_player_port\"w\n\021JoinLobbyResponse\022,\n\005er" +
+      "ror\030\001 \001(\0162\030.protobuf.JoinLobbyErrorH\000\210\001\001" +
+      "\022\031\n\014questionText\030\002 \001(\tH\001\210\001\001B\010\n\006_errorB\017\n" +
+      "\r_questionText\"6\n\020StartGameRequest\022\025\n\010lo" +
+      "bby_id\030\001 \001(\tH\000\210\001\001B\013\n\t_lobby_id\"\023\n\021StartG" +
+      "ameResponse*B\n\016JoinLobbyError\022\013\n\007SUCCESS" +
+      "\020\000\022\023\n\017LOBBY_NOT_FOUND\020\001\022\016\n\nLOBBY_FULL\020\0022" +
+      "\346\001\n\014LobbyService\022J\n\013CreateLobby\022\034.protob" +
+      "uf.CreateLobbyRequest\032\035.protobuf.CreateL" +
+      "obbyResponse\022D\n\tJoinLobby\022\032.protobuf.Joi" +
+      "nLobbyRequest\032\033.protobuf.JoinLobbyRespon" +
+      "se\022D\n\tStartGame\022\032.protobuf.StartGameRequ" +
+      "est\032\033.protobuf.StartGameResponseB*\n\022prot" +
+      "obuf.generatedB\024LobbyServiceMessagesb\006pr" +
+      "oto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3773,7 +3873,7 @@ public final class LobbyServiceMessages {
     internal_static_protobuf_JoinLobbyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_JoinLobbyRequest_descriptor,
-        new java.lang.String[] { "LobbyId", "PlayerName", "LobbyId", "PlayerName", });
+        new java.lang.String[] { "LobbyId", "PlayerName", "PlayerPort", "LobbyId", "PlayerName", "PlayerPort", });
     internal_static_protobuf_JoinLobbyResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_protobuf_JoinLobbyResponse_fieldAccessorTable = new

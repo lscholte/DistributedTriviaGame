@@ -78,7 +78,7 @@ public class Server {
 
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
 
-            ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", Client.PORT).usePlaintext().build();
+            ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", request.getPlayerPort()).usePlaintext().build();
             Player player = new Player(request.getPlayerName(), QuestionServiceGrpc.newStub(channel));
             
             UUID lobbyID = UUID.fromString(request.getLobbyId());

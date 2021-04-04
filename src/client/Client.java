@@ -32,8 +32,6 @@ import utilities.ProtobufUtils;
 
 public class Client {
 
-    public static final int PORT = 7767;
-
     private static final int RESPONSE_TIMEOUT_S = 10;
 
     private LobbyServiceBlockingStub lobbyServiceBlockingStub;
@@ -64,7 +62,7 @@ public class Client {
         UUID lobbyUuid = createLobby();
         if (lobbyUuid != null) {
 
-            grpcServer = ServerBuilder.forPort(PORT).addService(new QuestionService()).build();
+            grpcServer = ServerBuilder.forPort(0).addService(new QuestionService()).build();
             grpcServer.start();
 
             joinLobby(lobbyUuid, "Test Player");
@@ -110,7 +108,8 @@ public class Client {
         JoinLobbyRequest.Builder requestBuilder = JoinLobbyRequest.newBuilder();
         requestBuilder.setLobbyId(lobbyUuid.toString());
         requestBuilder.setPlayerName(playerName);
-
+        requestBuilder.setPlayerPort(grpcServer.getPort());
+        
         // Send request
         JoinLobbyRequest request = requestBuilder.build();
         Logger.logInfo(String.format("Sending %s", ProtobufUtils.getPrintableMessage(request)));
