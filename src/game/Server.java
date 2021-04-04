@@ -8,6 +8,9 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
+import protobuf.generated.AnswerServiceGrpc.AnswerServiceImplBase;
+import protobuf.generated.AnswerServiceMessages.AnswerRequest;
+import protobuf.generated.AnswerServiceMessages.AnswerResponse;
 import protobuf.generated.LobbyServiceGrpc.LobbyServiceImplBase;
 import protobuf.generated.LobbyServiceMessages;
 import protobuf.generated.LobbyServiceMessages.CreateLobbyRequest;
@@ -35,6 +38,7 @@ public class Server {
         grpcServer = ServerBuilder
                 .forPort(PORT)
                 .addService(new LobbyService())
+                .addService(new AnswerService())
                 .build();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -143,4 +147,20 @@ public class Server {
             }
         }
     }
+
+    private class AnswerService extends AnswerServiceImplBase {
+        
+        @Override
+        public void answer(AnswerRequest request, StreamObserver<AnswerResponse> responseObserver) {
+            //TODO: Validate the answer given and accumulate a score
+            
+            AnswerResponse.Builder responseBuilder = AnswerResponse.newBuilder();
+            responseBuilder.setCorrect(true); //TODO: or false if answer is wrong
+            
+            responseObserver.onNext(responseBuilder.build());
+            responseObserver.onCompleted();
+        }
+
+    }
+
 }

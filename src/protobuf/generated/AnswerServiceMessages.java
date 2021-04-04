@@ -19,17 +19,34 @@ public final class AnswerServiceMessages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string text = 1;</code>
+     * <code>string player_name = 1;</code>
+     * @return Whether the playerName field is set.
+     */
+    boolean hasPlayerName();
+    /**
+     * <code>string player_name = 1;</code>
+     * @return The playerName.
+     */
+    java.lang.String getPlayerName();
+    /**
+     * <code>string player_name = 1;</code>
+     * @return The bytes for playerName.
+     */
+    com.google.protobuf.ByteString
+        getPlayerNameBytes();
+
+    /**
+     * <code>string text = 2;</code>
      * @return Whether the text field is set.
      */
     boolean hasText();
     /**
-     * <code>string text = 1;</code>
+     * <code>string text = 2;</code>
      * @return The text.
      */
     java.lang.String getText();
     /**
-     * <code>string text = 1;</code>
+     * <code>string text = 2;</code>
      * @return The bytes for text.
      */
     com.google.protobuf.ByteString
@@ -48,6 +65,7 @@ public final class AnswerServiceMessages {
       super(builder);
     }
     private AnswerRequest() {
+      playerName_ = "";
       text_ = "";
     }
 
@@ -85,6 +103,12 @@ public final class AnswerServiceMessages {
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
               bitField0_ |= 0x00000001;
+              playerName_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+              bitField0_ |= 0x00000002;
               text_ = s;
               break;
             }
@@ -121,18 +145,64 @@ public final class AnswerServiceMessages {
     }
 
     private int bitField0_;
-    public static final int TEXT_FIELD_NUMBER = 1;
+    public static final int PLAYER_NAME_FIELD_NUMBER = 1;
+    private volatile java.lang.Object playerName_;
+    /**
+     * <code>string player_name = 1;</code>
+     * @return Whether the playerName field is set.
+     */
+    @java.lang.Override
+    public boolean hasPlayerName() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>string player_name = 1;</code>
+     * @return The playerName.
+     */
+    @java.lang.Override
+    public java.lang.String getPlayerName() {
+      java.lang.Object ref = playerName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        playerName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string player_name = 1;</code>
+     * @return The bytes for playerName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getPlayerNameBytes() {
+      java.lang.Object ref = playerName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        playerName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TEXT_FIELD_NUMBER = 2;
     private volatile java.lang.Object text_;
     /**
-     * <code>string text = 1;</code>
+     * <code>string text = 2;</code>
      * @return Whether the text field is set.
      */
     @java.lang.Override
     public boolean hasText() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
-     * <code>string text = 1;</code>
+     * <code>string text = 2;</code>
      * @return The text.
      */
     @java.lang.Override
@@ -149,7 +219,7 @@ public final class AnswerServiceMessages {
       }
     }
     /**
-     * <code>string text = 1;</code>
+     * <code>string text = 2;</code>
      * @return The bytes for text.
      */
     @java.lang.Override
@@ -182,7 +252,10 @@ public final class AnswerServiceMessages {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, text_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, playerName_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, text_);
       }
       unknownFields.writeTo(output);
     }
@@ -194,7 +267,10 @@ public final class AnswerServiceMessages {
 
       size = 0;
       if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, text_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, playerName_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, text_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -211,6 +287,11 @@ public final class AnswerServiceMessages {
       }
       protobuf.generated.AnswerServiceMessages.AnswerRequest other = (protobuf.generated.AnswerServiceMessages.AnswerRequest) obj;
 
+      if (hasPlayerName() != other.hasPlayerName()) return false;
+      if (hasPlayerName()) {
+        if (!getPlayerName()
+            .equals(other.getPlayerName())) return false;
+      }
       if (hasText() != other.hasText()) return false;
       if (hasText()) {
         if (!getText()
@@ -227,6 +308,10 @@ public final class AnswerServiceMessages {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasPlayerName()) {
+        hash = (37 * hash) + PLAYER_NAME_FIELD_NUMBER;
+        hash = (53 * hash) + getPlayerName().hashCode();
+      }
       if (hasText()) {
         hash = (37 * hash) + TEXT_FIELD_NUMBER;
         hash = (53 * hash) + getText().hashCode();
@@ -364,8 +449,10 @@ public final class AnswerServiceMessages {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        text_ = "";
+        playerName_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
+        text_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -396,6 +483,10 @@ public final class AnswerServiceMessages {
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
+        }
+        result.playerName_ = playerName_;
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          to_bitField0_ |= 0x00000002;
         }
         result.text_ = text_;
         result.bitField0_ = to_bitField0_;
@@ -447,8 +538,13 @@ public final class AnswerServiceMessages {
 
       public Builder mergeFrom(protobuf.generated.AnswerServiceMessages.AnswerRequest other) {
         if (other == protobuf.generated.AnswerServiceMessages.AnswerRequest.getDefaultInstance()) return this;
-        if (other.hasText()) {
+        if (other.hasPlayerName()) {
           bitField0_ |= 0x00000001;
+          playerName_ = other.playerName_;
+          onChanged();
+        }
+        if (other.hasText()) {
+          bitField0_ |= 0x00000002;
           text_ = other.text_;
           onChanged();
         }
@@ -482,16 +578,99 @@ public final class AnswerServiceMessages {
       }
       private int bitField0_;
 
-      private java.lang.Object text_ = "";
+      private java.lang.Object playerName_ = "";
       /**
-       * <code>string text = 1;</code>
-       * @return Whether the text field is set.
+       * <code>string player_name = 1;</code>
+       * @return Whether the playerName field is set.
        */
-      public boolean hasText() {
+      public boolean hasPlayerName() {
         return ((bitField0_ & 0x00000001) != 0);
       }
       /**
-       * <code>string text = 1;</code>
+       * <code>string player_name = 1;</code>
+       * @return The playerName.
+       */
+      public java.lang.String getPlayerName() {
+        java.lang.Object ref = playerName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          playerName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string player_name = 1;</code>
+       * @return The bytes for playerName.
+       */
+      public com.google.protobuf.ByteString
+          getPlayerNameBytes() {
+        java.lang.Object ref = playerName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          playerName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string player_name = 1;</code>
+       * @param value The playerName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPlayerName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        playerName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string player_name = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPlayerName() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        playerName_ = getDefaultInstance().getPlayerName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string player_name = 1;</code>
+       * @param value The bytes for playerName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPlayerNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        bitField0_ |= 0x00000001;
+        playerName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object text_ = "";
+      /**
+       * <code>string text = 2;</code>
+       * @return Whether the text field is set.
+       */
+      public boolean hasText() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>string text = 2;</code>
        * @return The text.
        */
       public java.lang.String getText() {
@@ -507,7 +686,7 @@ public final class AnswerServiceMessages {
         }
       }
       /**
-       * <code>string text = 1;</code>
+       * <code>string text = 2;</code>
        * @return The bytes for text.
        */
       public com.google.protobuf.ByteString
@@ -524,7 +703,7 @@ public final class AnswerServiceMessages {
         }
       }
       /**
-       * <code>string text = 1;</code>
+       * <code>string text = 2;</code>
        * @param value The text to set.
        * @return This builder for chaining.
        */
@@ -533,23 +712,23 @@ public final class AnswerServiceMessages {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         text_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string text = 1;</code>
+       * <code>string text = 2;</code>
        * @return This builder for chaining.
        */
       public Builder clearText() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         text_ = getDefaultInstance().getText();
         onChanged();
         return this;
       }
       /**
-       * <code>string text = 1;</code>
+       * <code>string text = 2;</code>
        * @param value The bytes for text to set.
        * @return This builder for chaining.
        */
@@ -559,7 +738,7 @@ public final class AnswerServiceMessages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         text_ = value;
         onChanged();
         return this;
@@ -1160,13 +1339,14 @@ public final class AnswerServiceMessages {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\024answer_service.proto\022\010protobuf\"+\n\rAnsw" +
-      "erRequest\022\021\n\004text\030\001 \001(\tH\000\210\001\001B\007\n\005_text\"2\n" +
-      "\016AnswerResponse\022\024\n\007correct\030\001 \001(\010H\000\210\001\001B\n\n" +
-      "\010_correct2L\n\rAnswerService\022;\n\006Answer\022\027.p" +
-      "rotobuf.AnswerRequest\032\030.protobuf.AnswerR" +
-      "esponseB+\n\022protobuf.generatedB\025AnswerSer" +
-      "viceMessagesb\006proto3"
+      "\n\024answer_service.proto\022\010protobuf\"U\n\rAnsw" +
+      "erRequest\022\030\n\013player_name\030\001 \001(\tH\000\210\001\001\022\021\n\004t" +
+      "ext\030\002 \001(\tH\001\210\001\001B\016\n\014_player_nameB\007\n\005_text\"" +
+      "2\n\016AnswerResponse\022\024\n\007correct\030\001 \001(\010H\000\210\001\001B" +
+      "\n\n\010_correct2L\n\rAnswerService\022;\n\006Answer\022\027" +
+      ".protobuf.AnswerRequest\032\030.protobuf.Answe" +
+      "rResponseB+\n\022protobuf.generatedB\025AnswerS" +
+      "erviceMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1177,7 +1357,7 @@ public final class AnswerServiceMessages {
     internal_static_protobuf_AnswerRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_AnswerRequest_descriptor,
-        new java.lang.String[] { "Text", "Text", });
+        new java.lang.String[] { "PlayerName", "Text", "PlayerName", "Text", });
     internal_static_protobuf_AnswerResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_protobuf_AnswerResponse_fieldAccessorTable = new
