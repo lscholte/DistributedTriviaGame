@@ -46,34 +46,65 @@ public final class LobbyServiceGrpc {
   }
 
   private static volatile io.grpc.MethodDescriptor<protobuf.generated.LobbyServiceMessages.JoinLobbyRequest,
-      protobuf.generated.LobbyServiceMessages.QuestionStream> getJoinLobbyMethod;
+      protobuf.generated.LobbyServiceMessages.JoinLobbyResponse> getJoinLobbyMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "JoinLobby",
       requestType = protobuf.generated.LobbyServiceMessages.JoinLobbyRequest.class,
-      responseType = protobuf.generated.LobbyServiceMessages.QuestionStream.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+      responseType = protobuf.generated.LobbyServiceMessages.JoinLobbyResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<protobuf.generated.LobbyServiceMessages.JoinLobbyRequest,
-      protobuf.generated.LobbyServiceMessages.QuestionStream> getJoinLobbyMethod() {
-    io.grpc.MethodDescriptor<protobuf.generated.LobbyServiceMessages.JoinLobbyRequest, protobuf.generated.LobbyServiceMessages.QuestionStream> getJoinLobbyMethod;
+      protobuf.generated.LobbyServiceMessages.JoinLobbyResponse> getJoinLobbyMethod() {
+    io.grpc.MethodDescriptor<protobuf.generated.LobbyServiceMessages.JoinLobbyRequest, protobuf.generated.LobbyServiceMessages.JoinLobbyResponse> getJoinLobbyMethod;
     if ((getJoinLobbyMethod = LobbyServiceGrpc.getJoinLobbyMethod) == null) {
       synchronized (LobbyServiceGrpc.class) {
         if ((getJoinLobbyMethod = LobbyServiceGrpc.getJoinLobbyMethod) == null) {
           LobbyServiceGrpc.getJoinLobbyMethod = getJoinLobbyMethod =
-              io.grpc.MethodDescriptor.<protobuf.generated.LobbyServiceMessages.JoinLobbyRequest, protobuf.generated.LobbyServiceMessages.QuestionStream>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              io.grpc.MethodDescriptor.<protobuf.generated.LobbyServiceMessages.JoinLobbyRequest, protobuf.generated.LobbyServiceMessages.JoinLobbyResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "JoinLobby"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   protobuf.generated.LobbyServiceMessages.JoinLobbyRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  protobuf.generated.LobbyServiceMessages.QuestionStream.getDefaultInstance()))
+                  protobuf.generated.LobbyServiceMessages.JoinLobbyResponse.getDefaultInstance()))
               .setSchemaDescriptor(new LobbyServiceMethodDescriptorSupplier("JoinLobby"))
               .build();
         }
       }
     }
     return getJoinLobbyMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<protobuf.generated.LobbyServiceMessages.StartGameRequest,
+      protobuf.generated.LobbyServiceMessages.StartGameResponse> getStartGameMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "StartGame",
+      requestType = protobuf.generated.LobbyServiceMessages.StartGameRequest.class,
+      responseType = protobuf.generated.LobbyServiceMessages.StartGameResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<protobuf.generated.LobbyServiceMessages.StartGameRequest,
+      protobuf.generated.LobbyServiceMessages.StartGameResponse> getStartGameMethod() {
+    io.grpc.MethodDescriptor<protobuf.generated.LobbyServiceMessages.StartGameRequest, protobuf.generated.LobbyServiceMessages.StartGameResponse> getStartGameMethod;
+    if ((getStartGameMethod = LobbyServiceGrpc.getStartGameMethod) == null) {
+      synchronized (LobbyServiceGrpc.class) {
+        if ((getStartGameMethod = LobbyServiceGrpc.getStartGameMethod) == null) {
+          LobbyServiceGrpc.getStartGameMethod = getStartGameMethod =
+              io.grpc.MethodDescriptor.<protobuf.generated.LobbyServiceMessages.StartGameRequest, protobuf.generated.LobbyServiceMessages.StartGameResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "StartGame"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  protobuf.generated.LobbyServiceMessages.StartGameRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  protobuf.generated.LobbyServiceMessages.StartGameResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new LobbyServiceMethodDescriptorSupplier("StartGame"))
+              .build();
+        }
+      }
+    }
+    return getStartGameMethod;
   }
 
   /**
@@ -134,8 +165,15 @@ public final class LobbyServiceGrpc {
     /**
      */
     public void joinLobby(protobuf.generated.LobbyServiceMessages.JoinLobbyRequest request,
-        io.grpc.stub.StreamObserver<protobuf.generated.LobbyServiceMessages.QuestionStream> responseObserver) {
+        io.grpc.stub.StreamObserver<protobuf.generated.LobbyServiceMessages.JoinLobbyResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getJoinLobbyMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void startGame(protobuf.generated.LobbyServiceMessages.StartGameRequest request,
+        io.grpc.stub.StreamObserver<protobuf.generated.LobbyServiceMessages.StartGameResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getStartGameMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
@@ -149,11 +187,18 @@ public final class LobbyServiceGrpc {
                   this, METHODID_CREATE_LOBBY)))
           .addMethod(
             getJoinLobbyMethod(),
-            io.grpc.stub.ServerCalls.asyncServerStreamingCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 protobuf.generated.LobbyServiceMessages.JoinLobbyRequest,
-                protobuf.generated.LobbyServiceMessages.QuestionStream>(
+                protobuf.generated.LobbyServiceMessages.JoinLobbyResponse>(
                   this, METHODID_JOIN_LOBBY)))
+          .addMethod(
+            getStartGameMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                protobuf.generated.LobbyServiceMessages.StartGameRequest,
+                protobuf.generated.LobbyServiceMessages.StartGameResponse>(
+                  this, METHODID_START_GAME)))
           .build();
     }
   }
@@ -183,9 +228,17 @@ public final class LobbyServiceGrpc {
     /**
      */
     public void joinLobby(protobuf.generated.LobbyServiceMessages.JoinLobbyRequest request,
-        io.grpc.stub.StreamObserver<protobuf.generated.LobbyServiceMessages.QuestionStream> responseObserver) {
-      io.grpc.stub.ClientCalls.asyncServerStreamingCall(
+        io.grpc.stub.StreamObserver<protobuf.generated.LobbyServiceMessages.JoinLobbyResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getJoinLobbyMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void startGame(protobuf.generated.LobbyServiceMessages.StartGameRequest request,
+        io.grpc.stub.StreamObserver<protobuf.generated.LobbyServiceMessages.StartGameResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getStartGameMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -212,10 +265,16 @@ public final class LobbyServiceGrpc {
 
     /**
      */
-    public java.util.Iterator<protobuf.generated.LobbyServiceMessages.QuestionStream> joinLobby(
-        protobuf.generated.LobbyServiceMessages.JoinLobbyRequest request) {
-      return io.grpc.stub.ClientCalls.blockingServerStreamingCall(
+    public protobuf.generated.LobbyServiceMessages.JoinLobbyResponse joinLobby(protobuf.generated.LobbyServiceMessages.JoinLobbyRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getJoinLobbyMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public protobuf.generated.LobbyServiceMessages.StartGameResponse startGame(protobuf.generated.LobbyServiceMessages.StartGameRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getStartGameMethod(), getCallOptions(), request);
     }
   }
 
@@ -240,10 +299,27 @@ public final class LobbyServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getCreateLobbyMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<protobuf.generated.LobbyServiceMessages.JoinLobbyResponse> joinLobby(
+        protobuf.generated.LobbyServiceMessages.JoinLobbyRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getJoinLobbyMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<protobuf.generated.LobbyServiceMessages.StartGameResponse> startGame(
+        protobuf.generated.LobbyServiceMessages.StartGameRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getStartGameMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_CREATE_LOBBY = 0;
   private static final int METHODID_JOIN_LOBBY = 1;
+  private static final int METHODID_START_GAME = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -268,7 +344,11 @@ public final class LobbyServiceGrpc {
           break;
         case METHODID_JOIN_LOBBY:
           serviceImpl.joinLobby((protobuf.generated.LobbyServiceMessages.JoinLobbyRequest) request,
-              (io.grpc.stub.StreamObserver<protobuf.generated.LobbyServiceMessages.QuestionStream>) responseObserver);
+              (io.grpc.stub.StreamObserver<protobuf.generated.LobbyServiceMessages.JoinLobbyResponse>) responseObserver);
+          break;
+        case METHODID_START_GAME:
+          serviceImpl.startGame((protobuf.generated.LobbyServiceMessages.StartGameRequest) request,
+              (io.grpc.stub.StreamObserver<protobuf.generated.LobbyServiceMessages.StartGameResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -333,6 +413,7 @@ public final class LobbyServiceGrpc {
               .setSchemaDescriptor(new LobbyServiceFileDescriptorSupplier())
               .addMethod(getCreateLobbyMethod())
               .addMethod(getJoinLobbyMethod())
+              .addMethod(getStartGameMethod())
               .build();
         }
       }

@@ -14,29 +14,29 @@ public final class QuestionServiceGrpc {
   public static final String SERVICE_NAME = "protobuf.QuestionService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<protobuf.generated.QuestionServiceMessages.QuestionRequest,
-      protobuf.generated.QuestionServiceMessages.QuestionResponse> getAskQuestionMethod;
+  private static volatile io.grpc.MethodDescriptor<protobuf.generated.QuestionServiceMessages.AskQuestionRequest,
+      protobuf.generated.QuestionServiceMessages.AskQuestionResponse> getAskQuestionMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "AskQuestion",
-      requestType = protobuf.generated.QuestionServiceMessages.QuestionRequest.class,
-      responseType = protobuf.generated.QuestionServiceMessages.QuestionResponse.class,
+      requestType = protobuf.generated.QuestionServiceMessages.AskQuestionRequest.class,
+      responseType = protobuf.generated.QuestionServiceMessages.AskQuestionResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<protobuf.generated.QuestionServiceMessages.QuestionRequest,
-      protobuf.generated.QuestionServiceMessages.QuestionResponse> getAskQuestionMethod() {
-    io.grpc.MethodDescriptor<protobuf.generated.QuestionServiceMessages.QuestionRequest, protobuf.generated.QuestionServiceMessages.QuestionResponse> getAskQuestionMethod;
+  public static io.grpc.MethodDescriptor<protobuf.generated.QuestionServiceMessages.AskQuestionRequest,
+      protobuf.generated.QuestionServiceMessages.AskQuestionResponse> getAskQuestionMethod() {
+    io.grpc.MethodDescriptor<protobuf.generated.QuestionServiceMessages.AskQuestionRequest, protobuf.generated.QuestionServiceMessages.AskQuestionResponse> getAskQuestionMethod;
     if ((getAskQuestionMethod = QuestionServiceGrpc.getAskQuestionMethod) == null) {
       synchronized (QuestionServiceGrpc.class) {
         if ((getAskQuestionMethod = QuestionServiceGrpc.getAskQuestionMethod) == null) {
           QuestionServiceGrpc.getAskQuestionMethod = getAskQuestionMethod =
-              io.grpc.MethodDescriptor.<protobuf.generated.QuestionServiceMessages.QuestionRequest, protobuf.generated.QuestionServiceMessages.QuestionResponse>newBuilder()
+              io.grpc.MethodDescriptor.<protobuf.generated.QuestionServiceMessages.AskQuestionRequest, protobuf.generated.QuestionServiceMessages.AskQuestionResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "AskQuestion"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  protobuf.generated.QuestionServiceMessages.QuestionRequest.getDefaultInstance()))
+                  protobuf.generated.QuestionServiceMessages.AskQuestionRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  protobuf.generated.QuestionServiceMessages.QuestionResponse.getDefaultInstance()))
+                  protobuf.generated.QuestionServiceMessages.AskQuestionResponse.getDefaultInstance()))
               .setSchemaDescriptor(new QuestionServiceMethodDescriptorSupplier("AskQuestion"))
               .build();
         }
@@ -95,8 +95,8 @@ public final class QuestionServiceGrpc {
 
     /**
      */
-    public void askQuestion(protobuf.generated.QuestionServiceMessages.QuestionRequest request,
-        io.grpc.stub.StreamObserver<protobuf.generated.QuestionServiceMessages.QuestionResponse> responseObserver) {
+    public void askQuestion(protobuf.generated.QuestionServiceMessages.AskQuestionRequest request,
+        io.grpc.stub.StreamObserver<protobuf.generated.QuestionServiceMessages.AskQuestionResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getAskQuestionMethod(), responseObserver);
     }
 
@@ -106,8 +106,8 @@ public final class QuestionServiceGrpc {
             getAskQuestionMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
-                protobuf.generated.QuestionServiceMessages.QuestionRequest,
-                protobuf.generated.QuestionServiceMessages.QuestionResponse>(
+                protobuf.generated.QuestionServiceMessages.AskQuestionRequest,
+                protobuf.generated.QuestionServiceMessages.AskQuestionResponse>(
                   this, METHODID_ASK_QUESTION)))
           .build();
     }
@@ -129,8 +129,8 @@ public final class QuestionServiceGrpc {
 
     /**
      */
-    public void askQuestion(protobuf.generated.QuestionServiceMessages.QuestionRequest request,
-        io.grpc.stub.StreamObserver<protobuf.generated.QuestionServiceMessages.QuestionResponse> responseObserver) {
+    public void askQuestion(protobuf.generated.QuestionServiceMessages.AskQuestionRequest request,
+        io.grpc.stub.StreamObserver<protobuf.generated.QuestionServiceMessages.AskQuestionResponse> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getAskQuestionMethod(), getCallOptions()), request, responseObserver);
     }
@@ -152,7 +152,7 @@ public final class QuestionServiceGrpc {
 
     /**
      */
-    public protobuf.generated.QuestionServiceMessages.QuestionResponse askQuestion(protobuf.generated.QuestionServiceMessages.QuestionRequest request) {
+    public protobuf.generated.QuestionServiceMessages.AskQuestionResponse askQuestion(protobuf.generated.QuestionServiceMessages.AskQuestionRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getAskQuestionMethod(), getCallOptions(), request);
     }
@@ -174,8 +174,8 @@ public final class QuestionServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<protobuf.generated.QuestionServiceMessages.QuestionResponse> askQuestion(
-        protobuf.generated.QuestionServiceMessages.QuestionRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<protobuf.generated.QuestionServiceMessages.AskQuestionResponse> askQuestion(
+        protobuf.generated.QuestionServiceMessages.AskQuestionRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getAskQuestionMethod(), getCallOptions()), request);
     }
@@ -201,8 +201,8 @@ public final class QuestionServiceGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_ASK_QUESTION:
-          serviceImpl.askQuestion((protobuf.generated.QuestionServiceMessages.QuestionRequest) request,
-              (io.grpc.stub.StreamObserver<protobuf.generated.QuestionServiceMessages.QuestionResponse>) responseObserver);
+          serviceImpl.askQuestion((protobuf.generated.QuestionServiceMessages.AskQuestionRequest) request,
+              (io.grpc.stub.StreamObserver<protobuf.generated.QuestionServiceMessages.AskQuestionResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();

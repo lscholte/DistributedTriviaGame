@@ -10,7 +10,8 @@ option java_outer_classname = "LobbyServiceMessages";
 service LobbyService
 {
 	rpc CreateLobby(CreateLobbyRequest) returns (CreateLobbyResponse);
-	rpc JoinLobby(JoinLobbyRequest) returns (stream QuestionStream);
+	rpc JoinLobby(JoinLobbyRequest) returns (JoinLobbyResponse);
+	rpc StartGame(StartGameRequest) returns (StartGameResponse);
 }
 
 message CreateLobbyRequest
@@ -41,16 +42,11 @@ message JoinLobbyResponse
 	optional string questionText = 2;
 }
 
-message QuestionStream
+message StartGameRequest
 {
 	optional string lobby_id = 1;
-	optional string question = 2;
-	optional uint64 deadline = 3;
-	repeated string options = 4;
 }
 
-message AnswerStream
+message StartGameResponse
 {
-	optional string player_name = 1;
-	optional string answer = 2;
 }

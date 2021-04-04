@@ -3,7 +3,6 @@ package client;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -20,16 +19,13 @@ import protobuf.generated.AnswerServiceMessages.AnswerRequest;
 import protobuf.generated.AnswerServiceMessages.AnswerResponse;
 import protobuf.generated.LobbyServiceGrpc;
 import protobuf.generated.LobbyServiceGrpc.LobbyServiceBlockingStub;
-import protobuf.generated.LobbyServiceGrpc.LobbyServiceStub;
 import protobuf.generated.LobbyServiceMessages.CreateLobbyRequest;
 import protobuf.generated.LobbyServiceMessages.CreateLobbyResponse;
-import protobuf.generated.LobbyServiceMessages.JoinLobbyError;
 import protobuf.generated.LobbyServiceMessages.JoinLobbyRequest;
-import protobuf.generated.LobbyServiceMessages.JoinLobbyResponse;
-import protobuf.generated.LobbyServiceMessages.QuestionStream;
+import protobuf.generated.LobbyServiceMessages.StartGameRequest;
 import protobuf.generated.QuestionServiceGrpc.QuestionServiceImplBase;
-import protobuf.generated.QuestionServiceMessages.QuestionRequest;
-import protobuf.generated.QuestionServiceMessages.QuestionResponse;
+import protobuf.generated.QuestionServiceMessages.AskQuestionRequest;
+import protobuf.generated.QuestionServiceMessages.AskQuestionResponse;
 import io.grpc.StatusRuntimeException;
 import utilities.Logger;
 import utilities.ProtobufUtils;
@@ -41,10 +37,9 @@ public class Client {
     private static final int RESPONSE_TIMEOUT_S = 10;
 
     private LobbyServiceBlockingStub lobbyServiceBlockingStub;
-    private LobbyServiceStub lobbyServiceStub;
     private AnswerServiceBlockingStub answerServiceStub;
 
-//    private io.grpc.Server grpcServer;
+    private io.grpc.Server grpcServer;
 
     private ManagedChannel channel;
 
@@ -55,7 +50,6 @@ public class Client {
         channel = ManagedChannelBuilder.forAddress("localhost", Server.PORT).usePlaintext().build();
         
         lobbyServiceBlockingStub = LobbyServiceGrpc.newBlockingStub(channel);
-        lobbyServiceStub = LobbyServiceGrpc.newStub(channel);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
@@ -70,12 +64,12 @@ public class Client {
         UUID lobbyUuid = createLobby();
         if (lobbyUuid != null) {
 
-//            grpcServer = ServerBuilder.forPort(PORT).addService(new QuestionService()).build();
-
-//            grpcServer.start();
+            grpcServer = ServerBuilder.forPort(PORT).addService(new QuestionService()).build();
+            grpcServer.start();
 
             joinLobby(lobbyUuid, "Test Player");
-
+            startGame(lobbyUuid);
+            
             answerServiceStub = AnswerServiceGrpc.newBlockingStub(channel);
         }
     }
@@ -122,24 +116,26 @@ public class Client {
         Logger.logInfo(String.format("Sending %s", ProtobufUtils.getPrintableMessage(request)));
 
         try {
-            lobbyServiceStub.joinLobby(request, new StreamObserver<QuestionStream>() {
-                @Override
-                public void onNext(QuestionStream questionStream) {
-                    Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(questionStream)));
-                    Question question = new Question(questionStream.getQuestion(), questionStream.getOptionsList());
-                    gui.nextQuestion(question, new Date(questionStream.getDeadline()));
-                }
-                
-                @Override
-                public void onCompleted() {
-                    Logger.logInfo("Game is finished");
-                }
-                
-                @Override
-                public void onError(Throwable throwable) {}
-            });            
+            lobbyServiceBlockingStub.joinLobby(request);           
         } catch (StatusRuntimeException e) {
             handleGrpcError("JoinLobby", e.getStatus().getCode());
+        }
+    }
+    
+    public void startGame(UUID lobbyUuid) {
+        // Build request
+        StartGameRequest.Builder requestBuilder = StartGameRequest.newBuilder();
+        requestBuilder.setLobbyId(lobbyUuid.toString());
+
+        // Send request
+        StartGameRequest request = requestBuilder.build();
+        Logger.logInfo(String.format("Sending %s", ProtobufUtils.getPrintableMessage(request)));
+
+        try {
+            lobbyServiceBlockingStub.startGame(request);            
+        }
+        catch (StatusRuntimeException e) {
+            handleGrpcError("StartGame", e.getStatus().getCode());
         }
     }
 
@@ -184,22 +180,20 @@ public class Client {
         }
     }
 
-//    private class QuestionService extends QuestionServiceImplBase {
-//
-//        @Override
-//        public void askQuestion(QuestionRequest request,
-//                StreamObserver<QuestionResponse> responseObserver) {
-//            Logger.logInfo(
-//                    String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
-//            Logger.logInfo(String.format("Question: ", request.getText()));
-//
-//            gui.nextQuestion(request.getText(), new Date(new Date().getTime() + 15 * 1000));
-//
-//            QuestionResponse.Builder responseBuilder = QuestionResponse.newBuilder();
-//            QuestionResponse response = responseBuilder.build();
-//
-//            responseObserver.onNext(response);
-//            responseObserver.onCompleted();
-//        }
-//    }
+    private class QuestionService extends QuestionServiceImplBase {
+
+        @Override
+        public void askQuestion(AskQuestionRequest request,
+                StreamObserver<AskQuestionResponse> responseObserver) {
+            
+            Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
+            Question question = new Question(request.getQuestion(), request.getOptionsList());
+            
+            gui.nextQuestion(question, new Date(request.getDeadline()));
+            
+            AskQuestionResponse.Builder responseBuilder = AskQuestionResponse.newBuilder();
+            responseObserver.onNext(responseBuilder.build());
+            responseObserver.onCompleted();
+        }
+    }
 }

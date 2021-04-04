@@ -14,15 +14,17 @@ option java_outer_classname = "QuestionServiceMessages";
 
 service QuestionService
 {
-	rpc AskQuestion(QuestionRequest) returns (QuestionResponse);
+	rpc AskQuestion(AskQuestionRequest) returns (AskQuestionResponse);
 }
 
-message QuestionRequest
+message AskQuestionRequest
 {
-	optional string text = 1;
+	optional string question = 1;
+	optional uint64 deadline = 2;
+	repeated string options = 3;
 }
 
-message QuestionResponse
+message AskQuestionResponse
 {
 	//Just an empty response. Answer would go in a different request
 }

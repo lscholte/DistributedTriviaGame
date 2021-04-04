@@ -2671,8 +2671,8 @@ public final class LobbyServiceMessages {
 
   }
 
-  public interface QuestionStreamOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:protobuf.QuestionStream)
+  public interface StartGameRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protobuf.StartGameRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -2691,83 +2691,28 @@ public final class LobbyServiceMessages {
      */
     com.google.protobuf.ByteString
         getLobbyIdBytes();
-
-    /**
-     * <code>string question = 2;</code>
-     * @return Whether the question field is set.
-     */
-    boolean hasQuestion();
-    /**
-     * <code>string question = 2;</code>
-     * @return The question.
-     */
-    java.lang.String getQuestion();
-    /**
-     * <code>string question = 2;</code>
-     * @return The bytes for question.
-     */
-    com.google.protobuf.ByteString
-        getQuestionBytes();
-
-    /**
-     * <code>uint64 deadline = 3;</code>
-     * @return Whether the deadline field is set.
-     */
-    boolean hasDeadline();
-    /**
-     * <code>uint64 deadline = 3;</code>
-     * @return The deadline.
-     */
-    long getDeadline();
-
-    /**
-     * <code>repeated string options = 4;</code>
-     * @return A list containing the options.
-     */
-    java.util.List<java.lang.String>
-        getOptionsList();
-    /**
-     * <code>repeated string options = 4;</code>
-     * @return The count of options.
-     */
-    int getOptionsCount();
-    /**
-     * <code>repeated string options = 4;</code>
-     * @param index The index of the element to return.
-     * @return The options at the given index.
-     */
-    java.lang.String getOptions(int index);
-    /**
-     * <code>repeated string options = 4;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the options at the given index.
-     */
-    com.google.protobuf.ByteString
-        getOptionsBytes(int index);
   }
   /**
-   * Protobuf type {@code protobuf.QuestionStream}
+   * Protobuf type {@code protobuf.StartGameRequest}
    */
-  public static final class QuestionStream extends
+  public static final class StartGameRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:protobuf.QuestionStream)
-      QuestionStreamOrBuilder {
+      // @@protoc_insertion_point(message_implements:protobuf.StartGameRequest)
+      StartGameRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use QuestionStream.newBuilder() to construct.
-    private QuestionStream(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use StartGameRequest.newBuilder() to construct.
+    private StartGameRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private QuestionStream() {
+    private StartGameRequest() {
       lobbyId_ = "";
-      question_ = "";
-      options_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new QuestionStream();
+      return new StartGameRequest();
     }
 
     @java.lang.Override
@@ -2775,7 +2720,7 @@ public final class LobbyServiceMessages {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private QuestionStream(
+    private StartGameRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2800,26 +2745,6 @@ public final class LobbyServiceMessages {
               lobbyId_ = s;
               break;
             }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-              bitField0_ |= 0x00000002;
-              question_ = s;
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000004;
-              deadline_ = input.readUInt64();
-              break;
-            }
-            case 34: {
-              java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
-                options_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000008;
-              }
-              options_.add(s);
-              break;
-            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -2835,24 +2760,21 @@ public final class LobbyServiceMessages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) != 0)) {
-          options_ = options_.getUnmodifiableView();
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_QuestionStream_descriptor;
+      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_StartGameRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_QuestionStream_fieldAccessorTable
+      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_StartGameRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              protobuf.generated.LobbyServiceMessages.QuestionStream.class, protobuf.generated.LobbyServiceMessages.QuestionStream.Builder.class);
+              protobuf.generated.LobbyServiceMessages.StartGameRequest.class, protobuf.generated.LobbyServiceMessages.StartGameRequest.Builder.class);
     }
 
     private int bitField0_;
@@ -2902,106 +2824,6 @@ public final class LobbyServiceMessages {
       }
     }
 
-    public static final int QUESTION_FIELD_NUMBER = 2;
-    private volatile java.lang.Object question_;
-    /**
-     * <code>string question = 2;</code>
-     * @return Whether the question field is set.
-     */
-    @java.lang.Override
-    public boolean hasQuestion() {
-      return ((bitField0_ & 0x00000002) != 0);
-    }
-    /**
-     * <code>string question = 2;</code>
-     * @return The question.
-     */
-    @java.lang.Override
-    public java.lang.String getQuestion() {
-      java.lang.Object ref = question_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        question_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string question = 2;</code>
-     * @return The bytes for question.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getQuestionBytes() {
-      java.lang.Object ref = question_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        question_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int DEADLINE_FIELD_NUMBER = 3;
-    private long deadline_;
-    /**
-     * <code>uint64 deadline = 3;</code>
-     * @return Whether the deadline field is set.
-     */
-    @java.lang.Override
-    public boolean hasDeadline() {
-      return ((bitField0_ & 0x00000004) != 0);
-    }
-    /**
-     * <code>uint64 deadline = 3;</code>
-     * @return The deadline.
-     */
-    @java.lang.Override
-    public long getDeadline() {
-      return deadline_;
-    }
-
-    public static final int OPTIONS_FIELD_NUMBER = 4;
-    private com.google.protobuf.LazyStringList options_;
-    /**
-     * <code>repeated string options = 4;</code>
-     * @return A list containing the options.
-     */
-    public com.google.protobuf.ProtocolStringList
-        getOptionsList() {
-      return options_;
-    }
-    /**
-     * <code>repeated string options = 4;</code>
-     * @return The count of options.
-     */
-    public int getOptionsCount() {
-      return options_.size();
-    }
-    /**
-     * <code>repeated string options = 4;</code>
-     * @param index The index of the element to return.
-     * @return The options at the given index.
-     */
-    public java.lang.String getOptions(int index) {
-      return options_.get(index);
-    }
-    /**
-     * <code>repeated string options = 4;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the options at the given index.
-     */
-    public com.google.protobuf.ByteString
-        getOptionsBytes(int index) {
-      return options_.getByteString(index);
-    }
-
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -3019,15 +2841,6 @@ public final class LobbyServiceMessages {
       if (((bitField0_ & 0x00000001) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, lobbyId_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, question_);
-      }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        output.writeUInt64(3, deadline_);
-      }
-      for (int i = 0; i < options_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, options_.getRaw(i));
-      }
       unknownFields.writeTo(output);
     }
 
@@ -3040,21 +2853,6 @@ public final class LobbyServiceMessages {
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, lobbyId_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, question_);
-      }
-      if (((bitField0_ & 0x00000004) != 0)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(3, deadline_);
-      }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < options_.size(); i++) {
-          dataSize += computeStringSizeNoTag(options_.getRaw(i));
-        }
-        size += dataSize;
-        size += 1 * getOptionsList().size();
-      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -3065,28 +2863,16 @@ public final class LobbyServiceMessages {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof protobuf.generated.LobbyServiceMessages.QuestionStream)) {
+      if (!(obj instanceof protobuf.generated.LobbyServiceMessages.StartGameRequest)) {
         return super.equals(obj);
       }
-      protobuf.generated.LobbyServiceMessages.QuestionStream other = (protobuf.generated.LobbyServiceMessages.QuestionStream) obj;
+      protobuf.generated.LobbyServiceMessages.StartGameRequest other = (protobuf.generated.LobbyServiceMessages.StartGameRequest) obj;
 
       if (hasLobbyId() != other.hasLobbyId()) return false;
       if (hasLobbyId()) {
         if (!getLobbyId()
             .equals(other.getLobbyId())) return false;
       }
-      if (hasQuestion() != other.hasQuestion()) return false;
-      if (hasQuestion()) {
-        if (!getQuestion()
-            .equals(other.getQuestion())) return false;
-      }
-      if (hasDeadline() != other.hasDeadline()) return false;
-      if (hasDeadline()) {
-        if (getDeadline()
-            != other.getDeadline()) return false;
-      }
-      if (!getOptionsList()
-          .equals(other.getOptionsList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -3102,87 +2888,74 @@ public final class LobbyServiceMessages {
         hash = (37 * hash) + LOBBY_ID_FIELD_NUMBER;
         hash = (53 * hash) + getLobbyId().hashCode();
       }
-      if (hasQuestion()) {
-        hash = (37 * hash) + QUESTION_FIELD_NUMBER;
-        hash = (53 * hash) + getQuestion().hashCode();
-      }
-      if (hasDeadline()) {
-        hash = (37 * hash) + DEADLINE_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getDeadline());
-      }
-      if (getOptionsCount() > 0) {
-        hash = (37 * hash) + OPTIONS_FIELD_NUMBER;
-        hash = (53 * hash) + getOptionsList().hashCode();
-      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(byte[] data)
+    public static protobuf.generated.LobbyServiceMessages.StartGameRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(java.io.InputStream input)
+    public static protobuf.generated.LobbyServiceMessages.StartGameRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseDelimitedFrom(java.io.InputStream input)
+    public static protobuf.generated.LobbyServiceMessages.StartGameRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseDelimitedFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protobuf.generated.LobbyServiceMessages.QuestionStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -3195,7 +2968,7 @@ public final class LobbyServiceMessages {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(protobuf.generated.LobbyServiceMessages.QuestionStream prototype) {
+    public static Builder newBuilder(protobuf.generated.LobbyServiceMessages.StartGameRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -3211,26 +2984,26 @@ public final class LobbyServiceMessages {
       return builder;
     }
     /**
-     * Protobuf type {@code protobuf.QuestionStream}
+     * Protobuf type {@code protobuf.StartGameRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:protobuf.QuestionStream)
-        protobuf.generated.LobbyServiceMessages.QuestionStreamOrBuilder {
+        // @@protoc_insertion_point(builder_implements:protobuf.StartGameRequest)
+        protobuf.generated.LobbyServiceMessages.StartGameRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_QuestionStream_descriptor;
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_StartGameRequest_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_QuestionStream_fieldAccessorTable
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_StartGameRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                protobuf.generated.LobbyServiceMessages.QuestionStream.class, protobuf.generated.LobbyServiceMessages.QuestionStream.Builder.class);
+                protobuf.generated.LobbyServiceMessages.StartGameRequest.class, protobuf.generated.LobbyServiceMessages.StartGameRequest.Builder.class);
       }
 
-      // Construct using protobuf.generated.LobbyServiceMessages.QuestionStream.newBuilder()
+      // Construct using protobuf.generated.LobbyServiceMessages.StartGameRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -3250,29 +3023,23 @@ public final class LobbyServiceMessages {
         super.clear();
         lobbyId_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        question_ = "";
-        bitField0_ = (bitField0_ & ~0x00000002);
-        deadline_ = 0L;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        options_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_QuestionStream_descriptor;
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_StartGameRequest_descriptor;
       }
 
       @java.lang.Override
-      public protobuf.generated.LobbyServiceMessages.QuestionStream getDefaultInstanceForType() {
-        return protobuf.generated.LobbyServiceMessages.QuestionStream.getDefaultInstance();
+      public protobuf.generated.LobbyServiceMessages.StartGameRequest getDefaultInstanceForType() {
+        return protobuf.generated.LobbyServiceMessages.StartGameRequest.getDefaultInstance();
       }
 
       @java.lang.Override
-      public protobuf.generated.LobbyServiceMessages.QuestionStream build() {
-        protobuf.generated.LobbyServiceMessages.QuestionStream result = buildPartial();
+      public protobuf.generated.LobbyServiceMessages.StartGameRequest build() {
+        protobuf.generated.LobbyServiceMessages.StartGameRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -3280,27 +3047,14 @@ public final class LobbyServiceMessages {
       }
 
       @java.lang.Override
-      public protobuf.generated.LobbyServiceMessages.QuestionStream buildPartial() {
-        protobuf.generated.LobbyServiceMessages.QuestionStream result = new protobuf.generated.LobbyServiceMessages.QuestionStream(this);
+      public protobuf.generated.LobbyServiceMessages.StartGameRequest buildPartial() {
+        protobuf.generated.LobbyServiceMessages.StartGameRequest result = new protobuf.generated.LobbyServiceMessages.StartGameRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.lobbyId_ = lobbyId_;
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.question_ = question_;
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.deadline_ = deadline_;
-          to_bitField0_ |= 0x00000004;
-        }
-        if (((bitField0_ & 0x00000008) != 0)) {
-          options_ = options_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000008);
-        }
-        result.options_ = options_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3340,37 +3094,19 @@ public final class LobbyServiceMessages {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof protobuf.generated.LobbyServiceMessages.QuestionStream) {
-          return mergeFrom((protobuf.generated.LobbyServiceMessages.QuestionStream)other);
+        if (other instanceof protobuf.generated.LobbyServiceMessages.StartGameRequest) {
+          return mergeFrom((protobuf.generated.LobbyServiceMessages.StartGameRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(protobuf.generated.LobbyServiceMessages.QuestionStream other) {
-        if (other == protobuf.generated.LobbyServiceMessages.QuestionStream.getDefaultInstance()) return this;
+      public Builder mergeFrom(protobuf.generated.LobbyServiceMessages.StartGameRequest other) {
+        if (other == protobuf.generated.LobbyServiceMessages.StartGameRequest.getDefaultInstance()) return this;
         if (other.hasLobbyId()) {
           bitField0_ |= 0x00000001;
           lobbyId_ = other.lobbyId_;
-          onChanged();
-        }
-        if (other.hasQuestion()) {
-          bitField0_ |= 0x00000002;
-          question_ = other.question_;
-          onChanged();
-        }
-        if (other.hasDeadline()) {
-          setDeadline(other.getDeadline());
-        }
-        if (!other.options_.isEmpty()) {
-          if (options_.isEmpty()) {
-            options_ = other.options_;
-            bitField0_ = (bitField0_ & ~0x00000008);
-          } else {
-            ensureOptionsIsMutable();
-            options_.addAll(other.options_);
-          }
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -3388,11 +3124,11 @@ public final class LobbyServiceMessages {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        protobuf.generated.LobbyServiceMessages.QuestionStream parsedMessage = null;
+        protobuf.generated.LobbyServiceMessages.StartGameRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (protobuf.generated.LobbyServiceMessages.QuestionStream) e.getUnfinishedMessage();
+          parsedMessage = (protobuf.generated.LobbyServiceMessages.StartGameRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -3485,238 +3221,6 @@ public final class LobbyServiceMessages {
         onChanged();
         return this;
       }
-
-      private java.lang.Object question_ = "";
-      /**
-       * <code>string question = 2;</code>
-       * @return Whether the question field is set.
-       */
-      public boolean hasQuestion() {
-        return ((bitField0_ & 0x00000002) != 0);
-      }
-      /**
-       * <code>string question = 2;</code>
-       * @return The question.
-       */
-      public java.lang.String getQuestion() {
-        java.lang.Object ref = question_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          question_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string question = 2;</code>
-       * @return The bytes for question.
-       */
-      public com.google.protobuf.ByteString
-          getQuestionBytes() {
-        java.lang.Object ref = question_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          question_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string question = 2;</code>
-       * @param value The question to set.
-       * @return This builder for chaining.
-       */
-      public Builder setQuestion(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        question_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string question = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearQuestion() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        question_ = getDefaultInstance().getQuestion();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string question = 2;</code>
-       * @param value The bytes for question to set.
-       * @return This builder for chaining.
-       */
-      public Builder setQuestionBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        bitField0_ |= 0x00000002;
-        question_ = value;
-        onChanged();
-        return this;
-      }
-
-      private long deadline_ ;
-      /**
-       * <code>uint64 deadline = 3;</code>
-       * @return Whether the deadline field is set.
-       */
-      @java.lang.Override
-      public boolean hasDeadline() {
-        return ((bitField0_ & 0x00000004) != 0);
-      }
-      /**
-       * <code>uint64 deadline = 3;</code>
-       * @return The deadline.
-       */
-      @java.lang.Override
-      public long getDeadline() {
-        return deadline_;
-      }
-      /**
-       * <code>uint64 deadline = 3;</code>
-       * @param value The deadline to set.
-       * @return This builder for chaining.
-       */
-      public Builder setDeadline(long value) {
-        bitField0_ |= 0x00000004;
-        deadline_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint64 deadline = 3;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearDeadline() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        deadline_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private com.google.protobuf.LazyStringList options_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      private void ensureOptionsIsMutable() {
-        if (!((bitField0_ & 0x00000008) != 0)) {
-          options_ = new com.google.protobuf.LazyStringArrayList(options_);
-          bitField0_ |= 0x00000008;
-         }
-      }
-      /**
-       * <code>repeated string options = 4;</code>
-       * @return A list containing the options.
-       */
-      public com.google.protobuf.ProtocolStringList
-          getOptionsList() {
-        return options_.getUnmodifiableView();
-      }
-      /**
-       * <code>repeated string options = 4;</code>
-       * @return The count of options.
-       */
-      public int getOptionsCount() {
-        return options_.size();
-      }
-      /**
-       * <code>repeated string options = 4;</code>
-       * @param index The index of the element to return.
-       * @return The options at the given index.
-       */
-      public java.lang.String getOptions(int index) {
-        return options_.get(index);
-      }
-      /**
-       * <code>repeated string options = 4;</code>
-       * @param index The index of the value to return.
-       * @return The bytes of the options at the given index.
-       */
-      public com.google.protobuf.ByteString
-          getOptionsBytes(int index) {
-        return options_.getByteString(index);
-      }
-      /**
-       * <code>repeated string options = 4;</code>
-       * @param index The index to set the value at.
-       * @param value The options to set.
-       * @return This builder for chaining.
-       */
-      public Builder setOptions(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureOptionsIsMutable();
-        options_.set(index, value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated string options = 4;</code>
-       * @param value The options to add.
-       * @return This builder for chaining.
-       */
-      public Builder addOptions(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureOptionsIsMutable();
-        options_.add(value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated string options = 4;</code>
-       * @param values The options to add.
-       * @return This builder for chaining.
-       */
-      public Builder addAllOptions(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureOptionsIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, options_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated string options = 4;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearOptions() {
-        options_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated string options = 4;</code>
-       * @param value The bytes of the options to add.
-       * @return This builder for chaining.
-       */
-      public Builder addOptionsBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        ensureOptionsIsMutable();
-        options_.add(value);
-        onChanged();
-        return this;
-      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -3730,106 +3234,70 @@ public final class LobbyServiceMessages {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:protobuf.QuestionStream)
+      // @@protoc_insertion_point(builder_scope:protobuf.StartGameRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:protobuf.QuestionStream)
-    private static final protobuf.generated.LobbyServiceMessages.QuestionStream DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:protobuf.StartGameRequest)
+    private static final protobuf.generated.LobbyServiceMessages.StartGameRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new protobuf.generated.LobbyServiceMessages.QuestionStream();
+      DEFAULT_INSTANCE = new protobuf.generated.LobbyServiceMessages.StartGameRequest();
     }
 
-    public static protobuf.generated.LobbyServiceMessages.QuestionStream getDefaultInstance() {
+    public static protobuf.generated.LobbyServiceMessages.StartGameRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<QuestionStream>
-        PARSER = new com.google.protobuf.AbstractParser<QuestionStream>() {
+    private static final com.google.protobuf.Parser<StartGameRequest>
+        PARSER = new com.google.protobuf.AbstractParser<StartGameRequest>() {
       @java.lang.Override
-      public QuestionStream parsePartialFrom(
+      public StartGameRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new QuestionStream(input, extensionRegistry);
+        return new StartGameRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<QuestionStream> parser() {
+    public static com.google.protobuf.Parser<StartGameRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<QuestionStream> getParserForType() {
+    public com.google.protobuf.Parser<StartGameRequest> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public protobuf.generated.LobbyServiceMessages.QuestionStream getDefaultInstanceForType() {
+    public protobuf.generated.LobbyServiceMessages.StartGameRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface AnswerStreamOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:protobuf.AnswerStream)
+  public interface StartGameResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protobuf.StartGameResponse)
       com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>string player_name = 1;</code>
-     * @return Whether the playerName field is set.
-     */
-    boolean hasPlayerName();
-    /**
-     * <code>string player_name = 1;</code>
-     * @return The playerName.
-     */
-    java.lang.String getPlayerName();
-    /**
-     * <code>string player_name = 1;</code>
-     * @return The bytes for playerName.
-     */
-    com.google.protobuf.ByteString
-        getPlayerNameBytes();
-
-    /**
-     * <code>string answer = 2;</code>
-     * @return Whether the answer field is set.
-     */
-    boolean hasAnswer();
-    /**
-     * <code>string answer = 2;</code>
-     * @return The answer.
-     */
-    java.lang.String getAnswer();
-    /**
-     * <code>string answer = 2;</code>
-     * @return The bytes for answer.
-     */
-    com.google.protobuf.ByteString
-        getAnswerBytes();
   }
   /**
-   * Protobuf type {@code protobuf.AnswerStream}
+   * Protobuf type {@code protobuf.StartGameResponse}
    */
-  public static final class AnswerStream extends
+  public static final class StartGameResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:protobuf.AnswerStream)
-      AnswerStreamOrBuilder {
+      // @@protoc_insertion_point(message_implements:protobuf.StartGameResponse)
+      StartGameResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use AnswerStream.newBuilder() to construct.
-    private AnswerStream(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use StartGameResponse.newBuilder() to construct.
+    private StartGameResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private AnswerStream() {
-      playerName_ = "";
-      answer_ = "";
+    private StartGameResponse() {
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new AnswerStream();
+      return new StartGameResponse();
     }
 
     @java.lang.Override
@@ -3837,7 +3305,7 @@ public final class LobbyServiceMessages {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private AnswerStream(
+    private StartGameResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3845,7 +3313,6 @@ public final class LobbyServiceMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3856,18 +3323,6 @@ public final class LobbyServiceMessages {
             case 0:
               done = true;
               break;
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
-              bitField0_ |= 0x00000001;
-              playerName_ = s;
-              break;
-            }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-              bitField0_ |= 0x00000002;
-              answer_ = s;
-              break;
-            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -3889,108 +3344,15 @@ public final class LobbyServiceMessages {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_AnswerStream_descriptor;
+      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_StartGameResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_AnswerStream_fieldAccessorTable
+      return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_StartGameResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              protobuf.generated.LobbyServiceMessages.AnswerStream.class, protobuf.generated.LobbyServiceMessages.AnswerStream.Builder.class);
-    }
-
-    private int bitField0_;
-    public static final int PLAYER_NAME_FIELD_NUMBER = 1;
-    private volatile java.lang.Object playerName_;
-    /**
-     * <code>string player_name = 1;</code>
-     * @return Whether the playerName field is set.
-     */
-    @java.lang.Override
-    public boolean hasPlayerName() {
-      return ((bitField0_ & 0x00000001) != 0);
-    }
-    /**
-     * <code>string player_name = 1;</code>
-     * @return The playerName.
-     */
-    @java.lang.Override
-    public java.lang.String getPlayerName() {
-      java.lang.Object ref = playerName_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        playerName_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string player_name = 1;</code>
-     * @return The bytes for playerName.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getPlayerNameBytes() {
-      java.lang.Object ref = playerName_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        playerName_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int ANSWER_FIELD_NUMBER = 2;
-    private volatile java.lang.Object answer_;
-    /**
-     * <code>string answer = 2;</code>
-     * @return Whether the answer field is set.
-     */
-    @java.lang.Override
-    public boolean hasAnswer() {
-      return ((bitField0_ & 0x00000002) != 0);
-    }
-    /**
-     * <code>string answer = 2;</code>
-     * @return The answer.
-     */
-    @java.lang.Override
-    public java.lang.String getAnswer() {
-      java.lang.Object ref = answer_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        answer_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string answer = 2;</code>
-     * @return The bytes for answer.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getAnswerBytes() {
-      java.lang.Object ref = answer_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        answer_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+              protobuf.generated.LobbyServiceMessages.StartGameResponse.class, protobuf.generated.LobbyServiceMessages.StartGameResponse.Builder.class);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -4007,12 +3369,6 @@ public final class LobbyServiceMessages {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, playerName_);
-      }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, answer_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -4022,12 +3378,6 @@ public final class LobbyServiceMessages {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, playerName_);
-      }
-      if (((bitField0_ & 0x00000002) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, answer_);
-      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -4038,21 +3388,11 @@ public final class LobbyServiceMessages {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof protobuf.generated.LobbyServiceMessages.AnswerStream)) {
+      if (!(obj instanceof protobuf.generated.LobbyServiceMessages.StartGameResponse)) {
         return super.equals(obj);
       }
-      protobuf.generated.LobbyServiceMessages.AnswerStream other = (protobuf.generated.LobbyServiceMessages.AnswerStream) obj;
+      protobuf.generated.LobbyServiceMessages.StartGameResponse other = (protobuf.generated.LobbyServiceMessages.StartGameResponse) obj;
 
-      if (hasPlayerName() != other.hasPlayerName()) return false;
-      if (hasPlayerName()) {
-        if (!getPlayerName()
-            .equals(other.getPlayerName())) return false;
-      }
-      if (hasAnswer() != other.hasAnswer()) return false;
-      if (hasAnswer()) {
-        if (!getAnswer()
-            .equals(other.getAnswer())) return false;
-      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -4064,82 +3404,74 @@ public final class LobbyServiceMessages {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasPlayerName()) {
-        hash = (37 * hash) + PLAYER_NAME_FIELD_NUMBER;
-        hash = (53 * hash) + getPlayerName().hashCode();
-      }
-      if (hasAnswer()) {
-        hash = (37 * hash) + ANSWER_FIELD_NUMBER;
-        hash = (53 * hash) + getAnswer().hashCode();
-      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(byte[] data)
+    public static protobuf.generated.LobbyServiceMessages.StartGameResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(java.io.InputStream input)
+    public static protobuf.generated.LobbyServiceMessages.StartGameResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseDelimitedFrom(java.io.InputStream input)
+    public static protobuf.generated.LobbyServiceMessages.StartGameResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseDelimitedFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protobuf.generated.LobbyServiceMessages.AnswerStream parseFrom(
+    public static protobuf.generated.LobbyServiceMessages.StartGameResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -4152,7 +3484,7 @@ public final class LobbyServiceMessages {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(protobuf.generated.LobbyServiceMessages.AnswerStream prototype) {
+    public static Builder newBuilder(protobuf.generated.LobbyServiceMessages.StartGameResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -4168,26 +3500,26 @@ public final class LobbyServiceMessages {
       return builder;
     }
     /**
-     * Protobuf type {@code protobuf.AnswerStream}
+     * Protobuf type {@code protobuf.StartGameResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:protobuf.AnswerStream)
-        protobuf.generated.LobbyServiceMessages.AnswerStreamOrBuilder {
+        // @@protoc_insertion_point(builder_implements:protobuf.StartGameResponse)
+        protobuf.generated.LobbyServiceMessages.StartGameResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_AnswerStream_descriptor;
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_StartGameResponse_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_AnswerStream_fieldAccessorTable
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_StartGameResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                protobuf.generated.LobbyServiceMessages.AnswerStream.class, protobuf.generated.LobbyServiceMessages.AnswerStream.Builder.class);
+                protobuf.generated.LobbyServiceMessages.StartGameResponse.class, protobuf.generated.LobbyServiceMessages.StartGameResponse.Builder.class);
       }
 
-      // Construct using protobuf.generated.LobbyServiceMessages.AnswerStream.newBuilder()
+      // Construct using protobuf.generated.LobbyServiceMessages.StartGameResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -4205,27 +3537,23 @@ public final class LobbyServiceMessages {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        playerName_ = "";
-        bitField0_ = (bitField0_ & ~0x00000001);
-        answer_ = "";
-        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_AnswerStream_descriptor;
+        return protobuf.generated.LobbyServiceMessages.internal_static_protobuf_StartGameResponse_descriptor;
       }
 
       @java.lang.Override
-      public protobuf.generated.LobbyServiceMessages.AnswerStream getDefaultInstanceForType() {
-        return protobuf.generated.LobbyServiceMessages.AnswerStream.getDefaultInstance();
+      public protobuf.generated.LobbyServiceMessages.StartGameResponse getDefaultInstanceForType() {
+        return protobuf.generated.LobbyServiceMessages.StartGameResponse.getDefaultInstance();
       }
 
       @java.lang.Override
-      public protobuf.generated.LobbyServiceMessages.AnswerStream build() {
-        protobuf.generated.LobbyServiceMessages.AnswerStream result = buildPartial();
+      public protobuf.generated.LobbyServiceMessages.StartGameResponse build() {
+        protobuf.generated.LobbyServiceMessages.StartGameResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -4233,19 +3561,8 @@ public final class LobbyServiceMessages {
       }
 
       @java.lang.Override
-      public protobuf.generated.LobbyServiceMessages.AnswerStream buildPartial() {
-        protobuf.generated.LobbyServiceMessages.AnswerStream result = new protobuf.generated.LobbyServiceMessages.AnswerStream(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.playerName_ = playerName_;
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.answer_ = answer_;
-        result.bitField0_ = to_bitField0_;
+      public protobuf.generated.LobbyServiceMessages.StartGameResponse buildPartial() {
+        protobuf.generated.LobbyServiceMessages.StartGameResponse result = new protobuf.generated.LobbyServiceMessages.StartGameResponse(this);
         onBuilt();
         return result;
       }
@@ -4284,26 +3601,16 @@ public final class LobbyServiceMessages {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof protobuf.generated.LobbyServiceMessages.AnswerStream) {
-          return mergeFrom((protobuf.generated.LobbyServiceMessages.AnswerStream)other);
+        if (other instanceof protobuf.generated.LobbyServiceMessages.StartGameResponse) {
+          return mergeFrom((protobuf.generated.LobbyServiceMessages.StartGameResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(protobuf.generated.LobbyServiceMessages.AnswerStream other) {
-        if (other == protobuf.generated.LobbyServiceMessages.AnswerStream.getDefaultInstance()) return this;
-        if (other.hasPlayerName()) {
-          bitField0_ |= 0x00000001;
-          playerName_ = other.playerName_;
-          onChanged();
-        }
-        if (other.hasAnswer()) {
-          bitField0_ |= 0x00000002;
-          answer_ = other.answer_;
-          onChanged();
-        }
+      public Builder mergeFrom(protobuf.generated.LobbyServiceMessages.StartGameResponse other) {
+        if (other == protobuf.generated.LobbyServiceMessages.StartGameResponse.getDefaultInstance()) return this;
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -4319,184 +3626,17 @@ public final class LobbyServiceMessages {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        protobuf.generated.LobbyServiceMessages.AnswerStream parsedMessage = null;
+        protobuf.generated.LobbyServiceMessages.StartGameResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (protobuf.generated.LobbyServiceMessages.AnswerStream) e.getUnfinishedMessage();
+          parsedMessage = (protobuf.generated.LobbyServiceMessages.StartGameResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
           }
         }
-        return this;
-      }
-      private int bitField0_;
-
-      private java.lang.Object playerName_ = "";
-      /**
-       * <code>string player_name = 1;</code>
-       * @return Whether the playerName field is set.
-       */
-      public boolean hasPlayerName() {
-        return ((bitField0_ & 0x00000001) != 0);
-      }
-      /**
-       * <code>string player_name = 1;</code>
-       * @return The playerName.
-       */
-      public java.lang.String getPlayerName() {
-        java.lang.Object ref = playerName_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          playerName_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string player_name = 1;</code>
-       * @return The bytes for playerName.
-       */
-      public com.google.protobuf.ByteString
-          getPlayerNameBytes() {
-        java.lang.Object ref = playerName_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          playerName_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string player_name = 1;</code>
-       * @param value The playerName to set.
-       * @return This builder for chaining.
-       */
-      public Builder setPlayerName(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        playerName_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string player_name = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearPlayerName() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        playerName_ = getDefaultInstance().getPlayerName();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string player_name = 1;</code>
-       * @param value The bytes for playerName to set.
-       * @return This builder for chaining.
-       */
-      public Builder setPlayerNameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        bitField0_ |= 0x00000001;
-        playerName_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object answer_ = "";
-      /**
-       * <code>string answer = 2;</code>
-       * @return Whether the answer field is set.
-       */
-      public boolean hasAnswer() {
-        return ((bitField0_ & 0x00000002) != 0);
-      }
-      /**
-       * <code>string answer = 2;</code>
-       * @return The answer.
-       */
-      public java.lang.String getAnswer() {
-        java.lang.Object ref = answer_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          answer_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string answer = 2;</code>
-       * @return The bytes for answer.
-       */
-      public com.google.protobuf.ByteString
-          getAnswerBytes() {
-        java.lang.Object ref = answer_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          answer_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string answer = 2;</code>
-       * @param value The answer to set.
-       * @return This builder for chaining.
-       */
-      public Builder setAnswer(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        answer_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string answer = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearAnswer() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        answer_ = getDefaultInstance().getAnswer();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string answer = 2;</code>
-       * @param value The bytes for answer to set.
-       * @return This builder for chaining.
-       */
-      public Builder setAnswerBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        bitField0_ |= 0x00000002;
-        answer_ = value;
-        onChanged();
         return this;
       }
       @java.lang.Override
@@ -4512,41 +3652,41 @@ public final class LobbyServiceMessages {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:protobuf.AnswerStream)
+      // @@protoc_insertion_point(builder_scope:protobuf.StartGameResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:protobuf.AnswerStream)
-    private static final protobuf.generated.LobbyServiceMessages.AnswerStream DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:protobuf.StartGameResponse)
+    private static final protobuf.generated.LobbyServiceMessages.StartGameResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new protobuf.generated.LobbyServiceMessages.AnswerStream();
+      DEFAULT_INSTANCE = new protobuf.generated.LobbyServiceMessages.StartGameResponse();
     }
 
-    public static protobuf.generated.LobbyServiceMessages.AnswerStream getDefaultInstance() {
+    public static protobuf.generated.LobbyServiceMessages.StartGameResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<AnswerStream>
-        PARSER = new com.google.protobuf.AbstractParser<AnswerStream>() {
+    private static final com.google.protobuf.Parser<StartGameResponse>
+        PARSER = new com.google.protobuf.AbstractParser<StartGameResponse>() {
       @java.lang.Override
-      public AnswerStream parsePartialFrom(
+      public StartGameResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new AnswerStream(input, extensionRegistry);
+        return new StartGameResponse(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<AnswerStream> parser() {
+    public static com.google.protobuf.Parser<StartGameResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<AnswerStream> getParserForType() {
+    public com.google.protobuf.Parser<StartGameResponse> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public protobuf.generated.LobbyServiceMessages.AnswerStream getDefaultInstanceForType() {
+    public protobuf.generated.LobbyServiceMessages.StartGameResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -4573,15 +3713,15 @@ public final class LobbyServiceMessages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_protobuf_JoinLobbyResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_protobuf_QuestionStream_descriptor;
+    internal_static_protobuf_StartGameRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_protobuf_QuestionStream_fieldAccessorTable;
+      internal_static_protobuf_StartGameRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_protobuf_AnswerStream_descriptor;
+    internal_static_protobuf_StartGameResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_protobuf_AnswerStream_fieldAccessorTable;
+      internal_static_protobuf_StartGameResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -4599,20 +3739,18 @@ public final class LobbyServiceMessages {
       "layer_name\"w\n\021JoinLobbyResponse\022,\n\005error" +
       "\030\001 \001(\0162\030.protobuf.JoinLobbyErrorH\000\210\001\001\022\031\n" +
       "\014questionText\030\002 \001(\tH\001\210\001\001B\010\n\006_errorB\017\n\r_q" +
-      "uestionText\"\215\001\n\016QuestionStream\022\025\n\010lobby_" +
-      "id\030\001 \001(\tH\000\210\001\001\022\025\n\010question\030\002 \001(\tH\001\210\001\001\022\025\n\010" +
-      "deadline\030\003 \001(\004H\002\210\001\001\022\017\n\007options\030\004 \003(\tB\013\n\t" +
-      "_lobby_idB\013\n\t_questionB\013\n\t_deadline\"X\n\014A" +
-      "nswerStream\022\030\n\013player_name\030\001 \001(\tH\000\210\001\001\022\023\n" +
-      "\006answer\030\002 \001(\tH\001\210\001\001B\016\n\014_player_nameB\t\n\007_a" +
-      "nswer*B\n\016JoinLobbyError\022\013\n\007SUCCESS\020\000\022\023\n\017" +
-      "LOBBY_NOT_FOUND\020\001\022\016\n\nLOBBY_FULL\020\0022\237\001\n\014Lo" +
-      "bbyService\022J\n\013CreateLobby\022\034.protobuf.Cre" +
-      "ateLobbyRequest\032\035.protobuf.CreateLobbyRe" +
-      "sponse\022C\n\tJoinLobby\022\032.protobuf.JoinLobby" +
-      "Request\032\030.protobuf.QuestionStream0\001B*\n\022p" +
-      "rotobuf.generatedB\024LobbyServiceMessagesb" +
-      "\006proto3"
+      "uestionText\"6\n\020StartGameRequest\022\025\n\010lobby" +
+      "_id\030\001 \001(\tH\000\210\001\001B\013\n\t_lobby_id\"\023\n\021StartGame" +
+      "Response*B\n\016JoinLobbyError\022\013\n\007SUCCESS\020\000\022" +
+      "\023\n\017LOBBY_NOT_FOUND\020\001\022\016\n\nLOBBY_FULL\020\0022\346\001\n" +
+      "\014LobbyService\022J\n\013CreateLobby\022\034.protobuf." +
+      "CreateLobbyRequest\032\035.protobuf.CreateLobb" +
+      "yResponse\022D\n\tJoinLobby\022\032.protobuf.JoinLo" +
+      "bbyRequest\032\033.protobuf.JoinLobbyResponse\022" +
+      "D\n\tStartGame\022\032.protobuf.StartGameRequest" +
+      "\032\033.protobuf.StartGameResponseB*\n\022protobu" +
+      "f.generatedB\024LobbyServiceMessagesb\006proto" +
+      "3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4642,18 +3780,18 @@ public final class LobbyServiceMessages {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_JoinLobbyResponse_descriptor,
         new java.lang.String[] { "Error", "QuestionText", "Error", "QuestionText", });
-    internal_static_protobuf_QuestionStream_descriptor =
+    internal_static_protobuf_StartGameRequest_descriptor =
       getDescriptor().getMessageTypes().get(4);
-    internal_static_protobuf_QuestionStream_fieldAccessorTable = new
+    internal_static_protobuf_StartGameRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_protobuf_QuestionStream_descriptor,
-        new java.lang.String[] { "LobbyId", "Question", "Deadline", "Options", "LobbyId", "Question", "Deadline", });
-    internal_static_protobuf_AnswerStream_descriptor =
+        internal_static_protobuf_StartGameRequest_descriptor,
+        new java.lang.String[] { "LobbyId", "LobbyId", });
+    internal_static_protobuf_StartGameResponse_descriptor =
       getDescriptor().getMessageTypes().get(5);
-    internal_static_protobuf_AnswerStream_fieldAccessorTable = new
+    internal_static_protobuf_StartGameResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_protobuf_AnswerStream_descriptor,
-        new java.lang.String[] { "PlayerName", "Answer", "PlayerName", "Answer", });
+        internal_static_protobuf_StartGameResponse_descriptor,
+        new java.lang.String[] { });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

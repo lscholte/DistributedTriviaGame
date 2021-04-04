@@ -14,48 +14,85 @@ public final class QuestionServiceMessages {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-  public interface QuestionRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:protobuf.QuestionRequest)
+  public interface AskQuestionRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protobuf.AskQuestionRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string text = 1;</code>
-     * @return Whether the text field is set.
+     * <code>string question = 1;</code>
+     * @return Whether the question field is set.
      */
-    boolean hasText();
+    boolean hasQuestion();
     /**
-     * <code>string text = 1;</code>
-     * @return The text.
+     * <code>string question = 1;</code>
+     * @return The question.
      */
-    java.lang.String getText();
+    java.lang.String getQuestion();
     /**
-     * <code>string text = 1;</code>
-     * @return The bytes for text.
+     * <code>string question = 1;</code>
+     * @return The bytes for question.
      */
     com.google.protobuf.ByteString
-        getTextBytes();
+        getQuestionBytes();
+
+    /**
+     * <code>uint64 deadline = 2;</code>
+     * @return Whether the deadline field is set.
+     */
+    boolean hasDeadline();
+    /**
+     * <code>uint64 deadline = 2;</code>
+     * @return The deadline.
+     */
+    long getDeadline();
+
+    /**
+     * <code>repeated string options = 3;</code>
+     * @return A list containing the options.
+     */
+    java.util.List<java.lang.String>
+        getOptionsList();
+    /**
+     * <code>repeated string options = 3;</code>
+     * @return The count of options.
+     */
+    int getOptionsCount();
+    /**
+     * <code>repeated string options = 3;</code>
+     * @param index The index of the element to return.
+     * @return The options at the given index.
+     */
+    java.lang.String getOptions(int index);
+    /**
+     * <code>repeated string options = 3;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the options at the given index.
+     */
+    com.google.protobuf.ByteString
+        getOptionsBytes(int index);
   }
   /**
-   * Protobuf type {@code protobuf.QuestionRequest}
+   * Protobuf type {@code protobuf.AskQuestionRequest}
    */
-  public static final class QuestionRequest extends
+  public static final class AskQuestionRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:protobuf.QuestionRequest)
-      QuestionRequestOrBuilder {
+      // @@protoc_insertion_point(message_implements:protobuf.AskQuestionRequest)
+      AskQuestionRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use QuestionRequest.newBuilder() to construct.
-    private QuestionRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use AskQuestionRequest.newBuilder() to construct.
+    private AskQuestionRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private QuestionRequest() {
-      text_ = "";
+    private AskQuestionRequest() {
+      question_ = "";
+      options_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new QuestionRequest();
+      return new AskQuestionRequest();
     }
 
     @java.lang.Override
@@ -63,7 +100,7 @@ public final class QuestionServiceMessages {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private QuestionRequest(
+    private AskQuestionRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -85,7 +122,21 @@ public final class QuestionServiceMessages {
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
               bitField0_ |= 0x00000001;
-              text_ = s;
+              question_ = s;
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              deadline_ = input.readUInt64();
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+                options_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              options_.add(s);
               break;
             }
             default: {
@@ -103,68 +154,125 @@ public final class QuestionServiceMessages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+          options_ = options_.getUnmodifiableView();
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_QuestionRequest_descriptor;
+      return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_AskQuestionRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_QuestionRequest_fieldAccessorTable
+      return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_AskQuestionRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              protobuf.generated.QuestionServiceMessages.QuestionRequest.class, protobuf.generated.QuestionServiceMessages.QuestionRequest.Builder.class);
+              protobuf.generated.QuestionServiceMessages.AskQuestionRequest.class, protobuf.generated.QuestionServiceMessages.AskQuestionRequest.Builder.class);
     }
 
     private int bitField0_;
-    public static final int TEXT_FIELD_NUMBER = 1;
-    private volatile java.lang.Object text_;
+    public static final int QUESTION_FIELD_NUMBER = 1;
+    private volatile java.lang.Object question_;
     /**
-     * <code>string text = 1;</code>
-     * @return Whether the text field is set.
+     * <code>string question = 1;</code>
+     * @return Whether the question field is set.
      */
     @java.lang.Override
-    public boolean hasText() {
+    public boolean hasQuestion() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>string text = 1;</code>
-     * @return The text.
+     * <code>string question = 1;</code>
+     * @return The question.
      */
     @java.lang.Override
-    public java.lang.String getText() {
-      java.lang.Object ref = text_;
+    public java.lang.String getQuestion() {
+      java.lang.Object ref = question_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        text_ = s;
+        question_ = s;
         return s;
       }
     }
     /**
-     * <code>string text = 1;</code>
-     * @return The bytes for text.
+     * <code>string question = 1;</code>
+     * @return The bytes for question.
      */
     @java.lang.Override
     public com.google.protobuf.ByteString
-        getTextBytes() {
-      java.lang.Object ref = text_;
+        getQuestionBytes() {
+      java.lang.Object ref = question_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        text_ = b;
+        question_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
+    }
+
+    public static final int DEADLINE_FIELD_NUMBER = 2;
+    private long deadline_;
+    /**
+     * <code>uint64 deadline = 2;</code>
+     * @return Whether the deadline field is set.
+     */
+    @java.lang.Override
+    public boolean hasDeadline() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>uint64 deadline = 2;</code>
+     * @return The deadline.
+     */
+    @java.lang.Override
+    public long getDeadline() {
+      return deadline_;
+    }
+
+    public static final int OPTIONS_FIELD_NUMBER = 3;
+    private com.google.protobuf.LazyStringList options_;
+    /**
+     * <code>repeated string options = 3;</code>
+     * @return A list containing the options.
+     */
+    public com.google.protobuf.ProtocolStringList
+        getOptionsList() {
+      return options_;
+    }
+    /**
+     * <code>repeated string options = 3;</code>
+     * @return The count of options.
+     */
+    public int getOptionsCount() {
+      return options_.size();
+    }
+    /**
+     * <code>repeated string options = 3;</code>
+     * @param index The index of the element to return.
+     * @return The options at the given index.
+     */
+    public java.lang.String getOptions(int index) {
+      return options_.get(index);
+    }
+    /**
+     * <code>repeated string options = 3;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the options at the given index.
+     */
+    public com.google.protobuf.ByteString
+        getOptionsBytes(int index) {
+      return options_.getByteString(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -182,7 +290,13 @@ public final class QuestionServiceMessages {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, text_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, question_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeUInt64(2, deadline_);
+      }
+      for (int i = 0; i < options_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, options_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
@@ -194,7 +308,19 @@ public final class QuestionServiceMessages {
 
       size = 0;
       if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, text_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, question_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(2, deadline_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < options_.size(); i++) {
+          dataSize += computeStringSizeNoTag(options_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getOptionsList().size();
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -206,16 +332,23 @@ public final class QuestionServiceMessages {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof protobuf.generated.QuestionServiceMessages.QuestionRequest)) {
+      if (!(obj instanceof protobuf.generated.QuestionServiceMessages.AskQuestionRequest)) {
         return super.equals(obj);
       }
-      protobuf.generated.QuestionServiceMessages.QuestionRequest other = (protobuf.generated.QuestionServiceMessages.QuestionRequest) obj;
+      protobuf.generated.QuestionServiceMessages.AskQuestionRequest other = (protobuf.generated.QuestionServiceMessages.AskQuestionRequest) obj;
 
-      if (hasText() != other.hasText()) return false;
-      if (hasText()) {
-        if (!getText()
-            .equals(other.getText())) return false;
+      if (hasQuestion() != other.hasQuestion()) return false;
+      if (hasQuestion()) {
+        if (!getQuestion()
+            .equals(other.getQuestion())) return false;
       }
+      if (hasDeadline() != other.hasDeadline()) return false;
+      if (hasDeadline()) {
+        if (getDeadline()
+            != other.getDeadline()) return false;
+      }
+      if (!getOptionsList()
+          .equals(other.getOptionsList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -227,78 +360,87 @@ public final class QuestionServiceMessages {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasText()) {
-        hash = (37 * hash) + TEXT_FIELD_NUMBER;
-        hash = (53 * hash) + getText().hashCode();
+      if (hasQuestion()) {
+        hash = (37 * hash) + QUESTION_FIELD_NUMBER;
+        hash = (53 * hash) + getQuestion().hashCode();
+      }
+      if (hasDeadline()) {
+        hash = (37 * hash) + DEADLINE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getDeadline());
+      }
+      if (getOptionsCount() > 0) {
+        hash = (37 * hash) + OPTIONS_FIELD_NUMBER;
+        hash = (53 * hash) + getOptionsList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static protobuf.generated.QuestionServiceMessages.QuestionRequest parseFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionRequest parseFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionRequest parseFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionRequest parseFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionRequest parseFrom(byte[] data)
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionRequest parseFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionRequest parseFrom(java.io.InputStream input)
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionRequest parseFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionRequest parseDelimitedFrom(java.io.InputStream input)
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionRequest parseDelimitedFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionRequest parseFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionRequest parseFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -311,7 +453,7 @@ public final class QuestionServiceMessages {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(protobuf.generated.QuestionServiceMessages.QuestionRequest prototype) {
+    public static Builder newBuilder(protobuf.generated.QuestionServiceMessages.AskQuestionRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -327,26 +469,26 @@ public final class QuestionServiceMessages {
       return builder;
     }
     /**
-     * Protobuf type {@code protobuf.QuestionRequest}
+     * Protobuf type {@code protobuf.AskQuestionRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:protobuf.QuestionRequest)
-        protobuf.generated.QuestionServiceMessages.QuestionRequestOrBuilder {
+        // @@protoc_insertion_point(builder_implements:protobuf.AskQuestionRequest)
+        protobuf.generated.QuestionServiceMessages.AskQuestionRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_QuestionRequest_descriptor;
+        return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_AskQuestionRequest_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_QuestionRequest_fieldAccessorTable
+        return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_AskQuestionRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                protobuf.generated.QuestionServiceMessages.QuestionRequest.class, protobuf.generated.QuestionServiceMessages.QuestionRequest.Builder.class);
+                protobuf.generated.QuestionServiceMessages.AskQuestionRequest.class, protobuf.generated.QuestionServiceMessages.AskQuestionRequest.Builder.class);
       }
 
-      // Construct using protobuf.generated.QuestionServiceMessages.QuestionRequest.newBuilder()
+      // Construct using protobuf.generated.QuestionServiceMessages.AskQuestionRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -364,25 +506,29 @@ public final class QuestionServiceMessages {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        text_ = "";
+        question_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
+        deadline_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        options_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_QuestionRequest_descriptor;
+        return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_AskQuestionRequest_descriptor;
       }
 
       @java.lang.Override
-      public protobuf.generated.QuestionServiceMessages.QuestionRequest getDefaultInstanceForType() {
-        return protobuf.generated.QuestionServiceMessages.QuestionRequest.getDefaultInstance();
+      public protobuf.generated.QuestionServiceMessages.AskQuestionRequest getDefaultInstanceForType() {
+        return protobuf.generated.QuestionServiceMessages.AskQuestionRequest.getDefaultInstance();
       }
 
       @java.lang.Override
-      public protobuf.generated.QuestionServiceMessages.QuestionRequest build() {
-        protobuf.generated.QuestionServiceMessages.QuestionRequest result = buildPartial();
+      public protobuf.generated.QuestionServiceMessages.AskQuestionRequest build() {
+        protobuf.generated.QuestionServiceMessages.AskQuestionRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -390,14 +536,23 @@ public final class QuestionServiceMessages {
       }
 
       @java.lang.Override
-      public protobuf.generated.QuestionServiceMessages.QuestionRequest buildPartial() {
-        protobuf.generated.QuestionServiceMessages.QuestionRequest result = new protobuf.generated.QuestionServiceMessages.QuestionRequest(this);
+      public protobuf.generated.QuestionServiceMessages.AskQuestionRequest buildPartial() {
+        protobuf.generated.QuestionServiceMessages.AskQuestionRequest result = new protobuf.generated.QuestionServiceMessages.AskQuestionRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.text_ = text_;
+        result.question_ = question_;
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.deadline_ = deadline_;
+          to_bitField0_ |= 0x00000002;
+        }
+        if (((bitField0_ & 0x00000004) != 0)) {
+          options_ = options_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        }
+        result.options_ = options_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -437,19 +592,32 @@ public final class QuestionServiceMessages {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof protobuf.generated.QuestionServiceMessages.QuestionRequest) {
-          return mergeFrom((protobuf.generated.QuestionServiceMessages.QuestionRequest)other);
+        if (other instanceof protobuf.generated.QuestionServiceMessages.AskQuestionRequest) {
+          return mergeFrom((protobuf.generated.QuestionServiceMessages.AskQuestionRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(protobuf.generated.QuestionServiceMessages.QuestionRequest other) {
-        if (other == protobuf.generated.QuestionServiceMessages.QuestionRequest.getDefaultInstance()) return this;
-        if (other.hasText()) {
+      public Builder mergeFrom(protobuf.generated.QuestionServiceMessages.AskQuestionRequest other) {
+        if (other == protobuf.generated.QuestionServiceMessages.AskQuestionRequest.getDefaultInstance()) return this;
+        if (other.hasQuestion()) {
           bitField0_ |= 0x00000001;
-          text_ = other.text_;
+          question_ = other.question_;
+          onChanged();
+        }
+        if (other.hasDeadline()) {
+          setDeadline(other.getDeadline());
+        }
+        if (!other.options_.isEmpty()) {
+          if (options_.isEmpty()) {
+            options_ = other.options_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+          } else {
+            ensureOptionsIsMutable();
+            options_.addAll(other.options_);
+          }
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -467,11 +635,11 @@ public final class QuestionServiceMessages {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        protobuf.generated.QuestionServiceMessages.QuestionRequest parsedMessage = null;
+        protobuf.generated.QuestionServiceMessages.AskQuestionRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (protobuf.generated.QuestionServiceMessages.QuestionRequest) e.getUnfinishedMessage();
+          parsedMessage = (protobuf.generated.QuestionServiceMessages.AskQuestionRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -482,85 +650,234 @@ public final class QuestionServiceMessages {
       }
       private int bitField0_;
 
-      private java.lang.Object text_ = "";
+      private java.lang.Object question_ = "";
       /**
-       * <code>string text = 1;</code>
-       * @return Whether the text field is set.
+       * <code>string question = 1;</code>
+       * @return Whether the question field is set.
        */
-      public boolean hasText() {
+      public boolean hasQuestion() {
         return ((bitField0_ & 0x00000001) != 0);
       }
       /**
-       * <code>string text = 1;</code>
-       * @return The text.
+       * <code>string question = 1;</code>
+       * @return The question.
        */
-      public java.lang.String getText() {
-        java.lang.Object ref = text_;
+      public java.lang.String getQuestion() {
+        java.lang.Object ref = question_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          text_ = s;
+          question_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string text = 1;</code>
-       * @return The bytes for text.
+       * <code>string question = 1;</code>
+       * @return The bytes for question.
        */
       public com.google.protobuf.ByteString
-          getTextBytes() {
-        java.lang.Object ref = text_;
+          getQuestionBytes() {
+        java.lang.Object ref = question_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          text_ = b;
+          question_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string text = 1;</code>
-       * @param value The text to set.
+       * <code>string question = 1;</code>
+       * @param value The question to set.
        * @return This builder for chaining.
        */
-      public Builder setText(
+      public Builder setQuestion(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000001;
-        text_ = value;
+        question_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string text = 1;</code>
+       * <code>string question = 1;</code>
        * @return This builder for chaining.
        */
-      public Builder clearText() {
+      public Builder clearQuestion() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        text_ = getDefaultInstance().getText();
+        question_ = getDefaultInstance().getQuestion();
         onChanged();
         return this;
       }
       /**
-       * <code>string text = 1;</code>
-       * @param value The bytes for text to set.
+       * <code>string question = 1;</code>
+       * @param value The bytes for question to set.
        * @return This builder for chaining.
        */
-      public Builder setTextBytes(
+      public Builder setQuestionBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         bitField0_ |= 0x00000001;
-        text_ = value;
+        question_ = value;
+        onChanged();
+        return this;
+      }
+
+      private long deadline_ ;
+      /**
+       * <code>uint64 deadline = 2;</code>
+       * @return Whether the deadline field is set.
+       */
+      @java.lang.Override
+      public boolean hasDeadline() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>uint64 deadline = 2;</code>
+       * @return The deadline.
+       */
+      @java.lang.Override
+      public long getDeadline() {
+        return deadline_;
+      }
+      /**
+       * <code>uint64 deadline = 2;</code>
+       * @param value The deadline to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDeadline(long value) {
+        bitField0_ |= 0x00000002;
+        deadline_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 deadline = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDeadline() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        deadline_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList options_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureOptionsIsMutable() {
+        if (!((bitField0_ & 0x00000004) != 0)) {
+          options_ = new com.google.protobuf.LazyStringArrayList(options_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+      /**
+       * <code>repeated string options = 3;</code>
+       * @return A list containing the options.
+       */
+      public com.google.protobuf.ProtocolStringList
+          getOptionsList() {
+        return options_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string options = 3;</code>
+       * @return The count of options.
+       */
+      public int getOptionsCount() {
+        return options_.size();
+      }
+      /**
+       * <code>repeated string options = 3;</code>
+       * @param index The index of the element to return.
+       * @return The options at the given index.
+       */
+      public java.lang.String getOptions(int index) {
+        return options_.get(index);
+      }
+      /**
+       * <code>repeated string options = 3;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the options at the given index.
+       */
+      public com.google.protobuf.ByteString
+          getOptionsBytes(int index) {
+        return options_.getByteString(index);
+      }
+      /**
+       * <code>repeated string options = 3;</code>
+       * @param index The index to set the value at.
+       * @param value The options to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOptions(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureOptionsIsMutable();
+        options_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string options = 3;</code>
+       * @param value The options to add.
+       * @return This builder for chaining.
+       */
+      public Builder addOptions(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureOptionsIsMutable();
+        options_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string options = 3;</code>
+       * @param values The options to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllOptions(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureOptionsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, options_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string options = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOptions() {
+        options_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string options = 3;</code>
+       * @param value The bytes of the options to add.
+       * @return This builder for chaining.
+       */
+      public Builder addOptionsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureOptionsIsMutable();
+        options_.add(value);
         onChanged();
         return this;
       }
@@ -577,48 +894,48 @@ public final class QuestionServiceMessages {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:protobuf.QuestionRequest)
+      // @@protoc_insertion_point(builder_scope:protobuf.AskQuestionRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:protobuf.QuestionRequest)
-    private static final protobuf.generated.QuestionServiceMessages.QuestionRequest DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:protobuf.AskQuestionRequest)
+    private static final protobuf.generated.QuestionServiceMessages.AskQuestionRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new protobuf.generated.QuestionServiceMessages.QuestionRequest();
+      DEFAULT_INSTANCE = new protobuf.generated.QuestionServiceMessages.AskQuestionRequest();
     }
 
-    public static protobuf.generated.QuestionServiceMessages.QuestionRequest getDefaultInstance() {
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<QuestionRequest>
-        PARSER = new com.google.protobuf.AbstractParser<QuestionRequest>() {
+    private static final com.google.protobuf.Parser<AskQuestionRequest>
+        PARSER = new com.google.protobuf.AbstractParser<AskQuestionRequest>() {
       @java.lang.Override
-      public QuestionRequest parsePartialFrom(
+      public AskQuestionRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new QuestionRequest(input, extensionRegistry);
+        return new AskQuestionRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<QuestionRequest> parser() {
+    public static com.google.protobuf.Parser<AskQuestionRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<QuestionRequest> getParserForType() {
+    public com.google.protobuf.Parser<AskQuestionRequest> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public protobuf.generated.QuestionServiceMessages.QuestionRequest getDefaultInstanceForType() {
+    public protobuf.generated.QuestionServiceMessages.AskQuestionRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface QuestionResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:protobuf.QuestionResponse)
+  public interface AskQuestionResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protobuf.AskQuestionResponse)
       com.google.protobuf.MessageOrBuilder {
   }
   /**
@@ -626,25 +943,25 @@ public final class QuestionServiceMessages {
    *Just an empty response. Answer would go in a different request
    * </pre>
    *
-   * Protobuf type {@code protobuf.QuestionResponse}
+   * Protobuf type {@code protobuf.AskQuestionResponse}
    */
-  public static final class QuestionResponse extends
+  public static final class AskQuestionResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:protobuf.QuestionResponse)
-      QuestionResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:protobuf.AskQuestionResponse)
+      AskQuestionResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use QuestionResponse.newBuilder() to construct.
-    private QuestionResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use AskQuestionResponse.newBuilder() to construct.
+    private AskQuestionResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private QuestionResponse() {
+    private AskQuestionResponse() {
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new QuestionResponse();
+      return new AskQuestionResponse();
     }
 
     @java.lang.Override
@@ -652,7 +969,7 @@ public final class QuestionServiceMessages {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private QuestionResponse(
+    private AskQuestionResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -691,15 +1008,15 @@ public final class QuestionServiceMessages {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_QuestionResponse_descriptor;
+      return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_AskQuestionResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_QuestionResponse_fieldAccessorTable
+      return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_AskQuestionResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              protobuf.generated.QuestionServiceMessages.QuestionResponse.class, protobuf.generated.QuestionServiceMessages.QuestionResponse.Builder.class);
+              protobuf.generated.QuestionServiceMessages.AskQuestionResponse.class, protobuf.generated.QuestionServiceMessages.AskQuestionResponse.Builder.class);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -735,10 +1052,10 @@ public final class QuestionServiceMessages {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof protobuf.generated.QuestionServiceMessages.QuestionResponse)) {
+      if (!(obj instanceof protobuf.generated.QuestionServiceMessages.AskQuestionResponse)) {
         return super.equals(obj);
       }
-      protobuf.generated.QuestionServiceMessages.QuestionResponse other = (protobuf.generated.QuestionServiceMessages.QuestionResponse) obj;
+      protobuf.generated.QuestionServiceMessages.AskQuestionResponse other = (protobuf.generated.QuestionServiceMessages.AskQuestionResponse) obj;
 
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
@@ -756,69 +1073,69 @@ public final class QuestionServiceMessages {
       return hash;
     }
 
-    public static protobuf.generated.QuestionServiceMessages.QuestionResponse parseFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionResponse parseFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionResponse parseFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionResponse parseFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionResponse parseFrom(byte[] data)
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionResponse parseFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionResponse parseFrom(java.io.InputStream input)
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionResponse parseFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionResponse parseDelimitedFrom(java.io.InputStream input)
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionResponse parseDelimitedFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionResponse parseFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static protobuf.generated.QuestionServiceMessages.QuestionResponse parseFrom(
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -831,7 +1148,7 @@ public final class QuestionServiceMessages {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(protobuf.generated.QuestionServiceMessages.QuestionResponse prototype) {
+    public static Builder newBuilder(protobuf.generated.QuestionServiceMessages.AskQuestionResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -851,26 +1168,26 @@ public final class QuestionServiceMessages {
      *Just an empty response. Answer would go in a different request
      * </pre>
      *
-     * Protobuf type {@code protobuf.QuestionResponse}
+     * Protobuf type {@code protobuf.AskQuestionResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:protobuf.QuestionResponse)
-        protobuf.generated.QuestionServiceMessages.QuestionResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:protobuf.AskQuestionResponse)
+        protobuf.generated.QuestionServiceMessages.AskQuestionResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_QuestionResponse_descriptor;
+        return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_AskQuestionResponse_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_QuestionResponse_fieldAccessorTable
+        return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_AskQuestionResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                protobuf.generated.QuestionServiceMessages.QuestionResponse.class, protobuf.generated.QuestionServiceMessages.QuestionResponse.Builder.class);
+                protobuf.generated.QuestionServiceMessages.AskQuestionResponse.class, protobuf.generated.QuestionServiceMessages.AskQuestionResponse.Builder.class);
       }
 
-      // Construct using protobuf.generated.QuestionServiceMessages.QuestionResponse.newBuilder()
+      // Construct using protobuf.generated.QuestionServiceMessages.AskQuestionResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -894,17 +1211,17 @@ public final class QuestionServiceMessages {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_QuestionResponse_descriptor;
+        return protobuf.generated.QuestionServiceMessages.internal_static_protobuf_AskQuestionResponse_descriptor;
       }
 
       @java.lang.Override
-      public protobuf.generated.QuestionServiceMessages.QuestionResponse getDefaultInstanceForType() {
-        return protobuf.generated.QuestionServiceMessages.QuestionResponse.getDefaultInstance();
+      public protobuf.generated.QuestionServiceMessages.AskQuestionResponse getDefaultInstanceForType() {
+        return protobuf.generated.QuestionServiceMessages.AskQuestionResponse.getDefaultInstance();
       }
 
       @java.lang.Override
-      public protobuf.generated.QuestionServiceMessages.QuestionResponse build() {
-        protobuf.generated.QuestionServiceMessages.QuestionResponse result = buildPartial();
+      public protobuf.generated.QuestionServiceMessages.AskQuestionResponse build() {
+        protobuf.generated.QuestionServiceMessages.AskQuestionResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -912,8 +1229,8 @@ public final class QuestionServiceMessages {
       }
 
       @java.lang.Override
-      public protobuf.generated.QuestionServiceMessages.QuestionResponse buildPartial() {
-        protobuf.generated.QuestionServiceMessages.QuestionResponse result = new protobuf.generated.QuestionServiceMessages.QuestionResponse(this);
+      public protobuf.generated.QuestionServiceMessages.AskQuestionResponse buildPartial() {
+        protobuf.generated.QuestionServiceMessages.AskQuestionResponse result = new protobuf.generated.QuestionServiceMessages.AskQuestionResponse(this);
         onBuilt();
         return result;
       }
@@ -952,16 +1269,16 @@ public final class QuestionServiceMessages {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof protobuf.generated.QuestionServiceMessages.QuestionResponse) {
-          return mergeFrom((protobuf.generated.QuestionServiceMessages.QuestionResponse)other);
+        if (other instanceof protobuf.generated.QuestionServiceMessages.AskQuestionResponse) {
+          return mergeFrom((protobuf.generated.QuestionServiceMessages.AskQuestionResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(protobuf.generated.QuestionServiceMessages.QuestionResponse other) {
-        if (other == protobuf.generated.QuestionServiceMessages.QuestionResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(protobuf.generated.QuestionServiceMessages.AskQuestionResponse other) {
+        if (other == protobuf.generated.QuestionServiceMessages.AskQuestionResponse.getDefaultInstance()) return this;
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -977,11 +1294,11 @@ public final class QuestionServiceMessages {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        protobuf.generated.QuestionServiceMessages.QuestionResponse parsedMessage = null;
+        protobuf.generated.QuestionServiceMessages.AskQuestionResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (protobuf.generated.QuestionServiceMessages.QuestionResponse) e.getUnfinishedMessage();
+          parsedMessage = (protobuf.generated.QuestionServiceMessages.AskQuestionResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -1003,56 +1320,56 @@ public final class QuestionServiceMessages {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:protobuf.QuestionResponse)
+      // @@protoc_insertion_point(builder_scope:protobuf.AskQuestionResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:protobuf.QuestionResponse)
-    private static final protobuf.generated.QuestionServiceMessages.QuestionResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:protobuf.AskQuestionResponse)
+    private static final protobuf.generated.QuestionServiceMessages.AskQuestionResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new protobuf.generated.QuestionServiceMessages.QuestionResponse();
+      DEFAULT_INSTANCE = new protobuf.generated.QuestionServiceMessages.AskQuestionResponse();
     }
 
-    public static protobuf.generated.QuestionServiceMessages.QuestionResponse getDefaultInstance() {
+    public static protobuf.generated.QuestionServiceMessages.AskQuestionResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<QuestionResponse>
-        PARSER = new com.google.protobuf.AbstractParser<QuestionResponse>() {
+    private static final com.google.protobuf.Parser<AskQuestionResponse>
+        PARSER = new com.google.protobuf.AbstractParser<AskQuestionResponse>() {
       @java.lang.Override
-      public QuestionResponse parsePartialFrom(
+      public AskQuestionResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new QuestionResponse(input, extensionRegistry);
+        return new AskQuestionResponse(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<QuestionResponse> parser() {
+    public static com.google.protobuf.Parser<AskQuestionResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<QuestionResponse> getParserForType() {
+    public com.google.protobuf.Parser<AskQuestionResponse> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public protobuf.generated.QuestionServiceMessages.QuestionResponse getDefaultInstanceForType() {
+    public protobuf.generated.QuestionServiceMessages.AskQuestionResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_protobuf_QuestionRequest_descriptor;
+    internal_static_protobuf_AskQuestionRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_protobuf_QuestionRequest_fieldAccessorTable;
+      internal_static_protobuf_AskQuestionRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_protobuf_QuestionResponse_descriptor;
+    internal_static_protobuf_AskQuestionResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_protobuf_QuestionResponse_fieldAccessorTable;
+      internal_static_protobuf_AskQuestionResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1062,29 +1379,30 @@ public final class QuestionServiceMessages {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\026question_service.proto\022\010protobuf\"-\n\017Qu" +
-      "estionRequest\022\021\n\004text\030\001 \001(\tH\000\210\001\001B\007\n\005_tex" +
-      "t\"\022\n\020QuestionResponse2W\n\017QuestionService" +
-      "\022D\n\013AskQuestion\022\031.protobuf.QuestionReque" +
-      "st\032\032.protobuf.QuestionResponseB-\n\022protob" +
-      "uf.generatedB\027QuestionServiceMessagesb\006p" +
-      "roto3"
+      "\n\026question_service.proto\022\010protobuf\"m\n\022As" +
+      "kQuestionRequest\022\025\n\010question\030\001 \001(\tH\000\210\001\001\022" +
+      "\025\n\010deadline\030\002 \001(\004H\001\210\001\001\022\017\n\007options\030\003 \003(\tB" +
+      "\013\n\t_questionB\013\n\t_deadline\"\025\n\023AskQuestion" +
+      "Response2]\n\017QuestionService\022J\n\013AskQuesti" +
+      "on\022\034.protobuf.AskQuestionRequest\032\035.proto" +
+      "buf.AskQuestionResponseB-\n\022protobuf.gene" +
+      "ratedB\027QuestionServiceMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_protobuf_QuestionRequest_descriptor =
+    internal_static_protobuf_AskQuestionRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_protobuf_QuestionRequest_fieldAccessorTable = new
+    internal_static_protobuf_AskQuestionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_protobuf_QuestionRequest_descriptor,
-        new java.lang.String[] { "Text", "Text", });
-    internal_static_protobuf_QuestionResponse_descriptor =
+        internal_static_protobuf_AskQuestionRequest_descriptor,
+        new java.lang.String[] { "Question", "Deadline", "Options", "Question", "Deadline", });
+    internal_static_protobuf_AskQuestionResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
-    internal_static_protobuf_QuestionResponse_fieldAccessorTable = new
+    internal_static_protobuf_AskQuestionResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_protobuf_QuestionResponse_descriptor,
+        internal_static_protobuf_AskQuestionResponse_descriptor,
         new java.lang.String[] { });
   }
 
