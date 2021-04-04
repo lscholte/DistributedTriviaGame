@@ -1,6 +1,9 @@
 package GUI;
 
 import javax.swing.*;
+
+import client.Question;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Date;
@@ -179,7 +182,7 @@ public class Quiz implements ActionListener {
 //        nextQuestion();
     }
 
-    public void nextQuestion(String questionText, Date deadline) {
+    public void nextQuestion(Question question, Date deadline) {
         if (timer != null) {
             timer.stop();
         }
@@ -189,11 +192,11 @@ public class Quiz implements ActionListener {
         }
         else {
             textField.setText("Question " + (index+1));
-            textArea.setText(questionText);
-            answer_labelA.setText(options[index][0]);
-            answer_labelB.setText(options[index][1]);
-            answer_labelC.setText(options[index][2]);
-            answer_labelD.setText(options[index][3]);
+            textArea.setText(question.getText());
+            answer_labelA.setText(question.getOptions().get(0));
+            answer_labelB.setText(question.getOptions().get(1));
+            answer_labelC.setText(question.getOptions().get(2));
+            answer_labelD.setText(question.getOptions().get(3));
             
             timer = new Timer(100, new ActionListener() {
                 @Override

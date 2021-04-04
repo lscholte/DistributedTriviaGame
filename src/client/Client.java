@@ -44,7 +44,7 @@ public class Client {
     private LobbyServiceStub lobbyServiceStub;
     private AnswerServiceBlockingStub answerServiceStub;
 
-    private io.grpc.Server grpcServer;
+//    private io.grpc.Server grpcServer;
 
     private ManagedChannel channel;
 
@@ -70,9 +70,9 @@ public class Client {
         UUID lobbyUuid = createLobby();
         if (lobbyUuid != null) {
 
-            grpcServer = ServerBuilder.forPort(PORT).addService(new QuestionService()).build();
+//            grpcServer = ServerBuilder.forPort(PORT).addService(new QuestionService()).build();
 
-            grpcServer.start();
+//            grpcServer.start();
 
             joinLobby(lobbyUuid, "Test Player");
 
@@ -124,9 +124,10 @@ public class Client {
         try {
             lobbyServiceStub.joinLobby(request, new StreamObserver<QuestionStream>() {
                 @Override
-                public void onNext(QuestionStream question) {
-                    Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(question)));
-                    gui.nextQuestion(question.getQuestion(), new Date(question.getDeadline()));
+                public void onNext(QuestionStream questionStream) {
+                    Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(questionStream)));
+                    Question question = new Question(questionStream.getQuestion(), questionStream.getOptionsList());
+                    gui.nextQuestion(question, new Date(questionStream.getDeadline()));
                 }
                 
                 @Override
@@ -183,22 +184,22 @@ public class Client {
         }
     }
 
-    private class QuestionService extends QuestionServiceImplBase {
-
-        @Override
-        public void askQuestion(QuestionRequest request,
-                StreamObserver<QuestionResponse> responseObserver) {
-            Logger.logInfo(
-                    String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
-            Logger.logInfo(String.format("Question: ", request.getText()));
-
-            gui.nextQuestion(request.getText(), new Date(new Date().getTime() + 15 * 1000));
-
-            QuestionResponse.Builder responseBuilder = QuestionResponse.newBuilder();
-            QuestionResponse response = responseBuilder.build();
-
-            responseObserver.onNext(response);
-            responseObserver.onCompleted();
-        }
-    }
+//    private class QuestionService extends QuestionServiceImplBase {
+//
+//        @Override
+//        public void askQuestion(QuestionRequest request,
+//                StreamObserver<QuestionResponse> responseObserver) {
+//            Logger.logInfo(
+//                    String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
+//            Logger.logInfo(String.format("Question: ", request.getText()));
+//
+//            gui.nextQuestion(request.getText(), new Date(new Date().getTime() + 15 * 1000));
+//
+//            QuestionResponse.Builder responseBuilder = QuestionResponse.newBuilder();
+//            QuestionResponse response = responseBuilder.build();
+//
+//            responseObserver.onNext(response);
+//            responseObserver.onCompleted();
+//        }
+//    }
 }

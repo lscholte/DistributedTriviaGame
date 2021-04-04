@@ -46,6 +46,7 @@ message QuestionStream
 	optional string lobby_id = 1;
 	optional string question = 2;
 	optional uint64 deadline = 3;
+	repeated string options = 4;
 }
 
 message AnswerStream

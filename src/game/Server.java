@@ -119,6 +119,14 @@ public class Server extends QuestionServiceGrpc.QuestionServiceImplBase {
                     LobbyServiceMessages.QuestionStream.Builder builder = LobbyServiceMessages.QuestionStream.newBuilder();
                     builder.setQuestion(question);
                     builder.setDeadline(new Date().getTime() + QUESTION_DEADLINE_S * 1000);
+                    
+                    List<String> options = new ArrayList<String>(4);
+                    options.add("Option A -- Question " + i);
+                    options.add("Option B -- Question " + i);
+                    options.add("Option C -- Question " + i);
+                    options.add("Option D -- Question " + i);
+                    builder.addAllOptions(options);
+                        
                     observer.onNext(builder.build());
                 }
                 //Just a quick experiment to send questions every 10 seconds

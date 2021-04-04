@@ -2719,6 +2719,31 @@ public final class LobbyServiceMessages {
      * @return The deadline.
      */
     long getDeadline();
+
+    /**
+     * <code>repeated string options = 4;</code>
+     * @return A list containing the options.
+     */
+    java.util.List<java.lang.String>
+        getOptionsList();
+    /**
+     * <code>repeated string options = 4;</code>
+     * @return The count of options.
+     */
+    int getOptionsCount();
+    /**
+     * <code>repeated string options = 4;</code>
+     * @param index The index of the element to return.
+     * @return The options at the given index.
+     */
+    java.lang.String getOptions(int index);
+    /**
+     * <code>repeated string options = 4;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the options at the given index.
+     */
+    com.google.protobuf.ByteString
+        getOptionsBytes(int index);
   }
   /**
    * Protobuf type {@code protobuf.QuestionStream}
@@ -2735,6 +2760,7 @@ public final class LobbyServiceMessages {
     private QuestionStream() {
       lobbyId_ = "";
       question_ = "";
+      options_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -2785,6 +2811,15 @@ public final class LobbyServiceMessages {
               deadline_ = input.readUInt64();
               break;
             }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+                options_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              options_.add(s);
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -2800,6 +2835,9 @@ public final class LobbyServiceMessages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000008) != 0)) {
+          options_ = options_.getUnmodifiableView();
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -2929,6 +2967,41 @@ public final class LobbyServiceMessages {
       return deadline_;
     }
 
+    public static final int OPTIONS_FIELD_NUMBER = 4;
+    private com.google.protobuf.LazyStringList options_;
+    /**
+     * <code>repeated string options = 4;</code>
+     * @return A list containing the options.
+     */
+    public com.google.protobuf.ProtocolStringList
+        getOptionsList() {
+      return options_;
+    }
+    /**
+     * <code>repeated string options = 4;</code>
+     * @return The count of options.
+     */
+    public int getOptionsCount() {
+      return options_.size();
+    }
+    /**
+     * <code>repeated string options = 4;</code>
+     * @param index The index of the element to return.
+     * @return The options at the given index.
+     */
+    public java.lang.String getOptions(int index) {
+      return options_.get(index);
+    }
+    /**
+     * <code>repeated string options = 4;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the options at the given index.
+     */
+    public com.google.protobuf.ByteString
+        getOptionsBytes(int index) {
+      return options_.getByteString(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -2952,6 +3025,9 @@ public final class LobbyServiceMessages {
       if (((bitField0_ & 0x00000004) != 0)) {
         output.writeUInt64(3, deadline_);
       }
+      for (int i = 0; i < options_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, options_.getRaw(i));
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2970,6 +3046,14 @@ public final class LobbyServiceMessages {
       if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(3, deadline_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < options_.size(); i++) {
+          dataSize += computeStringSizeNoTag(options_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getOptionsList().size();
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3001,6 +3085,8 @@ public final class LobbyServiceMessages {
         if (getDeadline()
             != other.getDeadline()) return false;
       }
+      if (!getOptionsList()
+          .equals(other.getOptionsList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -3024,6 +3110,10 @@ public final class LobbyServiceMessages {
         hash = (37 * hash) + DEADLINE_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
             getDeadline());
+      }
+      if (getOptionsCount() > 0) {
+        hash = (37 * hash) + OPTIONS_FIELD_NUMBER;
+        hash = (53 * hash) + getOptionsList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -3164,6 +3254,8 @@ public final class LobbyServiceMessages {
         bitField0_ = (bitField0_ & ~0x00000002);
         deadline_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000004);
+        options_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -3204,6 +3296,11 @@ public final class LobbyServiceMessages {
           result.deadline_ = deadline_;
           to_bitField0_ |= 0x00000004;
         }
+        if (((bitField0_ & 0x00000008) != 0)) {
+          options_ = options_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        }
+        result.options_ = options_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3265,6 +3362,16 @@ public final class LobbyServiceMessages {
         }
         if (other.hasDeadline()) {
           setDeadline(other.getDeadline());
+        }
+        if (!other.options_.isEmpty()) {
+          if (options_.isEmpty()) {
+            options_ = other.options_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+          } else {
+            ensureOptionsIsMutable();
+            options_.addAll(other.options_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -3497,6 +3604,116 @@ public final class LobbyServiceMessages {
       public Builder clearDeadline() {
         bitField0_ = (bitField0_ & ~0x00000004);
         deadline_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList options_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureOptionsIsMutable() {
+        if (!((bitField0_ & 0x00000008) != 0)) {
+          options_ = new com.google.protobuf.LazyStringArrayList(options_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+      /**
+       * <code>repeated string options = 4;</code>
+       * @return A list containing the options.
+       */
+      public com.google.protobuf.ProtocolStringList
+          getOptionsList() {
+        return options_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string options = 4;</code>
+       * @return The count of options.
+       */
+      public int getOptionsCount() {
+        return options_.size();
+      }
+      /**
+       * <code>repeated string options = 4;</code>
+       * @param index The index of the element to return.
+       * @return The options at the given index.
+       */
+      public java.lang.String getOptions(int index) {
+        return options_.get(index);
+      }
+      /**
+       * <code>repeated string options = 4;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the options at the given index.
+       */
+      public com.google.protobuf.ByteString
+          getOptionsBytes(int index) {
+        return options_.getByteString(index);
+      }
+      /**
+       * <code>repeated string options = 4;</code>
+       * @param index The index to set the value at.
+       * @param value The options to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOptions(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureOptionsIsMutable();
+        options_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string options = 4;</code>
+       * @param value The options to add.
+       * @return This builder for chaining.
+       */
+      public Builder addOptions(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureOptionsIsMutable();
+        options_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string options = 4;</code>
+       * @param values The options to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllOptions(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureOptionsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, options_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string options = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOptions() {
+        options_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string options = 4;</code>
+       * @param value The bytes of the options to add.
+       * @return This builder for chaining.
+       */
+      public Builder addOptionsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureOptionsIsMutable();
+        options_.add(value);
         onChanged();
         return this;
       }
@@ -4382,19 +4599,20 @@ public final class LobbyServiceMessages {
       "layer_name\"w\n\021JoinLobbyResponse\022,\n\005error" +
       "\030\001 \001(\0162\030.protobuf.JoinLobbyErrorH\000\210\001\001\022\031\n" +
       "\014questionText\030\002 \001(\tH\001\210\001\001B\010\n\006_errorB\017\n\r_q" +
-      "uestionText\"|\n\016QuestionStream\022\025\n\010lobby_i" +
-      "d\030\001 \001(\tH\000\210\001\001\022\025\n\010question\030\002 \001(\tH\001\210\001\001\022\025\n\010d" +
-      "eadline\030\003 \001(\004H\002\210\001\001B\013\n\t_lobby_idB\013\n\t_ques" +
-      "tionB\013\n\t_deadline\"X\n\014AnswerStream\022\030\n\013pla" +
-      "yer_name\030\001 \001(\tH\000\210\001\001\022\023\n\006answer\030\002 \001(\tH\001\210\001\001" +
-      "B\016\n\014_player_nameB\t\n\007_answer*B\n\016JoinLobby" +
-      "Error\022\013\n\007SUCCESS\020\000\022\023\n\017LOBBY_NOT_FOUND\020\001\022" +
-      "\016\n\nLOBBY_FULL\020\0022\237\001\n\014LobbyService\022J\n\013Crea" +
-      "teLobby\022\034.protobuf.CreateLobbyRequest\032\035." +
-      "protobuf.CreateLobbyResponse\022C\n\tJoinLobb" +
-      "y\022\032.protobuf.JoinLobbyRequest\032\030.protobuf" +
-      ".QuestionStream0\001B*\n\022protobuf.generatedB" +
-      "\024LobbyServiceMessagesb\006proto3"
+      "uestionText\"\215\001\n\016QuestionStream\022\025\n\010lobby_" +
+      "id\030\001 \001(\tH\000\210\001\001\022\025\n\010question\030\002 \001(\tH\001\210\001\001\022\025\n\010" +
+      "deadline\030\003 \001(\004H\002\210\001\001\022\017\n\007options\030\004 \003(\tB\013\n\t" +
+      "_lobby_idB\013\n\t_questionB\013\n\t_deadline\"X\n\014A" +
+      "nswerStream\022\030\n\013player_name\030\001 \001(\tH\000\210\001\001\022\023\n" +
+      "\006answer\030\002 \001(\tH\001\210\001\001B\016\n\014_player_nameB\t\n\007_a" +
+      "nswer*B\n\016JoinLobbyError\022\013\n\007SUCCESS\020\000\022\023\n\017" +
+      "LOBBY_NOT_FOUND\020\001\022\016\n\nLOBBY_FULL\020\0022\237\001\n\014Lo" +
+      "bbyService\022J\n\013CreateLobby\022\034.protobuf.Cre" +
+      "ateLobbyRequest\032\035.protobuf.CreateLobbyRe" +
+      "sponse\022C\n\tJoinLobby\022\032.protobuf.JoinLobby" +
+      "Request\032\030.protobuf.QuestionStream0\001B*\n\022p" +
+      "rotobuf.generatedB\024LobbyServiceMessagesb" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4429,7 +4647,7 @@ public final class LobbyServiceMessages {
     internal_static_protobuf_QuestionStream_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_QuestionStream_descriptor,
-        new java.lang.String[] { "LobbyId", "Question", "Deadline", "LobbyId", "Question", "Deadline", });
+        new java.lang.String[] { "LobbyId", "Question", "Deadline", "Options", "LobbyId", "Question", "Deadline", });
     internal_static_protobuf_AnswerStream_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_protobuf_AnswerStream_fieldAccessorTable = new
