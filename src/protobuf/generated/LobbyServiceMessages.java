@@ -2708,6 +2708,17 @@ public final class LobbyServiceMessages {
      */
     com.google.protobuf.ByteString
         getQuestionBytes();
+
+    /**
+     * <code>uint64 deadline = 3;</code>
+     * @return Whether the deadline field is set.
+     */
+    boolean hasDeadline();
+    /**
+     * <code>uint64 deadline = 3;</code>
+     * @return The deadline.
+     */
+    long getDeadline();
   }
   /**
    * Protobuf type {@code protobuf.QuestionStream}
@@ -2767,6 +2778,11 @@ public final class LobbyServiceMessages {
               java.lang.String s = input.readStringRequireUtf8();
               bitField0_ |= 0x00000002;
               question_ = s;
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              deadline_ = input.readUInt64();
               break;
             }
             default: {
@@ -2894,6 +2910,25 @@ public final class LobbyServiceMessages {
       }
     }
 
+    public static final int DEADLINE_FIELD_NUMBER = 3;
+    private long deadline_;
+    /**
+     * <code>uint64 deadline = 3;</code>
+     * @return Whether the deadline field is set.
+     */
+    @java.lang.Override
+    public boolean hasDeadline() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>uint64 deadline = 3;</code>
+     * @return The deadline.
+     */
+    @java.lang.Override
+    public long getDeadline() {
+      return deadline_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -2914,6 +2949,9 @@ public final class LobbyServiceMessages {
       if (((bitField0_ & 0x00000002) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, question_);
       }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeUInt64(3, deadline_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2928,6 +2966,10 @@ public final class LobbyServiceMessages {
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, question_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(3, deadline_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2954,6 +2996,11 @@ public final class LobbyServiceMessages {
         if (!getQuestion()
             .equals(other.getQuestion())) return false;
       }
+      if (hasDeadline() != other.hasDeadline()) return false;
+      if (hasDeadline()) {
+        if (getDeadline()
+            != other.getDeadline()) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -2972,6 +3019,11 @@ public final class LobbyServiceMessages {
       if (hasQuestion()) {
         hash = (37 * hash) + QUESTION_FIELD_NUMBER;
         hash = (53 * hash) + getQuestion().hashCode();
+      }
+      if (hasDeadline()) {
+        hash = (37 * hash) + DEADLINE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getDeadline());
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -3110,6 +3162,8 @@ public final class LobbyServiceMessages {
         bitField0_ = (bitField0_ & ~0x00000001);
         question_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        deadline_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -3146,6 +3200,10 @@ public final class LobbyServiceMessages {
           to_bitField0_ |= 0x00000002;
         }
         result.question_ = question_;
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.deadline_ = deadline_;
+          to_bitField0_ |= 0x00000004;
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3204,6 +3262,9 @@ public final class LobbyServiceMessages {
           bitField0_ |= 0x00000002;
           question_ = other.question_;
           onChanged();
+        }
+        if (other.hasDeadline()) {
+          setDeadline(other.getDeadline());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -3397,6 +3458,45 @@ public final class LobbyServiceMessages {
   checkByteStringIsUtf8(value);
         bitField0_ |= 0x00000002;
         question_ = value;
+        onChanged();
+        return this;
+      }
+
+      private long deadline_ ;
+      /**
+       * <code>uint64 deadline = 3;</code>
+       * @return Whether the deadline field is set.
+       */
+      @java.lang.Override
+      public boolean hasDeadline() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <code>uint64 deadline = 3;</code>
+       * @return The deadline.
+       */
+      @java.lang.Override
+      public long getDeadline() {
+        return deadline_;
+      }
+      /**
+       * <code>uint64 deadline = 3;</code>
+       * @param value The deadline to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDeadline(long value) {
+        bitField0_ |= 0x00000004;
+        deadline_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 deadline = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDeadline() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        deadline_ = 0L;
         onChanged();
         return this;
       }
@@ -4282,18 +4382,19 @@ public final class LobbyServiceMessages {
       "layer_name\"w\n\021JoinLobbyResponse\022,\n\005error" +
       "\030\001 \001(\0162\030.protobuf.JoinLobbyErrorH\000\210\001\001\022\031\n" +
       "\014questionText\030\002 \001(\tH\001\210\001\001B\010\n\006_errorB\017\n\r_q" +
-      "uestionText\"X\n\016QuestionStream\022\025\n\010lobby_i" +
-      "d\030\001 \001(\tH\000\210\001\001\022\025\n\010question\030\002 \001(\tH\001\210\001\001B\013\n\t_" +
-      "lobby_idB\013\n\t_question\"X\n\014AnswerStream\022\030\n" +
-      "\013player_name\030\001 \001(\tH\000\210\001\001\022\023\n\006answer\030\002 \001(\tH" +
-      "\001\210\001\001B\016\n\014_player_nameB\t\n\007_answer*B\n\016JoinL" +
-      "obbyError\022\013\n\007SUCCESS\020\000\022\023\n\017LOBBY_NOT_FOUN" +
-      "D\020\001\022\016\n\nLOBBY_FULL\020\0022\237\001\n\014LobbyService\022J\n\013" +
-      "CreateLobby\022\034.protobuf.CreateLobbyReques" +
-      "t\032\035.protobuf.CreateLobbyResponse\022C\n\tJoin" +
-      "Lobby\022\032.protobuf.JoinLobbyRequest\032\030.prot" +
-      "obuf.QuestionStream0\001B*\n\022protobuf.genera" +
-      "tedB\024LobbyServiceMessagesb\006proto3"
+      "uestionText\"|\n\016QuestionStream\022\025\n\010lobby_i" +
+      "d\030\001 \001(\tH\000\210\001\001\022\025\n\010question\030\002 \001(\tH\001\210\001\001\022\025\n\010d" +
+      "eadline\030\003 \001(\004H\002\210\001\001B\013\n\t_lobby_idB\013\n\t_ques" +
+      "tionB\013\n\t_deadline\"X\n\014AnswerStream\022\030\n\013pla" +
+      "yer_name\030\001 \001(\tH\000\210\001\001\022\023\n\006answer\030\002 \001(\tH\001\210\001\001" +
+      "B\016\n\014_player_nameB\t\n\007_answer*B\n\016JoinLobby" +
+      "Error\022\013\n\007SUCCESS\020\000\022\023\n\017LOBBY_NOT_FOUND\020\001\022" +
+      "\016\n\nLOBBY_FULL\020\0022\237\001\n\014LobbyService\022J\n\013Crea" +
+      "teLobby\022\034.protobuf.CreateLobbyRequest\032\035." +
+      "protobuf.CreateLobbyResponse\022C\n\tJoinLobb" +
+      "y\022\032.protobuf.JoinLobbyRequest\032\030.protobuf" +
+      ".QuestionStream0\001B*\n\022protobuf.generatedB" +
+      "\024LobbyServiceMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4328,7 +4429,7 @@ public final class LobbyServiceMessages {
     internal_static_protobuf_QuestionStream_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_QuestionStream_descriptor,
-        new java.lang.String[] { "LobbyId", "Question", "LobbyId", "Question", });
+        new java.lang.String[] { "LobbyId", "Question", "Deadline", "LobbyId", "Question", "Deadline", });
     internal_static_protobuf_AnswerStream_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_protobuf_AnswerStream_fieldAccessorTable = new

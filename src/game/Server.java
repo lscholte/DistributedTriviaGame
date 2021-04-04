@@ -30,6 +30,9 @@ import utilities.ProtobufUtils;
 
 public class Server extends QuestionServiceGrpc.QuestionServiceImplBase {
     public static final int PORT = 7766;
+    
+    //How long the player should have to submit an answer in seconds
+    private static final int QUESTION_DEADLINE_S = 10;
 
     private static final int RESPONSE_TIMEOUT_S = 10;
 
@@ -108,14 +111,24 @@ public class Server extends QuestionServiceGrpc.QuestionServiceImplBase {
             // Once the round has started
             // Get a list of players in the lobby
             List<String> players = lobby.getPlayers();
-            // Send the question to each player in the lobby
-            String question = "Example question";
-            for(String player: players){
-                StreamObserver<LobbyServiceMessages.QuestionStream> observer = observers.get(player);
-                LobbyServiceMessages.QuestionStream.Builder builder = LobbyServiceMessages.QuestionStream.newBuilder();
-                builder.setQuestion(question);
-                observer.onNext(builder.build());
+            // Send the question to each player in the lobby            
+            for (int i = 1; i <= 10; ++i) {
+                String question = "Example question " + i;
+                for(String player: players){
+                    StreamObserver<LobbyServiceMessages.QuestionStream> observer = observers.get(player);
+                    LobbyServiceMessages.QuestionStream.Builder builder = LobbyServiceMessages.QuestionStream.newBuilder();
+                    builder.setQuestion(question);
+                    builder.setDeadline(new Date().getTime() + QUESTION_DEADLINE_S * 1000);
+                    observer.onNext(builder.build());
+                }
+                //Just a quick experiment to send questions every 10 seconds
+                try {
+                    Thread.sleep(QUESTION_DEADLINE_S * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+
             // Once the round is completed
             for(String player: players){
                 StreamObserver<LobbyServiceMessages.QuestionStream> observer = observers.get(player);

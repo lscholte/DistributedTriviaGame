@@ -130,6 +130,7 @@ public class Client {
                 @Override
                 public void onNext(QuestionStream question) {
                     Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(question)));
+                    gui.nextQuestion(question.getQuestion(), new Date(question.getDeadline()));
                 }
                 
                 @Override

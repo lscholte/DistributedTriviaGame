@@ -52,18 +52,20 @@ public class Quiz implements ActionListener {
     JTextField number_right = new JTextField();
     JTextField percentage = new JTextField();
 
-    Timer Timer = new Timer(1000, new ActionListener() {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
+//    Timer Timer = new Timer(1000, new ActionListener() {
+//
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
 //            seconds--;
 //            
 //            seconds_left.setText(String.valueOf(seconds));
 //            if (seconds<=0){
 //                displayAnswer();
 //            }
-        }
-    });
+//        }
+//    });
+    
+    private Timer timer;
 
     public Quiz()   {
         frame.setDefaultCloseOperation((JFrame.EXIT_ON_CLOSE));
@@ -178,6 +180,10 @@ public class Quiz implements ActionListener {
     }
 
     public void nextQuestion(String questionText, Date deadline) {
+        if (timer != null) {
+            timer.stop();
+        }
+        
         if (index >= total_questions){
             results();
         }
@@ -188,13 +194,22 @@ public class Quiz implements ActionListener {
             answer_labelB.setText(options[index][1]);
             answer_labelC.setText(options[index][2]);
             answer_labelD.setText(options[index][3]);
-            Timer.start();
+            
+            timer = new Timer(100, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    long remainingMillis = deadline.getTime() - new Date().getTime();
+                    
+                    seconds_left.setText(String.valueOf(remainingMillis/1000));
+                }
+            });
+            timer.start();
         }
 
     }
 
     public void displayAnswer() {
-        Timer.stop();
+//        Timer.stop();
         buttonA.setEnabled(false);
         buttonB.setEnabled(false);
         buttonC.setEnabled(false);
