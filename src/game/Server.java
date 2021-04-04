@@ -143,45 +143,4 @@ public class Server {
             }
         }
     }
-    
-    private class Player {
-        private QuestionServiceStub questionServiceStub;
-
-        private String name;
-        
-        public Player(String name, QuestionServiceStub stub) {
-            this.name = name;
-            this.questionServiceStub = stub;
-        }
-        
-        public QuestionServiceStub getQuestionServiceStub() {
-            return questionServiceStub;
-        }
-        
-        public String getName() {
-            return name;
-        }
-    }
-
-    private class Lobby{
-        private UUID lobbyID;
-        private List<Player> players;
-
-        public Lobby(){
-            lobbyID = UUID.randomUUID();
-            players = new ArrayList<>();
-        }
-
-        public void addPlayerToLobby(Player player){
-            players.add(player);
-        }
-
-        public UUID getLobbyID(){
-            return lobbyID;
-        }
-
-        public List<Player> getPlayers(){
-            return players;
-        }
-    }
 }
