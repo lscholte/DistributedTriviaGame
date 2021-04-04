@@ -10,20 +10,6 @@ import java.util.Date;
 
 public class Quiz implements ActionListener {
 
-    String[] questions = {
-            "Hello how are you?",
-            "Where are you?",
-            "This is another question",
-            "This is the last question"
-    };
-
-    String[][] options = {
-            {"Good", "Great", "Ok", "Bad"},
-            {"Home", "Work", "School", "Church"},
-            {"1", "2", "3", "4"},
-            {"A", "B", "C", "D"}
-    };
-
 
     char[] answers = {
             'A',
@@ -36,7 +22,7 @@ public class Quiz implements ActionListener {
     char answer;
     int index;
     int correct_guesses=0;
-    int total_questions=questions.length;
+    int total_questions=10;//TODO: if we actually care about this, we should get this info from server
     int result;
 
     JFrame frame = new JFrame();
