@@ -122,10 +122,6 @@ public class Client {
         Logger.logInfo(String.format("Sending %s", ProtobufUtils.getPrintableMessage(request)));
 
         try {
-//            Iterator<QuestionStream> questionStream = lobbyServiceStub
-//                    .withDeadlineAfter(RESPONSE_TIMEOUT_S, TimeUnit.SECONDS)
-//                    .joinLobby(request);
-            
             lobbyServiceStub.joinLobby(request, new StreamObserver<QuestionStream>() {
                 @Override
                 public void onNext(QuestionStream question) {
@@ -140,19 +136,7 @@ public class Client {
                 
                 @Override
                 public void onError(Throwable throwable) {}
-            });
-            
-                
-            
-//            Logger.logInfo(
-//                    String.format("Received %s", ProtobufUtils.getPrintableMessage(response)));
-//
-//            if (response.getError() == JoinLobbyError.SUCCESS) {
-//                Logger.logInfo(String.format("Successfully joined lobby %s as %s",
-//                        lobbyUuid.toString(), playerName));
-//            } else {
-//                Logger.logInfo("Failed to join the lobby");
-//            }
+            });            
         } catch (StatusRuntimeException e) {
             handleGrpcError("JoinLobby", e.getStatus().getCode());
         }
