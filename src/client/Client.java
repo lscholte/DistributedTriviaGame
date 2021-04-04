@@ -20,6 +20,7 @@ import protobuf.generated.AnswerServiceMessages.AnswerRequest;
 import protobuf.generated.AnswerServiceMessages.AnswerResponse;
 import protobuf.generated.LobbyServiceGrpc;
 import protobuf.generated.LobbyServiceGrpc.LobbyServiceBlockingStub;
+import protobuf.generated.LobbyServiceGrpc.LobbyServiceStub;
 import protobuf.generated.LobbyServiceMessages.CreateLobbyRequest;
 import protobuf.generated.LobbyServiceMessages.CreateLobbyResponse;
 import protobuf.generated.LobbyServiceMessages.JoinLobbyError;
@@ -39,7 +40,8 @@ public class Client {
 
     private static final int RESPONSE_TIMEOUT_S = 10;
 
-    private LobbyServiceBlockingStub lobbyServiceStub;
+    private LobbyServiceBlockingStub lobbyServiceBlockingStub;
+    private LobbyServiceStub lobbyServiceStub;
     private AnswerServiceBlockingStub answerServiceStub;
 
     private io.grpc.Server grpcServer;
@@ -51,7 +53,9 @@ public class Client {
     public Client() throws UnknownHostException, IOException {
         gui = new Quiz();
         channel = ManagedChannelBuilder.forAddress("localhost", Server.PORT).usePlaintext().build();
-        lobbyServiceStub = LobbyServiceGrpc.newBlockingStub(channel);
+        
+        lobbyServiceBlockingStub = LobbyServiceGrpc.newBlockingStub(channel);
+        lobbyServiceStub = LobbyServiceGrpc.newStub(channel);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
@@ -86,8 +90,9 @@ public class Client {
 
         UUID lobbyUuid = null;
         try {
-            CreateLobbyResponse response = lobbyServiceStub
-                    .withDeadlineAfter(RESPONSE_TIMEOUT_S, TimeUnit.SECONDS).createLobby(request);
+            CreateLobbyResponse response = lobbyServiceBlockingStub
+                    .withDeadlineAfter(RESPONSE_TIMEOUT_S, TimeUnit.SECONDS)
+                    .createLobby(request);
 
             Logger.logInfo(
                     String.format("Received %s", ProtobufUtils.getPrintableMessage(response)));
@@ -117,12 +122,26 @@ public class Client {
         Logger.logInfo(String.format("Sending %s", ProtobufUtils.getPrintableMessage(request)));
 
         try {
-            Iterator<QuestionStream> questionStream = lobbyServiceStub
-                    .withDeadlineAfter(RESPONSE_TIMEOUT_S, TimeUnit.SECONDS)
-                    .joinLobby(request);
+//            Iterator<QuestionStream> questionStream = lobbyServiceStub
+//                    .withDeadlineAfter(RESPONSE_TIMEOUT_S, TimeUnit.SECONDS)
+//                    .joinLobby(request);
+            
+            lobbyServiceStub.joinLobby(request, new StreamObserver<QuestionStream>() {
+                @Override
+                public void onNext(QuestionStream question) {
+                    Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(question)));
+                }
+                
+                @Override
+                public void onCompleted() {
+                    Logger.logInfo("Game is finished");
+                }
+                
+                @Override
+                public void onError(Throwable throwable) {}
+            });
             
                 
-            questionStream.forEachRemaining(q -> Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(q))));
             
 //            Logger.logInfo(
 //                    String.format("Received %s", ProtobufUtils.getPrintableMessage(response)));
