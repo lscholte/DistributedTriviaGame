@@ -121,6 +121,9 @@ public class Client {
                     .withDeadlineAfter(RESPONSE_TIMEOUT_S, TimeUnit.SECONDS)
                     .joinLobby(request);
             
+                
+            questionStream.forEachRemaining(q -> Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(q))));
+            
 //            Logger.logInfo(
 //                    String.format("Received %s", ProtobufUtils.getPrintableMessage(response)));
 //
