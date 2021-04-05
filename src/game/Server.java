@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import database.MongoConnection;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.ServerBuilder;
@@ -36,6 +37,8 @@ public class Server {
     private io.grpc.Server grpcServer;
     
     private Map<UUID, Lobby> lobbyMap = new HashMap<>();
+    
+    private MongoConnection dbConnection;
 
     public Server() {
         grpcServer = ServerBuilder
@@ -52,6 +55,8 @@ public class Server {
                 e.printStackTrace();
             }
         }));
+        
+        dbConnection = new MongoConnection("localhost", 27017, "trivia","questions");
     }
 
     public void start() throws IOException, InterruptedException {    
@@ -122,18 +127,19 @@ public class Server {
                 UpdateScoresRequest updateScoresRequest = updateScoresRequestBuilder.build();
                 
                 //Build an AskQuestionRequest
-                String question = "Example question " + i;
+                Map<String, String> question = dbConnection.getQuestion(new Random().nextInt(100) + 1);
 
                 AskQuestionRequest.Builder questionRequestBuilder = AskQuestionRequest.newBuilder();
-                questionRequestBuilder.setQuestion(question);
-                questionRequestBuilder.setDeadline(new Date().getTime() + QUESTION_DEADLINE_S * 1000);
+                questionRequestBuilder.setQuestion(question.get("question"));
                 
                 List<String> options = new ArrayList<String>(4);
-                options.add("Option A -- Question " + i);
-                options.add("Option B -- Question " + i);
-                options.add("Option C -- Question " + i);
-                options.add("Option D -- Question " + i);
+                options.add(question.get("option 1"));
+                options.add(question.get("option 2"));
+                options.add(question.get("option 3"));
+                options.add(question.get("option 4"));
                 questionRequestBuilder.addAllOptions(options);
+                
+                questionRequestBuilder.setDeadline(new Date().getTime() + QUESTION_DEADLINE_S * 1000);
                 
                 AskQuestionRequest questionRequest = questionRequestBuilder.build();
                 
