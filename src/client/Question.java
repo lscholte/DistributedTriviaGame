@@ -5,12 +5,18 @@ import java.util.List;
 
 public class Question {
     
+    private int number;
     private String text;
     private List<String> options;
     
-    public Question(String text, List<String> options) {
+    public Question(int number, String text, List<String> options) {
+        this.number = number;
         this.text = text;
         this.options = new ArrayList<String>(options);
+    }
+    
+    public int getNumber() {
+        return number;
     }
     
     public String getText() {

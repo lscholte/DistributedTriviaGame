@@ -186,7 +186,7 @@ public class Quiz implements ActionListener {
             results();
         }
         else {
-            textField.setText("Question " + (index+1));
+            textField.setText("Question " + question.getNumber());
             textArea.setText(question.getText());
             answer_labelA.setText(question.getOptions().get(0));
             answer_labelB.setText(question.getOptions().get(1));

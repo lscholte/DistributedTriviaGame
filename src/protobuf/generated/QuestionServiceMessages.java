@@ -70,6 +70,17 @@ public final class QuestionServiceMessages {
      */
     com.google.protobuf.ByteString
         getOptionsBytes(int index);
+
+    /**
+     * <code>uint32 number = 4;</code>
+     * @return Whether the number field is set.
+     */
+    boolean hasNumber();
+    /**
+     * <code>uint32 number = 4;</code>
+     * @return The number.
+     */
+    int getNumber();
   }
   /**
    * Protobuf type {@code protobuf.AskQuestionRequest}
@@ -137,6 +148,11 @@ public final class QuestionServiceMessages {
                 mutable_bitField0_ |= 0x00000004;
               }
               options_.add(s);
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000004;
+              number_ = input.readUInt32();
               break;
             }
             default: {
@@ -275,6 +291,25 @@ public final class QuestionServiceMessages {
       return options_.getByteString(index);
     }
 
+    public static final int NUMBER_FIELD_NUMBER = 4;
+    private int number_;
+    /**
+     * <code>uint32 number = 4;</code>
+     * @return Whether the number field is set.
+     */
+    @java.lang.Override
+    public boolean hasNumber() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>uint32 number = 4;</code>
+     * @return The number.
+     */
+    @java.lang.Override
+    public int getNumber() {
+      return number_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -297,6 +332,9 @@ public final class QuestionServiceMessages {
       }
       for (int i = 0; i < options_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, options_.getRaw(i));
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeUInt32(4, number_);
       }
       unknownFields.writeTo(output);
     }
@@ -321,6 +359,10 @@ public final class QuestionServiceMessages {
         }
         size += dataSize;
         size += 1 * getOptionsList().size();
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(4, number_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -349,6 +391,11 @@ public final class QuestionServiceMessages {
       }
       if (!getOptionsList()
           .equals(other.getOptionsList())) return false;
+      if (hasNumber() != other.hasNumber()) return false;
+      if (hasNumber()) {
+        if (getNumber()
+            != other.getNumber()) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -372,6 +419,10 @@ public final class QuestionServiceMessages {
       if (getOptionsCount() > 0) {
         hash = (37 * hash) + OPTIONS_FIELD_NUMBER;
         hash = (53 * hash) + getOptionsList().hashCode();
+      }
+      if (hasNumber()) {
+        hash = (37 * hash) + NUMBER_FIELD_NUMBER;
+        hash = (53 * hash) + getNumber();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -512,6 +563,8 @@ public final class QuestionServiceMessages {
         bitField0_ = (bitField0_ & ~0x00000002);
         options_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
+        number_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -553,6 +606,10 @@ public final class QuestionServiceMessages {
           bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.options_ = options_;
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.number_ = number_;
+          to_bitField0_ |= 0x00000004;
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -619,6 +676,9 @@ public final class QuestionServiceMessages {
             options_.addAll(other.options_);
           }
           onChanged();
+        }
+        if (other.hasNumber()) {
+          setNumber(other.getNumber());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -878,6 +938,45 @@ public final class QuestionServiceMessages {
   checkByteStringIsUtf8(value);
         ensureOptionsIsMutable();
         options_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private int number_ ;
+      /**
+       * <code>uint32 number = 4;</code>
+       * @return Whether the number field is set.
+       */
+      @java.lang.Override
+      public boolean hasNumber() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <code>uint32 number = 4;</code>
+       * @return The number.
+       */
+      @java.lang.Override
+      public int getNumber() {
+        return number_;
+      }
+      /**
+       * <code>uint32 number = 4;</code>
+       * @param value The number to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNumber(int value) {
+        bitField0_ |= 0x00000008;
+        number_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 number = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNumber() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        number_ = 0;
         onChanged();
         return this;
       }
@@ -3307,21 +3406,22 @@ public final class QuestionServiceMessages {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\026question_service.proto\022\010protobuf\"m\n\022As" +
-      "kQuestionRequest\022\025\n\010question\030\001 \001(\tH\000\210\001\001\022" +
-      "\025\n\010deadline\030\002 \001(\004H\001\210\001\001\022\017\n\007options\030\003 \003(\tB" +
-      "\013\n\t_questionB\013\n\t_deadline\"\025\n\023AskQuestion" +
-      "Response\"\220\001\n\023UpdateScoresRequest\0225\n\007play" +
-      "ers\030\001 \003(\0132$.protobuf.UpdateScoresRequest" +
-      ".Player\032B\n\006Player\022\021\n\004name\030\001 \001(\tH\000\210\001\001\022\022\n\005" +
-      "score\030\002 \001(\005H\001\210\001\001B\007\n\005_nameB\010\n\006_score\"\026\n\024U" +
-      "pdateScoresResponse2\254\001\n\017QuestionService\022" +
-      "J\n\013AskQuestion\022\034.protobuf.AskQuestionReq" +
-      "uest\032\035.protobuf.AskQuestionResponse\022M\n\014U" +
-      "pdateScores\022\035.protobuf.UpdateScoresReque" +
-      "st\032\036.protobuf.UpdateScoresResponseB-\n\022pr" +
-      "otobuf.generatedB\027QuestionServiceMessage" +
-      "sb\006proto3"
+      "\n\026question_service.proto\022\010protobuf\"\215\001\n\022A" +
+      "skQuestionRequest\022\025\n\010question\030\001 \001(\tH\000\210\001\001" +
+      "\022\025\n\010deadline\030\002 \001(\004H\001\210\001\001\022\017\n\007options\030\003 \003(\t" +
+      "\022\023\n\006number\030\004 \001(\rH\002\210\001\001B\013\n\t_questionB\013\n\t_d" +
+      "eadlineB\t\n\007_number\"\025\n\023AskQuestionRespons" +
+      "e\"\220\001\n\023UpdateScoresRequest\0225\n\007players\030\001 \003" +
+      "(\0132$.protobuf.UpdateScoresRequest.Player" +
+      "\032B\n\006Player\022\021\n\004name\030\001 \001(\tH\000\210\001\001\022\022\n\005score\030\002" +
+      " \001(\005H\001\210\001\001B\007\n\005_nameB\010\n\006_score\"\026\n\024UpdateSc" +
+      "oresResponse2\254\001\n\017QuestionService\022J\n\013AskQ" +
+      "uestion\022\034.protobuf.AskQuestionRequest\032\035." +
+      "protobuf.AskQuestionResponse\022M\n\014UpdateSc" +
+      "ores\022\035.protobuf.UpdateScoresRequest\032\036.pr" +
+      "otobuf.UpdateScoresResponseB-\n\022protobuf." +
+      "generatedB\027QuestionServiceMessagesb\006prot" +
+      "o3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3332,7 +3432,7 @@ public final class QuestionServiceMessages {
     internal_static_protobuf_AskQuestionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_AskQuestionRequest_descriptor,
-        new java.lang.String[] { "Question", "Deadline", "Options", "Question", "Deadline", });
+        new java.lang.String[] { "Question", "Deadline", "Options", "Number", "Question", "Deadline", "Number", });
     internal_static_protobuf_AskQuestionResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_protobuf_AskQuestionResponse_fieldAccessorTable = new

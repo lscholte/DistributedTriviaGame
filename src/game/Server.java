@@ -130,6 +130,7 @@ public class Server {
                 Map<String, String> question = dbConnection.getQuestion(new Random().nextInt(100) + 1);
 
                 AskQuestionRequest.Builder questionRequestBuilder = AskQuestionRequest.newBuilder();
+                questionRequestBuilder.setNumber(i);
                 questionRequestBuilder.setQuestion(question.get("question"));
                 
                 List<String> options = new ArrayList<String>(4);

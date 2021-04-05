@@ -207,7 +207,7 @@ public class Client {
                 StreamObserver<AskQuestionResponse> responseObserver) {
             
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
-            Question question = new Question(request.getQuestion(), request.getOptionsList());
+            Question question = new Question(request.getNumber(), request.getQuestion(), request.getOptionsList());
             
             gui.nextQuestion(question, new Date(request.getDeadline()));
             
