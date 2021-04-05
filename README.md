@@ -3,7 +3,9 @@ TODO: Document how to compile the protobufs (only necessary if changing the .pro
 
 # MongoDB Installation / Setup
 1. Select the correct platform and follow installation instructions below
+
 To install MongoDB: https://docs.mongodb.com/manual/administration/install-community/
+
 To install Mongo Compass (GUI): https://www.mongodb.com/try/download/compass
 
 2. Once install, test connection mongodb through compass.
