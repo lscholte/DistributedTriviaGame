@@ -8,6 +8,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import GUI.LobbyScreen;
 import GUI.Quiz;
 import game.Server;
 import io.grpc.ManagedChannel;
@@ -45,13 +46,15 @@ public class Client {
 
     private ManagedChannel channel;
 
+    private LobbyScreen lobbyGui;
     private Quiz gui;
 
     public Client() throws UnknownHostException, IOException {
-        gui = new Quiz(this);
+//        gui = new Quiz(this);
         channel = ManagedChannelBuilder.forAddress("localhost", Server.PORT).usePlaintext().build();
         
         lobbyServiceBlockingStub = LobbyServiceGrpc.newBlockingStub(channel);
+        answerServiceStub = AnswerServiceGrpc.newBlockingStub(channel);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
@@ -60,20 +63,24 @@ public class Client {
                 e.printStackTrace();
             }
         }));
+        
+      grpcServer = ServerBuilder.forPort(0).addService(new QuestionService()).build();
+      grpcServer.start();
     }
 
     public void start() throws IOException, InterruptedException {
-        UUID lobbyUuid = createLobby();
-        if (lobbyUuid != null) {
-
-            grpcServer = ServerBuilder.forPort(0).addService(new QuestionService()).build();
-            grpcServer.start();
-
-            joinLobby(lobbyUuid, "Test Player");
-            startGame(lobbyUuid);
-            
-            answerServiceStub = AnswerServiceGrpc.newBlockingStub(channel);
-        }
+        lobbyGui = new LobbyScreen(this);
+//        UUID lobbyUuid = createLobby();
+//        if (lobbyUuid != null) {
+//
+//            grpcServer = ServerBuilder.forPort(0).addService(new QuestionService()).build();
+//            grpcServer.start();
+//
+//            joinLobby(lobbyUuid, "Test Player");
+//            startGame(lobbyUuid);
+//            
+//            answerServiceStub = AnswerServiceGrpc.newBlockingStub(channel);
+//        }
     }
 
     public UUID createLobby() {
@@ -140,6 +147,8 @@ public class Client {
         catch (StatusRuntimeException e) {
             handleGrpcError("StartGame", e.getStatus().getCode());
         }
+        
+        gui = new Quiz(this);
     }
 
     public boolean answer(MultipleChoiceAnswer answer) {

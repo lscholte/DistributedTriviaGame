@@ -1,7 +1,13 @@
+package GUI;
+
 import javax.swing.*;
+
+import client.Client;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.UUID;
 
 // Home Screen --- > Create Screen OR Joining Screen
 
@@ -19,6 +25,9 @@ public class LobbyScreen implements ActionListener {
 
     // ID Input
     JTextField UU_ID_Input = new JTextField("Enter Lobby ID: ", 100);
+    
+    // Name input
+    JTextField nameInput = new JTextField("Enter your name: ", 100);
 
     // Host Start Game Button
     JButton Start_Button = new JButton();
@@ -26,8 +35,12 @@ public class LobbyScreen implements ActionListener {
     // Player join Lobby Button
     JButton Join_Button = new JButton();
 
+    private Client client;
+    private UUID lobbyUuid;
 
-    public LobbyScreen()   {
+    public LobbyScreen(Client client)   {
+        this.client = client;
+        
         frame.setDefaultCloseOperation((JFrame.EXIT_ON_CLOSE));
         frame.setSize(650,650);
         frame.getContentPane().setBackground(new Color(50,50,50));
@@ -69,9 +82,18 @@ public class LobbyScreen implements ActionListener {
         textArea.setBorder(BorderFactory.createBevelBorder(1));
         textArea.setEditable(false);
         textArea.setText("Select an option: ");
+        
+        // Name input
+        nameInput.setBounds(0,100,650,50);
+        nameInput.setBackground(new Color(25,25,25));
+        nameInput.setForeground(new Color(25,255,0));
+        nameInput.setBorder(BorderFactory.createBevelBorder(1));
+        nameInput.setEditable(true);
+        nameInput.setVisible(true);
+        nameInput.setEnabled(true);
 
         // Players joining status
-        textArea2.setBounds(0,100,650,50);
+        textArea2.setBounds(0,150,650,50);
         textArea2.setLineWrap(true);
         textArea2.setWrapStyleWord(true);
         textArea2.setBackground(new Color(25,25,25));
@@ -79,7 +101,7 @@ public class LobbyScreen implements ActionListener {
         textArea2.setBorder(BorderFactory.createBevelBorder(1));
         textArea2.setEditable(false);
         textArea2.setText("");
-
+        
         // Lobby Input
         UU_ID_Input.setBounds(0,100,650,50);
         UU_ID_Input.setBackground(new Color(25,25,25));
@@ -95,13 +117,18 @@ public class LobbyScreen implements ActionListener {
         frame.add(Start_Button);
         frame.add(textArea);
         frame.add(textArea2);
+        frame.add(nameInput);
         frame.add(UU_ID_Input);
         frame.add(Join_Button);
         frame.setVisible(true);
     }
 
     public void CreateLobbyScreen() {
+        nameInput.setEditable(false);
 
+        lobbyUuid = client.createLobby();
+        client.joinLobby(lobbyUuid, "Test Player");
+        
         Create_Lobby_Button.setEnabled(false);
         Join_Lobby_Button.setEnabled(false);
 
@@ -111,8 +138,7 @@ public class LobbyScreen implements ActionListener {
         Start_Button.setVisible(true);
         Start_Button.setEnabled(true);
 
-        // To do: Have generated Lobby Id here.
-        textArea.setText("Your Lobby ID: ");
+        textArea.setText("Your Lobby ID: " + lobbyUuid.toString());
 
         // To do: Have some ability to make this text update itself whenever a new player joins game
         textArea2.setText("5 players have joined");
@@ -121,6 +147,8 @@ public class LobbyScreen implements ActionListener {
     }
 
     public void JoinLobbyScreen() {
+        nameInput.setEditable(false);
+
         Create_Lobby_Button.setEnabled(false);
         Join_Lobby_Button.setEnabled(false);
 
@@ -135,9 +163,17 @@ public class LobbyScreen implements ActionListener {
         UU_ID_Input.setVisible(true);
         UU_ID_Input.setEnabled(true);
         UU_ID_Input.setText("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
-
+        UU_ID_Input.addActionListener(event -> {
+            try {
+                lobbyUuid = UUID.fromString(UU_ID_Input.getText());
+                Join_Button.setEnabled(true);
+            }
+            catch (IllegalArgumentException e) {
+                Join_Button.setEnabled(false);
+            }
+        });
+        
         Join_Button.setVisible(true);
-        Join_Button.setEnabled(true);
 
 
     }
@@ -157,7 +193,7 @@ public class LobbyScreen implements ActionListener {
         if (e.getSource()==Start_Button){
             frame.setVisible(false);
             frame.dispose();
-            Quiz quiz = new Quiz();
+            client.startGame(lobbyUuid);
         }
 
         // To Do: Join Game implementation
@@ -165,6 +201,7 @@ public class LobbyScreen implements ActionListener {
             Join_Button.setText("JOINED");
             Join_Button.setEnabled(false);
             Join_Button.setEnabled(false);
+            client.joinLobby(lobbyUuid, "Test Player");
         }
     }
 }
