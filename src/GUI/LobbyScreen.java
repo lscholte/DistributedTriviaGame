@@ -27,6 +27,8 @@ public class LobbyScreen implements ActionListener {
     JTextField UU_ID_Input = new JTextField("Enter Lobby ID: ", 100);
     
     // Name input
+    JPanel namePanel = new JPanel();
+    JLabel nameLabel = new JLabel("Enter a name: ");
     JTextField nameInput = new JTextField("", 100);
 
     // Host Start Game Button
@@ -51,11 +53,13 @@ public class LobbyScreen implements ActionListener {
         Create_Lobby_Button.setFocusable(false);
         Create_Lobby_Button.addActionListener(this);
         Create_Lobby_Button.setText("Create Lobby");
+        Create_Lobby_Button.setEnabled(false);
 
         Join_Lobby_Button.setBounds(225,325,200,100);
         Join_Lobby_Button.setFocusable(false);
         Join_Lobby_Button.addActionListener(this);
         Join_Lobby_Button.setText("Join Lobby");
+        Join_Lobby_Button.setEnabled(false);
 
         // Start Button (Initially invisible and disabled)
         Start_Button.setBounds(225,225,200,100);
@@ -84,13 +88,26 @@ public class LobbyScreen implements ActionListener {
         textArea.setText("Select an option: ");
         
         // Name input
-        nameInput.setBounds(0,100,650,50);
+        namePanel.setBounds(0, 100, 650, 50);
+        namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));
+        namePanel.add(nameLabel);
+        namePanel.add(nameInput);
+        namePanel.setBackground(new Color(25,25,25));
+        namePanel.setForeground(new Color(25,255,0));
+        namePanel.setBorder(BorderFactory.createBevelBorder(1));
+        nameLabel.setBackground(new Color(25,25,25));
+        nameLabel.setForeground(new Color(25,255,0));
+        
         nameInput.setBackground(new Color(25,25,25));
         nameInput.setForeground(new Color(25,255,0));
         nameInput.setBorder(BorderFactory.createBevelBorder(1));
         nameInput.setEditable(true);
         nameInput.setVisible(true);
         nameInput.setEnabled(true);
+        nameInput.addActionListener(event -> {
+            Create_Lobby_Button.setEnabled(!nameInput.getText().isEmpty());
+            Join_Lobby_Button.setEnabled(!nameInput.getText().isEmpty());
+        });
 
         // Players joining status
         textArea2.setBounds(0,150,650,50);
@@ -117,7 +134,7 @@ public class LobbyScreen implements ActionListener {
         frame.add(Start_Button);
         frame.add(textArea);
         frame.add(textArea2);
-        frame.add(nameInput);
+        frame.add(namePanel);
         frame.add(UU_ID_Input);
         frame.add(Join_Button);
         frame.setVisible(true);
