@@ -3,6 +3,7 @@ package game;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import database.MongoConnection;
 import io.grpc.ManagedChannel;
@@ -23,6 +24,7 @@ import protobuf.generated.LobbyServiceMessages.StartGameResponse;
 import protobuf.generated.QuestionServiceGrpc;
 import protobuf.generated.QuestionServiceMessages.AskQuestionRequest;
 import protobuf.generated.QuestionServiceMessages.AskQuestionResponse;
+import protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest;
 import protobuf.generated.QuestionServiceMessages.UpdateScoresRequest;
 import protobuf.generated.QuestionServiceMessages.UpdateScoresResponse;
 import utilities.Logger;
@@ -88,14 +90,23 @@ public class Server {
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
 
             ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", request.getPlayerPort()).usePlaintext().build();
-            Player player = new Player(request.getPlayerName(), QuestionServiceGrpc.newStub(channel));
+            Player player = new Player(request.getPlayerName(), QuestionServiceGrpc.newBlockingStub(channel));
             
             UUID lobbyID = UUID.fromString(request.getLobbyId());
 
             Lobby lobby = lobbyMap.get(lobbyID);
             lobby.addPlayerToLobby(player);
-
-
+            
+            UpdateLobbyPlayersRequest.Builder updatePlayersRequestBuilder = UpdateLobbyPlayersRequest.newBuilder();
+            updatePlayersRequestBuilder.addAllPlayerNames(lobby.getPlayers().stream().map(p -> p.getName()).collect(Collectors.toList()));
+            UpdateLobbyPlayersRequest updatePlayersRequest = updatePlayersRequestBuilder.build();
+            
+            for (Player p : lobby.getPlayers()) {
+                new Thread(() -> {
+                    p.getQuestionServiceStub().updateLobbyPlayers(updatePlayersRequest);                       
+                }).start();
+            }
+            
             JoinLobbyResponse.Builder responseBuilder = JoinLobbyResponse.newBuilder();
             responseObserver.onNext(responseBuilder.build());
             responseObserver.onCompleted();
@@ -114,6 +125,13 @@ public class Server {
             Lobby lobby = lobbyMap.get(lobbyID);
 
             List<Player> players = lobby.getPlayers();
+            
+            for (Player player: players) {
+                new Thread(() -> {
+                    player.getQuestionServiceStub().startGame(protobuf.generated.QuestionServiceMessages.StartGameRequest.newBuilder().build());
+                                        
+                }).start();
+            }
 
             for (int i = 1; i <= 10; ++i) {
                 //Build an UpdateScoresRequest
@@ -146,29 +164,13 @@ public class Server {
                 
                 //Send the requests to each player
                 for (Player player: players) {
-                    Logger.logInfo(String.format("Sending %s to player %s", ProtobufUtils.getPrintableMessage(updateScoresRequest), player.getName()));
-                    player.getQuestionServiceStub().updateScores(updateScoresRequestBuilder.build(), new StreamObserver<UpdateScoresResponse>() {
-                        @Override
-                        public void onNext(UpdateScoresResponse response) {}
-                        
-                        @Override
-                        public void onCompleted() {}
-                        
-                        @Override
-                        public void onError(Throwable throwable) {}
-                    });
-                                        
-                    Logger.logInfo(String.format("Sending %s to player %s", ProtobufUtils.getPrintableMessage(questionRequest), player.getName()));
-                    player.getQuestionServiceStub().askQuestion(questionRequest, new StreamObserver<AskQuestionResponse>() {
-                        @Override
-                        public void onNext(AskQuestionResponse response) {}
-                        
-                        @Override
-                        public void onCompleted() {}
-                        
-                        @Override
-                        public void onError(Throwable throwable) {}
-                    });
+                    new Thread(() -> {
+                        Logger.logInfo(String.format("Sending %s to player %s", ProtobufUtils.getPrintableMessage(updateScoresRequest), player.getName()));
+                        player.getQuestionServiceStub().updateScores(updateScoresRequestBuilder.build());
+                                            
+                        Logger.logInfo(String.format("Sending %s to player %s", ProtobufUtils.getPrintableMessage(questionRequest), player.getName()));
+                        player.getQuestionServiceStub().askQuestion(questionRequest);
+                    }).start();
                 }
                 
                 //Just a quick experiment to send questions every 10 seconds

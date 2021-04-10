@@ -25,10 +25,13 @@ import protobuf.generated.LobbyServiceGrpc.LobbyServiceBlockingStub;
 import protobuf.generated.LobbyServiceMessages.CreateLobbyRequest;
 import protobuf.generated.LobbyServiceMessages.CreateLobbyResponse;
 import protobuf.generated.LobbyServiceMessages.JoinLobbyRequest;
+import protobuf.generated.LobbyServiceMessages.JoinLobbyResponse;
 import protobuf.generated.LobbyServiceMessages.StartGameRequest;
 import protobuf.generated.QuestionServiceGrpc.QuestionServiceImplBase;
 import protobuf.generated.QuestionServiceMessages.AskQuestionRequest;
 import protobuf.generated.QuestionServiceMessages.AskQuestionResponse;
+import protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest;
+import protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersResponse;
 import protobuf.generated.QuestionServiceMessages.UpdateScoresRequest;
 import protobuf.generated.QuestionServiceMessages.UpdateScoresResponse;
 import io.grpc.StatusRuntimeException;
@@ -70,17 +73,6 @@ public class Client {
 
     public void start() throws IOException, InterruptedException {
         lobbyGui = new LobbyScreen(this);
-//        UUID lobbyUuid = createLobby();
-//        if (lobbyUuid != null) {
-//
-//            grpcServer = ServerBuilder.forPort(0).addService(new QuestionService()).build();
-//            grpcServer.start();
-//
-//            joinLobby(lobbyUuid, "Test Player");
-//            startGame(lobbyUuid);
-//            
-//            answerServiceStub = AnswerServiceGrpc.newBlockingStub(channel);
-//        }
     }
 
     public UUID createLobby() {
@@ -126,7 +118,8 @@ public class Client {
         Logger.logInfo(String.format("Sending %s", ProtobufUtils.getPrintableMessage(request)));
 
         try {
-            lobbyServiceBlockingStub.joinLobby(request);           
+            JoinLobbyResponse response = lobbyServiceBlockingStub.joinLobby(request);
+            Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(response)));
         } catch (StatusRuntimeException e) {
             handleGrpcError("JoinLobby", e.getStatus().getCode());
         }
@@ -146,9 +139,7 @@ public class Client {
         }
         catch (StatusRuntimeException e) {
             handleGrpcError("StartGame", e.getStatus().getCode());
-        }
-        
-        gui = new Quiz(this);
+        }        
     }
 
     public boolean answer(MultipleChoiceAnswer answer) {
@@ -196,6 +187,33 @@ public class Client {
     }
 
     private class QuestionService extends QuestionServiceImplBase {
+        
+        @Override
+        public void startGame(protobuf.generated.QuestionServiceMessages.StartGameRequest request,
+                StreamObserver<protobuf.generated.QuestionServiceMessages.StartGameResponse> responseObserver) {
+            
+            Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
+                       
+            lobbyGui.close();
+            gui = new Quiz(Client.this);
+            
+            protobuf.generated.QuestionServiceMessages.StartGameResponse.Builder responseBuilder = protobuf.generated.QuestionServiceMessages.StartGameResponse.newBuilder();
+            responseObserver.onNext(responseBuilder.build());
+            responseObserver.onCompleted();
+        }
+        
+        @Override
+        public void updateLobbyPlayers(UpdateLobbyPlayersRequest request,
+                StreamObserver<UpdateLobbyPlayersResponse> responseObserver) {
+            
+            Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
+                       
+            lobbyGui.setPlayers(request.getPlayerNamesList());
+            
+            UpdateLobbyPlayersResponse.Builder responseBuilder = UpdateLobbyPlayersResponse.newBuilder();
+            responseObserver.onNext(responseBuilder.build());
+            responseObserver.onCompleted();
+        } 
         
         @Override
         public void updateScores(UpdateScoresRequest request,

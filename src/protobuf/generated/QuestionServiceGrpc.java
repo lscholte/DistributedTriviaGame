@@ -76,6 +76,68 @@ public final class QuestionServiceGrpc {
     return getUpdateScoresMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest,
+      protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersResponse> getUpdateLobbyPlayersMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "UpdateLobbyPlayers",
+      requestType = protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest.class,
+      responseType = protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest,
+      protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersResponse> getUpdateLobbyPlayersMethod() {
+    io.grpc.MethodDescriptor<protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest, protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersResponse> getUpdateLobbyPlayersMethod;
+    if ((getUpdateLobbyPlayersMethod = QuestionServiceGrpc.getUpdateLobbyPlayersMethod) == null) {
+      synchronized (QuestionServiceGrpc.class) {
+        if ((getUpdateLobbyPlayersMethod = QuestionServiceGrpc.getUpdateLobbyPlayersMethod) == null) {
+          QuestionServiceGrpc.getUpdateLobbyPlayersMethod = getUpdateLobbyPlayersMethod =
+              io.grpc.MethodDescriptor.<protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest, protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "UpdateLobbyPlayers"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new QuestionServiceMethodDescriptorSupplier("UpdateLobbyPlayers"))
+              .build();
+        }
+      }
+    }
+    return getUpdateLobbyPlayersMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<protobuf.generated.QuestionServiceMessages.StartGameRequest,
+      protobuf.generated.QuestionServiceMessages.StartGameResponse> getStartGameMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "StartGame",
+      requestType = protobuf.generated.QuestionServiceMessages.StartGameRequest.class,
+      responseType = protobuf.generated.QuestionServiceMessages.StartGameResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<protobuf.generated.QuestionServiceMessages.StartGameRequest,
+      protobuf.generated.QuestionServiceMessages.StartGameResponse> getStartGameMethod() {
+    io.grpc.MethodDescriptor<protobuf.generated.QuestionServiceMessages.StartGameRequest, protobuf.generated.QuestionServiceMessages.StartGameResponse> getStartGameMethod;
+    if ((getStartGameMethod = QuestionServiceGrpc.getStartGameMethod) == null) {
+      synchronized (QuestionServiceGrpc.class) {
+        if ((getStartGameMethod = QuestionServiceGrpc.getStartGameMethod) == null) {
+          QuestionServiceGrpc.getStartGameMethod = getStartGameMethod =
+              io.grpc.MethodDescriptor.<protobuf.generated.QuestionServiceMessages.StartGameRequest, protobuf.generated.QuestionServiceMessages.StartGameResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "StartGame"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  protobuf.generated.QuestionServiceMessages.StartGameRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  protobuf.generated.QuestionServiceMessages.StartGameResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new QuestionServiceMethodDescriptorSupplier("StartGame"))
+              .build();
+        }
+      }
+    }
+    return getStartGameMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -138,6 +200,20 @@ public final class QuestionServiceGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getUpdateScoresMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void updateLobbyPlayers(protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest request,
+        io.grpc.stub.StreamObserver<protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getUpdateLobbyPlayersMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void startGame(protobuf.generated.QuestionServiceMessages.StartGameRequest request,
+        io.grpc.stub.StreamObserver<protobuf.generated.QuestionServiceMessages.StartGameResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getStartGameMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -154,6 +230,20 @@ public final class QuestionServiceGrpc {
                 protobuf.generated.QuestionServiceMessages.UpdateScoresRequest,
                 protobuf.generated.QuestionServiceMessages.UpdateScoresResponse>(
                   this, METHODID_UPDATE_SCORES)))
+          .addMethod(
+            getUpdateLobbyPlayersMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest,
+                protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersResponse>(
+                  this, METHODID_UPDATE_LOBBY_PLAYERS)))
+          .addMethod(
+            getStartGameMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                protobuf.generated.QuestionServiceMessages.StartGameRequest,
+                protobuf.generated.QuestionServiceMessages.StartGameResponse>(
+                  this, METHODID_START_GAME)))
           .build();
     }
   }
@@ -187,6 +277,22 @@ public final class QuestionServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getUpdateScoresMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void updateLobbyPlayers(protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest request,
+        io.grpc.stub.StreamObserver<protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getUpdateLobbyPlayersMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void startGame(protobuf.generated.QuestionServiceMessages.StartGameRequest request,
+        io.grpc.stub.StreamObserver<protobuf.generated.QuestionServiceMessages.StartGameResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getStartGameMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -215,6 +321,20 @@ public final class QuestionServiceGrpc {
     public protobuf.generated.QuestionServiceMessages.UpdateScoresResponse updateScores(protobuf.generated.QuestionServiceMessages.UpdateScoresRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getUpdateScoresMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersResponse updateLobbyPlayers(protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getUpdateLobbyPlayersMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public protobuf.generated.QuestionServiceMessages.StartGameResponse startGame(protobuf.generated.QuestionServiceMessages.StartGameRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getStartGameMethod(), getCallOptions(), request);
     }
   }
 
@@ -247,10 +367,28 @@ public final class QuestionServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getUpdateScoresMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersResponse> updateLobbyPlayers(
+        protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getUpdateLobbyPlayersMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<protobuf.generated.QuestionServiceMessages.StartGameResponse> startGame(
+        protobuf.generated.QuestionServiceMessages.StartGameRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getStartGameMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_ASK_QUESTION = 0;
   private static final int METHODID_UPDATE_SCORES = 1;
+  private static final int METHODID_UPDATE_LOBBY_PLAYERS = 2;
+  private static final int METHODID_START_GAME = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -276,6 +414,14 @@ public final class QuestionServiceGrpc {
         case METHODID_UPDATE_SCORES:
           serviceImpl.updateScores((protobuf.generated.QuestionServiceMessages.UpdateScoresRequest) request,
               (io.grpc.stub.StreamObserver<protobuf.generated.QuestionServiceMessages.UpdateScoresResponse>) responseObserver);
+          break;
+        case METHODID_UPDATE_LOBBY_PLAYERS:
+          serviceImpl.updateLobbyPlayers((protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest) request,
+              (io.grpc.stub.StreamObserver<protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersResponse>) responseObserver);
+          break;
+        case METHODID_START_GAME:
+          serviceImpl.startGame((protobuf.generated.QuestionServiceMessages.StartGameRequest) request,
+              (io.grpc.stub.StreamObserver<protobuf.generated.QuestionServiceMessages.StartGameResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -340,6 +486,8 @@ public final class QuestionServiceGrpc {
               .setSchemaDescriptor(new QuestionServiceFileDescriptorSupplier())
               .addMethod(getAskQuestionMethod())
               .addMethod(getUpdateScoresMethod())
+              .addMethod(getUpdateLobbyPlayersMethod())
+              .addMethod(getStartGameMethod())
               .build();
         }
       }

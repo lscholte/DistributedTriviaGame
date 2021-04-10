@@ -1,20 +1,20 @@
 package game;
 
-import protobuf.generated.QuestionServiceGrpc.QuestionServiceStub;
+import protobuf.generated.QuestionServiceGrpc.QuestionServiceBlockingStub;
 
 public class Player {
-    private QuestionServiceStub questionServiceStub;
+    private QuestionServiceBlockingStub questionServiceStub;
 
     private String name;
     private int score;
     
-    public Player(String name, QuestionServiceStub stub) {
+    public Player(String name, QuestionServiceBlockingStub stub) {
         this.name = name;
         this.questionServiceStub = stub;
         this.score = 0;
     }
     
-    public QuestionServiceStub getQuestionServiceStub() {
+    public QuestionServiceBlockingStub getQuestionServiceStub() {
         return questionServiceStub;
     }
     

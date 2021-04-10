@@ -16,6 +16,8 @@ service QuestionService
 {
 	rpc AskQuestion(AskQuestionRequest) returns (AskQuestionResponse);
 	rpc UpdateScores(UpdateScoresRequest) returns (UpdateScoresResponse);
+	rpc UpdateLobbyPlayers(UpdateLobbyPlayersRequest) returns (UpdateLobbyPlayersResponse);
+	rpc StartGame(StartGameRequest) returns (StartGameResponse);
 }
 
 message AskQuestionRequest
@@ -42,5 +44,22 @@ message UpdateScoresRequest
 }
 
 message UpdateScoresResponse
+{
+}
+
+message UpdateLobbyPlayersRequest
+{
+	repeated string player_names = 1;
+}
+
+message UpdateLobbyPlayersResponse
+{
+}
+
+message StartGameRequest
+{
+}
+
+message StartGameResponse
 {
 }

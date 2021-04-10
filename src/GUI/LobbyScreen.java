@@ -27,7 +27,7 @@ public class LobbyScreen implements ActionListener {
     JTextField UU_ID_Input = new JTextField("Enter Lobby ID: ", 100);
     
     // Name input
-    JTextField nameInput = new JTextField("Enter your name: ", 100);
+    JTextField nameInput = new JTextField("", 100);
 
     // Host Start Game Button
     JButton Start_Button = new JButton();
@@ -103,7 +103,7 @@ public class LobbyScreen implements ActionListener {
         textArea2.setText("");
         
         // Lobby Input
-        UU_ID_Input.setBounds(0,100,650,50);
+        UU_ID_Input.setBounds(0,150,650,50);
         UU_ID_Input.setBackground(new Color(25,25,25));
         UU_ID_Input.setForeground(new Color(25,255,0));
         UU_ID_Input.setBorder(BorderFactory.createBevelBorder(1));
@@ -124,10 +124,11 @@ public class LobbyScreen implements ActionListener {
     }
 
     public void CreateLobbyScreen() {
+        UU_ID_Input.setEditable(false);
+        UU_ID_Input.setEnabled(false);
+        UU_ID_Input.setVisible(false);
+        
         nameInput.setEditable(false);
-
-        lobbyUuid = client.createLobby();
-        client.joinLobby(lobbyUuid, "Test Player");
         
         Create_Lobby_Button.setEnabled(false);
         Join_Lobby_Button.setEnabled(false);
@@ -139,11 +140,6 @@ public class LobbyScreen implements ActionListener {
         Start_Button.setEnabled(true);
 
         textArea.setText("Your Lobby ID: " + lobbyUuid.toString());
-
-        // To do: Have some ability to make this text update itself whenever a new player joins game
-        textArea2.setText("5 players have joined");
-
-
     }
 
     public void JoinLobbyScreen() {
@@ -182,6 +178,8 @@ public class LobbyScreen implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==Create_Lobby_Button){
+            lobbyUuid = client.createLobby();
+            client.joinLobby(lobbyUuid, nameInput.getText());
             CreateLobbyScreen();
         }
 
@@ -191,8 +189,6 @@ public class LobbyScreen implements ActionListener {
 
         // To Join: Start Game Implementation
         if (e.getSource()==Start_Button){
-            frame.setVisible(false);
-            frame.dispose();
             client.startGame(lobbyUuid);
         }
 
@@ -201,7 +197,20 @@ public class LobbyScreen implements ActionListener {
             Join_Button.setText("JOINED");
             Join_Button.setEnabled(false);
             Join_Button.setEnabled(false);
-            client.joinLobby(lobbyUuid, "Test Player");
+            client.joinLobby(lobbyUuid, nameInput.getText());
+            CreateLobbyScreen();
         }
+    }
+    
+    public void setPlayers(java.util.List<String> players) {
+        textArea2.setText(("Players: " + String.join(", ", players)));
+
+        UU_ID_Input.setVisible(false);
+        textArea2.setVisible(true);
+    }
+    
+    public void close() {
+        frame.setVisible(false);
+        frame.dispose();
     }
 }
