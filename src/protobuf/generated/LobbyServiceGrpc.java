@@ -107,6 +107,37 @@ public final class LobbyServiceGrpc {
     return getStartGameMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<protobuf.generated.LobbyServiceMessages.SynchronizeTimeRequest,
+      protobuf.generated.LobbyServiceMessages.SynchronizeTimeResponse> getSynchronizeTimeMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "SynchronizeTime",
+      requestType = protobuf.generated.LobbyServiceMessages.SynchronizeTimeRequest.class,
+      responseType = protobuf.generated.LobbyServiceMessages.SynchronizeTimeResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<protobuf.generated.LobbyServiceMessages.SynchronizeTimeRequest,
+      protobuf.generated.LobbyServiceMessages.SynchronizeTimeResponse> getSynchronizeTimeMethod() {
+    io.grpc.MethodDescriptor<protobuf.generated.LobbyServiceMessages.SynchronizeTimeRequest, protobuf.generated.LobbyServiceMessages.SynchronizeTimeResponse> getSynchronizeTimeMethod;
+    if ((getSynchronizeTimeMethod = LobbyServiceGrpc.getSynchronizeTimeMethod) == null) {
+      synchronized (LobbyServiceGrpc.class) {
+        if ((getSynchronizeTimeMethod = LobbyServiceGrpc.getSynchronizeTimeMethod) == null) {
+          LobbyServiceGrpc.getSynchronizeTimeMethod = getSynchronizeTimeMethod =
+              io.grpc.MethodDescriptor.<protobuf.generated.LobbyServiceMessages.SynchronizeTimeRequest, protobuf.generated.LobbyServiceMessages.SynchronizeTimeResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "SynchronizeTime"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  protobuf.generated.LobbyServiceMessages.SynchronizeTimeRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  protobuf.generated.LobbyServiceMessages.SynchronizeTimeResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new LobbyServiceMethodDescriptorSupplier("SynchronizeTime"))
+              .build();
+        }
+      }
+    }
+    return getSynchronizeTimeMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -176,6 +207,13 @@ public final class LobbyServiceGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getStartGameMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void synchronizeTime(protobuf.generated.LobbyServiceMessages.SynchronizeTimeRequest request,
+        io.grpc.stub.StreamObserver<protobuf.generated.LobbyServiceMessages.SynchronizeTimeResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getSynchronizeTimeMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -199,6 +237,13 @@ public final class LobbyServiceGrpc {
                 protobuf.generated.LobbyServiceMessages.StartGameRequest,
                 protobuf.generated.LobbyServiceMessages.StartGameResponse>(
                   this, METHODID_START_GAME)))
+          .addMethod(
+            getSynchronizeTimeMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                protobuf.generated.LobbyServiceMessages.SynchronizeTimeRequest,
+                protobuf.generated.LobbyServiceMessages.SynchronizeTimeResponse>(
+                  this, METHODID_SYNCHRONIZE_TIME)))
           .build();
     }
   }
@@ -240,6 +285,14 @@ public final class LobbyServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getStartGameMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void synchronizeTime(protobuf.generated.LobbyServiceMessages.SynchronizeTimeRequest request,
+        io.grpc.stub.StreamObserver<protobuf.generated.LobbyServiceMessages.SynchronizeTimeResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getSynchronizeTimeMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -275,6 +328,13 @@ public final class LobbyServiceGrpc {
     public protobuf.generated.LobbyServiceMessages.StartGameResponse startGame(protobuf.generated.LobbyServiceMessages.StartGameRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getStartGameMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public protobuf.generated.LobbyServiceMessages.SynchronizeTimeResponse synchronizeTime(protobuf.generated.LobbyServiceMessages.SynchronizeTimeRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getSynchronizeTimeMethod(), getCallOptions(), request);
     }
   }
 
@@ -315,11 +375,20 @@ public final class LobbyServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getStartGameMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<protobuf.generated.LobbyServiceMessages.SynchronizeTimeResponse> synchronizeTime(
+        protobuf.generated.LobbyServiceMessages.SynchronizeTimeRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getSynchronizeTimeMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_CREATE_LOBBY = 0;
   private static final int METHODID_JOIN_LOBBY = 1;
   private static final int METHODID_START_GAME = 2;
+  private static final int METHODID_SYNCHRONIZE_TIME = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -349,6 +418,10 @@ public final class LobbyServiceGrpc {
         case METHODID_START_GAME:
           serviceImpl.startGame((protobuf.generated.LobbyServiceMessages.StartGameRequest) request,
               (io.grpc.stub.StreamObserver<protobuf.generated.LobbyServiceMessages.StartGameResponse>) responseObserver);
+          break;
+        case METHODID_SYNCHRONIZE_TIME:
+          serviceImpl.synchronizeTime((protobuf.generated.LobbyServiceMessages.SynchronizeTimeRequest) request,
+              (io.grpc.stub.StreamObserver<protobuf.generated.LobbyServiceMessages.SynchronizeTimeResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -414,6 +487,7 @@ public final class LobbyServiceGrpc {
               .addMethod(getCreateLobbyMethod())
               .addMethod(getJoinLobbyMethod())
               .addMethod(getStartGameMethod())
+              .addMethod(getSynchronizeTimeMethod())
               .build();
         }
       }
