@@ -22,11 +22,14 @@ import protobuf.generated.AnswerServiceMessages.AnswerRequest;
 import protobuf.generated.AnswerServiceMessages.AnswerResponse;
 import protobuf.generated.LobbyServiceGrpc;
 import protobuf.generated.LobbyServiceGrpc.LobbyServiceBlockingStub;
+import protobuf.generated.LobbyServiceMessages;
 import protobuf.generated.LobbyServiceMessages.CreateLobbyRequest;
 import protobuf.generated.LobbyServiceMessages.CreateLobbyResponse;
 import protobuf.generated.LobbyServiceMessages.JoinLobbyRequest;
 import protobuf.generated.LobbyServiceMessages.JoinLobbyResponse;
 import protobuf.generated.LobbyServiceMessages.StartGameRequest;
+import protobuf.generated.LobbyServiceMessages.SynchronizeTimeRequest;
+import protobuf.generated.LobbyServiceMessages.SynchronizeTimeResponse;
 import protobuf.generated.QuestionServiceGrpc.QuestionServiceImplBase;
 import protobuf.generated.QuestionServiceMessages.AskQuestionRequest;
 import protobuf.generated.QuestionServiceMessages.AskQuestionResponse;
@@ -44,6 +47,8 @@ public class Client {
 
     private LobbyServiceBlockingStub lobbyServiceBlockingStub;
     private AnswerServiceBlockingStub answerServiceStub;
+
+    private long timeDifference;
 
     private io.grpc.Server grpcServer;
 
@@ -193,7 +198,22 @@ public class Client {
                 StreamObserver<protobuf.generated.QuestionServiceMessages.StartGameResponse> responseObserver) {
             
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
-                       
+
+            long serverTime = 0, startTime = System.currentTimeMillis();
+            SynchronizeTimeRequest timeBuilder = SynchronizeTimeRequest.newBuilder().build();
+            Logger.logInfo(String.format("Sending %s", ProtobufUtils.getPrintableMessage(timeBuilder)));
+            try{
+                SynchronizeTimeResponse response = lobbyServiceBlockingStub.synchronizeTime(timeBuilder);
+
+                Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(response)));
+                serverTime = response.getTimestamp();
+            } catch (StatusRuntimeException e) {
+                handleGrpcError("Synchronize Time ", e.getStatus().getCode());
+            }
+            long endTime = System.currentTimeMillis();
+            long synchTime = serverTime + ((startTime + endTime)/2);
+            timeDifference = endTime - synchTime;
+
             lobbyGui.close();
             gui = new Quiz(Client.this);
             
