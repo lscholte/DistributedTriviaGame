@@ -12,6 +12,7 @@ service LobbyService
 	rpc CreateLobby(CreateLobbyRequest) returns (CreateLobbyResponse);
 	rpc JoinLobby(JoinLobbyRequest) returns (JoinLobbyResponse);
 	rpc StartGame(StartGameRequest) returns (StartGameResponse);
+	rpc SynchronizeTime(SynchronizeTimeRequest) returns (SynchronizeTimeResponse);
 }
 
 message CreateLobbyRequest
@@ -50,4 +51,14 @@ message StartGameRequest
 
 message StartGameResponse
 {
+}
+
+
+message SynchronizeTimeRequest
+{
+}
+
+message SynchronizeTimeResponse
+{
+	repeated uint64 timestamp = 1;
 }
