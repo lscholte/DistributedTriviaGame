@@ -1200,6 +1200,23 @@ public final class LobbyServiceMessages {
      * @return The playerPort.
      */
     int getPlayerPort();
+
+    /**
+     * <code>string player_id = 4;</code>
+     * @return Whether the playerId field is set.
+     */
+    boolean hasPlayerId();
+    /**
+     * <code>string player_id = 4;</code>
+     * @return The playerId.
+     */
+    java.lang.String getPlayerId();
+    /**
+     * <code>string player_id = 4;</code>
+     * @return The bytes for playerId.
+     */
+    com.google.protobuf.ByteString
+        getPlayerIdBytes();
   }
   /**
    * Protobuf type {@code protobuf.JoinLobbyRequest}
@@ -1216,6 +1233,7 @@ public final class LobbyServiceMessages {
     private JoinLobbyRequest() {
       lobbyId_ = "";
       playerName_ = "";
+      playerId_ = "";
     }
 
     @java.lang.Override
@@ -1264,6 +1282,12 @@ public final class LobbyServiceMessages {
             case 24: {
               bitField0_ |= 0x00000004;
               playerPort_ = input.readUInt32();
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+              bitField0_ |= 0x00000008;
+              playerId_ = s;
               break;
             }
             default: {
@@ -1410,6 +1434,52 @@ public final class LobbyServiceMessages {
       return playerPort_;
     }
 
+    public static final int PLAYER_ID_FIELD_NUMBER = 4;
+    private volatile java.lang.Object playerId_;
+    /**
+     * <code>string player_id = 4;</code>
+     * @return Whether the playerId field is set.
+     */
+    @java.lang.Override
+    public boolean hasPlayerId() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <code>string player_id = 4;</code>
+     * @return The playerId.
+     */
+    @java.lang.Override
+    public java.lang.String getPlayerId() {
+      java.lang.Object ref = playerId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        playerId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string player_id = 4;</code>
+     * @return The bytes for playerId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getPlayerIdBytes() {
+      java.lang.Object ref = playerId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        playerId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1433,6 +1503,9 @@ public final class LobbyServiceMessages {
       if (((bitField0_ & 0x00000004) != 0)) {
         output.writeUInt32(3, playerPort_);
       }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, playerId_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1451,6 +1524,9 @@ public final class LobbyServiceMessages {
       if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(3, playerPort_);
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, playerId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1482,6 +1558,11 @@ public final class LobbyServiceMessages {
         if (getPlayerPort()
             != other.getPlayerPort()) return false;
       }
+      if (hasPlayerId() != other.hasPlayerId()) return false;
+      if (hasPlayerId()) {
+        if (!getPlayerId()
+            .equals(other.getPlayerId())) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -1504,6 +1585,10 @@ public final class LobbyServiceMessages {
       if (hasPlayerPort()) {
         hash = (37 * hash) + PLAYER_PORT_FIELD_NUMBER;
         hash = (53 * hash) + getPlayerPort();
+      }
+      if (hasPlayerId()) {
+        hash = (37 * hash) + PLAYER_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getPlayerId().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -1644,6 +1729,8 @@ public final class LobbyServiceMessages {
         bitField0_ = (bitField0_ & ~0x00000002);
         playerPort_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
+        playerId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -1684,6 +1771,10 @@ public final class LobbyServiceMessages {
           result.playerPort_ = playerPort_;
           to_bitField0_ |= 0x00000004;
         }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.playerId_ = playerId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1745,6 +1836,11 @@ public final class LobbyServiceMessages {
         }
         if (other.hasPlayerPort()) {
           setPlayerPort(other.getPlayerPort());
+        }
+        if (other.hasPlayerId()) {
+          bitField0_ |= 0x00000008;
+          playerId_ = other.playerId_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1977,6 +2073,89 @@ public final class LobbyServiceMessages {
       public Builder clearPlayerPort() {
         bitField0_ = (bitField0_ & ~0x00000004);
         playerPort_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object playerId_ = "";
+      /**
+       * <code>string player_id = 4;</code>
+       * @return Whether the playerId field is set.
+       */
+      public boolean hasPlayerId() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <code>string player_id = 4;</code>
+       * @return The playerId.
+       */
+      public java.lang.String getPlayerId() {
+        java.lang.Object ref = playerId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          playerId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string player_id = 4;</code>
+       * @return The bytes for playerId.
+       */
+      public com.google.protobuf.ByteString
+          getPlayerIdBytes() {
+        java.lang.Object ref = playerId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          playerId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string player_id = 4;</code>
+       * @param value The playerId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPlayerId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        playerId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string player_id = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPlayerId() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        playerId_ = getDefaultInstance().getPlayerId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string player_id = 4;</code>
+       * @param value The bytes for playerId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPlayerIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        bitField0_ |= 0x00000008;
+        playerId_ = value;
         onChanged();
         return this;
       }
@@ -3832,25 +4011,26 @@ public final class LobbyServiceMessages {
     java.lang.String[] descriptorData = {
       "\n\023lobby_service.proto\022\010protobuf\"\024\n\022Creat" +
       "eLobbyRequest\"9\n\023CreateLobbyResponse\022\025\n\010" +
-      "lobby_id\030\001 \001(\tH\000\210\001\001B\013\n\t_lobby_id\"\212\001\n\020Joi" +
+      "lobby_id\030\001 \001(\tH\000\210\001\001B\013\n\t_lobby_id\"\260\001\n\020Joi" +
       "nLobbyRequest\022\025\n\010lobby_id\030\001 \001(\tH\000\210\001\001\022\030\n\013" +
       "player_name\030\002 \001(\tH\001\210\001\001\022\030\n\013player_port\030\003 " +
-      "\001(\rH\002\210\001\001B\013\n\t_lobby_idB\016\n\014_player_nameB\016\n" +
-      "\014_player_port\"w\n\021JoinLobbyResponse\022,\n\005er" +
-      "ror\030\001 \001(\0162\030.protobuf.JoinLobbyErrorH\000\210\001\001" +
-      "\022\031\n\014questionText\030\002 \001(\tH\001\210\001\001B\010\n\006_errorB\017\n" +
-      "\r_questionText\"6\n\020StartGameRequest\022\025\n\010lo" +
-      "bby_id\030\001 \001(\tH\000\210\001\001B\013\n\t_lobby_id\"\023\n\021StartG" +
-      "ameResponse*B\n\016JoinLobbyError\022\013\n\007SUCCESS" +
-      "\020\000\022\023\n\017LOBBY_NOT_FOUND\020\001\022\016\n\nLOBBY_FULL\020\0022" +
-      "\346\001\n\014LobbyService\022J\n\013CreateLobby\022\034.protob" +
-      "uf.CreateLobbyRequest\032\035.protobuf.CreateL" +
-      "obbyResponse\022D\n\tJoinLobby\022\032.protobuf.Joi" +
-      "nLobbyRequest\032\033.protobuf.JoinLobbyRespon" +
-      "se\022D\n\tStartGame\022\032.protobuf.StartGameRequ" +
-      "est\032\033.protobuf.StartGameResponseB*\n\022prot" +
-      "obuf.generatedB\024LobbyServiceMessagesb\006pr" +
-      "oto3"
+      "\001(\rH\002\210\001\001\022\026\n\tplayer_id\030\004 \001(\tH\003\210\001\001B\013\n\t_lob" +
+      "by_idB\016\n\014_player_nameB\016\n\014_player_portB\014\n" +
+      "\n_player_id\"w\n\021JoinLobbyResponse\022,\n\005erro" +
+      "r\030\001 \001(\0162\030.protobuf.JoinLobbyErrorH\000\210\001\001\022\031" +
+      "\n\014questionText\030\002 \001(\tH\001\210\001\001B\010\n\006_errorB\017\n\r_" +
+      "questionText\"6\n\020StartGameRequest\022\025\n\010lobb" +
+      "y_id\030\001 \001(\tH\000\210\001\001B\013\n\t_lobby_id\"\023\n\021StartGam" +
+      "eResponse*B\n\016JoinLobbyError\022\013\n\007SUCCESS\020\000" +
+      "\022\023\n\017LOBBY_NOT_FOUND\020\001\022\016\n\nLOBBY_FULL\020\0022\346\001" +
+      "\n\014LobbyService\022J\n\013CreateLobby\022\034.protobuf" +
+      ".CreateLobbyRequest\032\035.protobuf.CreateLob" +
+      "byResponse\022D\n\tJoinLobby\022\032.protobuf.JoinL" +
+      "obbyRequest\032\033.protobuf.JoinLobbyResponse" +
+      "\022D\n\tStartGame\022\032.protobuf.StartGameReques" +
+      "t\032\033.protobuf.StartGameResponseB*\n\022protob" +
+      "uf.generatedB\024LobbyServiceMessagesb\006prot" +
+      "o3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3873,7 +4053,7 @@ public final class LobbyServiceMessages {
     internal_static_protobuf_JoinLobbyRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_protobuf_JoinLobbyRequest_descriptor,
-        new java.lang.String[] { "LobbyId", "PlayerName", "PlayerPort", "LobbyId", "PlayerName", "PlayerPort", });
+        new java.lang.String[] { "LobbyId", "PlayerName", "PlayerPort", "PlayerId", "LobbyId", "PlayerName", "PlayerPort", "PlayerId", });
     internal_static_protobuf_JoinLobbyResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_protobuf_JoinLobbyResponse_fieldAccessorTable = new

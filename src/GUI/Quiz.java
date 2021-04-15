@@ -2,6 +2,8 @@ package GUI;
 
 import javax.swing.*;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import client.Client;
 import client.MultipleChoiceAnswer;
 import client.Player;
@@ -9,6 +11,7 @@ import client.Question;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Quiz implements ActionListener {
@@ -186,6 +189,14 @@ public class Quiz implements ActionListener {
             results();
         }
         else {
+            java.util.List<JLabel> answerLabels = new ArrayList<>();
+            answerLabels.add(answer_labelA);
+            answerLabels.add(answer_labelB);
+            answerLabels.add(answer_labelC);
+            answerLabels.add(answer_labelD);
+            
+            answerLabels.forEach(label -> label.setForeground(new Color(25, 255, 0)));
+            
             textField.setText("Question " + question.getNumber());
             textArea.setText(question.getText());
             answer_labelA.setText(question.getOptions().get(0));
@@ -286,29 +297,38 @@ public class Quiz implements ActionListener {
         buttonB.setEnabled(false);
         buttonC.setEnabled(false);
         buttonD.setEnabled(false);
-
-        boolean isCorrect = false;
+       
+      
+        Pair<Boolean, String> correctness = null;
         if (e.getSource()==buttonA){
-            isCorrect = client.answer(MultipleChoiceAnswer.A);
+            correctness = client.answer(answer_labelA.getText());
         }
 
         if (e.getSource()==buttonB){
-            isCorrect = client.answer(MultipleChoiceAnswer.B);
+            correctness = client.answer(answer_labelB.getText());
         }
 
         if (e.getSource()==buttonC){
-            isCorrect = client.answer(MultipleChoiceAnswer.C);
+            correctness = client.answer(answer_labelC.getText());
         }
 
         if (e.getSource()==buttonD){
-            isCorrect = client.answer(MultipleChoiceAnswer.D);
+            correctness = client.answer(answer_labelD.getText());
         }
         
-        if(isCorrect) {
+        boolean isCorrect = correctness.getLeft();
+        String correctAnswer = correctness.getRight();
+        
+        java.util.List<JLabel> answerLabels = new ArrayList<>();
+        answerLabels.add(answer_labelA);
+        answerLabels.add(answer_labelB);
+        answerLabels.add(answer_labelC);
+        answerLabels.add(answer_labelD);
+        
+        answerLabels.stream().filter(label -> !label.getText().equals(correctAnswer)).forEach(label -> label.setForeground(new Color(255, 0, 0)));
+        
+        if (isCorrect) {
             correct_guesses++;
         }
-
-//        displayAnswer();
-
     }
 }

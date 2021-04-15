@@ -58,6 +58,7 @@ message UpdateLobbyPlayersResponse
 
 message StartGameRequest
 {
+	optional string lobby_id = 1;
 }
 
 message StartGameResponse

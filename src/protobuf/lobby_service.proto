@@ -35,6 +35,7 @@ message JoinLobbyRequest
 	optional string lobby_id = 1;
 	optional string player_name = 2;
 	optional uint32 player_port = 3;
+	optional string player_id = 4;
 }
 
 message JoinLobbyResponse

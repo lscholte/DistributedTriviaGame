@@ -8,6 +8,8 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import GUI.LobbyScreen;
 import GUI.Quiz;
 import game.Server;
@@ -51,9 +53,11 @@ public class Client {
 
     private LobbyScreen lobbyGui;
     private Quiz gui;
+    
+    private UUID lobbyId;
+    private UUID playerId;
 
     public Client() throws UnknownHostException, IOException {
-//        gui = new Quiz(this);
         channel = ManagedChannelBuilder.forAddress("localhost", Server.PORT).usePlaintext().build();
         
         lobbyServiceBlockingStub = LobbyServiceGrpc.newBlockingStub(channel);
@@ -113,6 +117,9 @@ public class Client {
         requestBuilder.setPlayerName(playerName);
         requestBuilder.setPlayerPort(grpcServer.getPort());
         
+        playerId = UUID.randomUUID();
+        requestBuilder.setPlayerId(playerId.toString());
+        
         // Send request
         JoinLobbyRequest request = requestBuilder.build();
         Logger.logInfo(String.format("Sending %s", ProtobufUtils.getPrintableMessage(request)));
@@ -142,11 +149,13 @@ public class Client {
         }        
     }
 
-    public boolean answer(MultipleChoiceAnswer answer) {
+    public Pair<Boolean, String> answer(String answer) {
         // Build request
         AnswerRequest.Builder requestBuilder = AnswerRequest.newBuilder();
-//        requestBuilder.setText(answerText);
-
+        requestBuilder.setLobbyId(lobbyId.toString());
+        requestBuilder.setText(answer);
+        requestBuilder.setPlayerId(playerId.toString());
+        
         // Send request
         AnswerRequest request = requestBuilder.build();
         Logger.logInfo(String.format("Sending %s", ProtobufUtils.getPrintableMessage(request)));
@@ -160,15 +169,15 @@ public class Client {
 
             if (response.getCorrect()) {
                 Logger.logInfo("Answer was correct");
-                return true;
+                return Pair.of(true, response.getCorrectAnswer());
             } else {
                 Logger.logInfo("Answer was incorrect");
-                return false;
+                return Pair.of(false, response.getCorrectAnswer());
             }
         } catch (StatusRuntimeException e) {
             handleGrpcError("Answer", e.getStatus().getCode());
         }
-        return false;
+        return Pair.of(false, "");
     }
 
     private void handleGrpcError(String requestType, Code code) {
@@ -193,7 +202,9 @@ public class Client {
                 StreamObserver<protobuf.generated.QuestionServiceMessages.StartGameResponse> responseObserver) {
             
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
-                       
+            
+            lobbyId = UUID.fromString(request.getLobbyId());
+            
             lobbyGui.close();
             gui = new Quiz(Client.this);
             
