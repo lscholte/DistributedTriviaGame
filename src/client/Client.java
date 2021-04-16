@@ -211,8 +211,10 @@ public class Client {
                 handleGrpcError("Synchronize Time ", e.getStatus().getCode());
             }
             long endTime = System.currentTimeMillis();
-            long synchTime = serverTime + ((startTime + endTime)/2);
-            timeDifference = endTime - synchTime;
+            long syncTime = serverTime + ((endTime - startTime)/2);
+            timeDifference = endTime - syncTime;
+            Logger.logInfo("Client End " + new Date(endTime));
+            Logger.logInfo("Sync Time  " + new Date(syncTime) + "\n Difference " + timeDifference);
 
             lobbyGui.close();
             gui = new Quiz(Client.this);

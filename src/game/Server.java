@@ -200,6 +200,10 @@ public class Server {
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
 
             SynchronizeTimeResponse.Builder responseBuilder = SynchronizeTimeResponse.newBuilder();
+            // Testing code
+//            long serverTime = System.currentTimeMillis() + 1000000;
+//            responseBuilder.setTimestamp(serverTime);
+//            System.out.println(new Date(serverTime));
             responseBuilder.setTimestamp(System.currentTimeMillis());
 
             responseObserver.onNext(responseBuilder.build());
