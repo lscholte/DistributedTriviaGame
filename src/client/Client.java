@@ -8,6 +8,8 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import GUI.LobbyScreen;
 import GUI.Quiz;
 import game.Server;
@@ -22,14 +24,13 @@ import protobuf.generated.AnswerServiceMessages.AnswerRequest;
 import protobuf.generated.AnswerServiceMessages.AnswerResponse;
 import protobuf.generated.LobbyServiceGrpc;
 import protobuf.generated.LobbyServiceGrpc.LobbyServiceBlockingStub;
-import protobuf.generated.LobbyServiceMessages;
 import protobuf.generated.LobbyServiceMessages.CreateLobbyRequest;
 import protobuf.generated.LobbyServiceMessages.CreateLobbyResponse;
 import protobuf.generated.LobbyServiceMessages.JoinLobbyRequest;
 import protobuf.generated.LobbyServiceMessages.JoinLobbyResponse;
-import protobuf.generated.LobbyServiceMessages.StartGameRequest;
 import protobuf.generated.LobbyServiceMessages.SynchronizeTimeRequest;
 import protobuf.generated.LobbyServiceMessages.SynchronizeTimeResponse;
+import protobuf.generated.LobbyServiceMessages.StartGameRequest;
 import protobuf.generated.QuestionServiceGrpc.QuestionServiceImplBase;
 import protobuf.generated.QuestionServiceMessages.AskQuestionRequest;
 import protobuf.generated.QuestionServiceMessages.AskQuestionResponse;
@@ -48,19 +49,20 @@ public class Client {
     private LobbyServiceBlockingStub lobbyServiceBlockingStub;
     private AnswerServiceBlockingStub answerServiceStub;
 
-    private long timeDifference;
-
     private io.grpc.Server grpcServer;
 
     private ManagedChannel channel;
 
+    private long timeDifference;
     private LobbyScreen lobbyGui;
     private Quiz gui;
 
+    private UUID lobbyId;
+    private UUID playerId;
+
     public Client() throws UnknownHostException, IOException {
-//        gui = new Quiz(this);
         channel = ManagedChannelBuilder.forAddress("localhost", Server.PORT).usePlaintext().build();
-        
+
         lobbyServiceBlockingStub = LobbyServiceGrpc.newBlockingStub(channel);
         answerServiceStub = AnswerServiceGrpc.newBlockingStub(channel);
 
@@ -71,9 +73,9 @@ public class Client {
                 e.printStackTrace();
             }
         }));
-        
-      grpcServer = ServerBuilder.forPort(0).addService(new QuestionService()).build();
-      grpcServer.start();
+
+        grpcServer = ServerBuilder.forPort(0).addService(new QuestionService()).build();
+        grpcServer.start();
     }
 
     public void start() throws IOException, InterruptedException {
@@ -117,7 +119,10 @@ public class Client {
         requestBuilder.setLobbyId(lobbyUuid.toString());
         requestBuilder.setPlayerName(playerName);
         requestBuilder.setPlayerPort(grpcServer.getPort());
-        
+
+        playerId = UUID.randomUUID();
+        requestBuilder.setPlayerId(playerId.toString());
+
         // Send request
         JoinLobbyRequest request = requestBuilder.build();
         Logger.logInfo(String.format("Sending %s", ProtobufUtils.getPrintableMessage(request)));
@@ -129,7 +134,7 @@ public class Client {
             handleGrpcError("JoinLobby", e.getStatus().getCode());
         }
     }
-    
+
     public void startGame(UUID lobbyUuid) {
         // Build request
         StartGameRequest.Builder requestBuilder = StartGameRequest.newBuilder();
@@ -140,17 +145,19 @@ public class Client {
         Logger.logInfo(String.format("Sending %s", ProtobufUtils.getPrintableMessage(request)));
 
         try {
-            lobbyServiceBlockingStub.startGame(request);            
+            lobbyServiceBlockingStub.startGame(request);
         }
         catch (StatusRuntimeException e) {
             handleGrpcError("StartGame", e.getStatus().getCode());
-        }        
+        }
     }
 
-    public boolean answer(MultipleChoiceAnswer answer) {
+    public Pair<Boolean, String> answer(String answer) {
         // Build request
         AnswerRequest.Builder requestBuilder = AnswerRequest.newBuilder();
-//        requestBuilder.setText(answerText);
+        requestBuilder.setLobbyId(lobbyId.toString());
+        requestBuilder.setText(answer);
+        requestBuilder.setPlayerId(playerId.toString());
 
         // Send request
         AnswerRequest request = requestBuilder.build();
@@ -165,38 +172,38 @@ public class Client {
 
             if (response.getCorrect()) {
                 Logger.logInfo("Answer was correct");
-                return true;
+                return Pair.of(true, response.getCorrectAnswer());
             } else {
                 Logger.logInfo("Answer was incorrect");
-                return false;
+                return Pair.of(false, response.getCorrectAnswer());
             }
         } catch (StatusRuntimeException e) {
             handleGrpcError("Answer", e.getStatus().getCode());
         }
-        return false;
+        return Pair.of(false, "");
     }
 
     private void handleGrpcError(String requestType, Code code) {
         switch (code) {
-        case UNAVAILABLE:
-            Logger.logError(String.format("%s failed because server is unavailable", requestType));
-            break;
-        case DEADLINE_EXCEEDED:
-            Logger.logError(String.format("%s timed out waiting for response", requestType));
-            break;
-        default:
-            Logger.logError(String.format("%s failed with error status code %s", requestType,
-                    code.toString()));
-            break;
+            case UNAVAILABLE:
+                Logger.logError(String.format("%s failed because server is unavailable", requestType));
+                break;
+            case DEADLINE_EXCEEDED:
+                Logger.logError(String.format("%s timed out waiting for response", requestType));
+                break;
+            default:
+                Logger.logError(String.format("%s failed with error status code %s", requestType,
+                        code.toString()));
+                break;
         }
     }
 
     private class QuestionService extends QuestionServiceImplBase {
-        
+
         @Override
         public void startGame(protobuf.generated.QuestionServiceMessages.StartGameRequest request,
-                StreamObserver<protobuf.generated.QuestionServiceMessages.StartGameResponse> responseObserver) {
-            
+                              StreamObserver<protobuf.generated.QuestionServiceMessages.StartGameResponse> responseObserver) {
+
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
 
             long serverTime = 0, startTime = System.currentTimeMillis();
@@ -216,50 +223,52 @@ public class Client {
             Logger.logInfo("Client End " + new Date(endTime));
             Logger.logInfo("Sync Time  " + new Date(syncTime) + "\n Difference " + timeDifference);
 
+            lobbyId = UUID.fromString(request.getLobbyId());
+
             lobbyGui.close();
             gui = new Quiz(Client.this);
-            
+
             protobuf.generated.QuestionServiceMessages.StartGameResponse.Builder responseBuilder = protobuf.generated.QuestionServiceMessages.StartGameResponse.newBuilder();
             responseObserver.onNext(responseBuilder.build());
             responseObserver.onCompleted();
         }
-        
+
         @Override
         public void updateLobbyPlayers(UpdateLobbyPlayersRequest request,
-                StreamObserver<UpdateLobbyPlayersResponse> responseObserver) {
-            
+                                       StreamObserver<UpdateLobbyPlayersResponse> responseObserver) {
+
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
-                       
+
             lobbyGui.setPlayers(request.getPlayerNamesList());
-            
+
             UpdateLobbyPlayersResponse.Builder responseBuilder = UpdateLobbyPlayersResponse.newBuilder();
             responseObserver.onNext(responseBuilder.build());
             responseObserver.onCompleted();
-        } 
-        
+        }
+
         @Override
         public void updateScores(UpdateScoresRequest request,
-                StreamObserver<UpdateScoresResponse> responseObserver) {
-            
+                                 StreamObserver<UpdateScoresResponse> responseObserver) {
+
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
             List<Player> players = request.getPlayersList().stream().map(p -> new Player(p.getName(), p.getScore())).collect(Collectors.toList());
-                        
+
             gui.updateScores(players);
-            
+
             UpdateScoresResponse.Builder responseBuilder = UpdateScoresResponse.newBuilder();
             responseObserver.onNext(responseBuilder.build());
             responseObserver.onCompleted();
-        }        
+        }
 
         @Override
         public void askQuestion(AskQuestionRequest request,
-                StreamObserver<AskQuestionResponse> responseObserver) {
-            
+                                StreamObserver<AskQuestionResponse> responseObserver) {
+
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
             Question question = new Question(request.getNumber(), request.getQuestion(), request.getOptionsList());
-            
+
             gui.nextQuestion(question, new Date(request.getDeadline()));
-            
+
             AskQuestionResponse.Builder responseBuilder = AskQuestionResponse.newBuilder();
             responseObserver.onNext(responseBuilder.build());
             responseObserver.onCompleted();
