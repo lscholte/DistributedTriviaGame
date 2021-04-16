@@ -215,13 +215,13 @@ public class Client {
                 Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(response)));
                 serverTime = response.getTimestamp();
             } catch (StatusRuntimeException e) {
-                handleGrpcError("Synchronize Time ", e.getStatus().getCode());
+                handleGrpcError("Time Synchronization", e.getStatus().getCode());
             }
             long endTime = System.currentTimeMillis();
             long syncTime = serverTime + ((endTime - startTime)/2);
             timeDifference = endTime - syncTime;
             Logger.logInfo("Client End " + new Date(endTime));
-            Logger.logInfo("Sync Time  " + new Date(syncTime) + "\n Difference " + timeDifference);
+            Logger.logInfo("Sync Time  " + new Date(syncTime) + "\nDifference " + timeDifference);
 
             lobbyId = UUID.fromString(request.getLobbyId());
 
