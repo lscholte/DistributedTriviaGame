@@ -43,6 +43,9 @@ public class Server {
     private Map<UUID, Lobby> lobbyMap = new HashMap<>();
     
     private MongoConnection dbConnection;
+    
+    private Map<String, String> currentQuestion;
+    private Object questionLock = new Object();
 
     public Server() {
         grpcServer = ServerBuilder
@@ -92,7 +95,7 @@ public class Server {
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
 
             ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", request.getPlayerPort()).usePlaintext().build();
-            Player player = new Player(request.getPlayerName(), QuestionServiceGrpc.newBlockingStub(channel));
+            Player player = new Player(UUID.fromString(request.getPlayerId()), request.getPlayerName(), QuestionServiceGrpc.newBlockingStub(channel));
             
             UUID lobbyID = UUID.fromString(request.getLobbyId());
 
@@ -129,10 +132,9 @@ public class Server {
             List<Player> players = lobby.getPlayers();
             
             for (Player player: players) {
-                new Thread(() -> {
-                    player.getQuestionServiceStub().startGame(protobuf.generated.QuestionServiceMessages.StartGameRequest.newBuilder().build());
-                                        
-                }).start();
+                protobuf.generated.QuestionServiceMessages.StartGameRequest.Builder startGameRequestBuilder = protobuf.generated.QuestionServiceMessages.StartGameRequest.newBuilder();
+                startGameRequestBuilder.setLobbyId(lobbyID.toString());
+                player.getQuestionServiceStub().startGame(startGameRequestBuilder.build());
             }
 
             for (int i = 1; i <= 10; ++i) {
@@ -146,29 +148,38 @@ public class Server {
                 }
                 UpdateScoresRequest updateScoresRequest = updateScoresRequestBuilder.build();
                 
-                //Build an AskQuestionRequest
-                Map<String, String> question = dbConnection.getQuestion(new Random().nextInt(100) + 1);
-
                 AskQuestionRequest.Builder questionRequestBuilder = AskQuestionRequest.newBuilder();
-                questionRequestBuilder.setNumber(i);
-                questionRequestBuilder.setQuestion(question.get("question"));
-                
-                List<String> options = new ArrayList<String>(4);
-                options.add(question.get("option 1"));
-                options.add(question.get("option 2"));
-                options.add(question.get("option 3"));
-                options.add(question.get("option 4"));
-                questionRequestBuilder.addAllOptions(options);
-                
-                questionRequestBuilder.setDeadline(new Date().getTime() + QUESTION_DEADLINE_S * 1000);
-                
+
+                synchronized (questionLock) {
+                    //Build an AskQuestionRequest
+
+                    currentQuestion = dbConnection.getQuestion(new Random().nextInt(100) + 1);
+                    
+                    long questionDeadline = new Date().getTime() + QUESTION_DEADLINE_S * 1000;
+                    currentQuestion.put("deadline", Long.toString(questionDeadline));
+
+                    questionRequestBuilder.setNumber(i);
+                    questionRequestBuilder.setQuestion(currentQuestion.get("question"));
+                    
+                    List<String> options = new ArrayList<String>(4);
+                    options.add(currentQuestion.get("option 1"));
+                    options.add(currentQuestion.get("option 2"));
+                    options.add(currentQuestion.get("option 3"));
+                    options.add(currentQuestion.get("option 4"));
+                    questionRequestBuilder.addAllOptions(options);
+                    
+                    questionRequestBuilder.setDeadline(new Date().getTime() + QUESTION_DEADLINE_S * 1000);
+                }
+
                 AskQuestionRequest questionRequest = questionRequestBuilder.build();
-                
+
+                                
                 //Send the requests to each player
                 for (Player player: players) {
                     new Thread(() -> {
                         Logger.logInfo(String.format("Sending %s to player %s", ProtobufUtils.getPrintableMessage(updateScoresRequest), player.getName()));
-                        player.getQuestionServiceStub().updateScores(updateScoresRequestBuilder.build());
+                        
+                        player.getQuestionServiceStub().updateScores(updateScoresRequest);
                                             
                         Logger.logInfo(String.format("Sending %s to player %s", ProtobufUtils.getPrintableMessage(questionRequest), player.getName()));
                         player.getQuestionServiceStub().askQuestion(questionRequest);
@@ -202,10 +213,27 @@ public class Server {
         
         @Override
         public void answer(AnswerRequest request, StreamObserver<AnswerResponse> responseObserver) {
-            //TODO: Validate the answer given and accumulate a score
-            
+                   
             AnswerResponse.Builder responseBuilder = AnswerResponse.newBuilder();
-            responseBuilder.setCorrect(true); //TODO: or false if answer is wrong
+            synchronized (questionLock) {
+                responseBuilder.setCorrectAnswer(currentQuestion.get("answer"));
+                if (request.getText().equals(currentQuestion.get("answer"))) {
+                    responseBuilder.setCorrect(true);
+                    Optional<Player> player = lobbyMap.get(UUID.fromString(request.getLobbyId())).getPlayers().stream().filter(p -> p.getId().equals(UUID.fromString(request.getPlayerId()))).findFirst();
+                    if (player.isPresent()) {
+                        long now = new Date().getTime();
+                        long deadline = Long.parseLong(currentQuestion.get("deadline"));
+                        
+                        int scoreToAdd = (int)(100 * ((deadline - now) / 1000.0)/QUESTION_DEADLINE_S);
+                        scoreToAdd = Math.max(0, Math.min(100, scoreToAdd));
+                        
+                        player.get().incrementScore(scoreToAdd);
+                    }
+                }
+                else {
+                    responseBuilder.setCorrect(false);
+                }   
+            }
                         
             responseObserver.onNext(responseBuilder.build());
             responseObserver.onCompleted();
