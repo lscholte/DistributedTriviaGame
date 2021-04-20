@@ -223,7 +223,6 @@ public class Client {
             long endTime = System.currentTimeMillis();
             long syncTime = serverTime + ((endTime - startTime)/2);
             timeDifference = endTime - syncTime;
-            Logger.logInfo("Client End " + new Date(endTime));
             Logger.logInfo("Sync Time  " + new Date(syncTime) + "\nDifference " + timeDifference);
 
             lobbyId = UUID.fromString(request.getLobbyId());
@@ -288,7 +287,8 @@ public class Client {
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
             Question question = new Question(request.getNumber(), request.getQuestion(), request.getOptionsList());
 
-            gui.nextQuestion(question, new Date(request.getDeadline()));
+            gui.nextQuestion(question, new Date(request.getDeadline()+timeDifference));
+            //gui.nextQuestion(question, new Date(request.getDeadline()));
 
             AskQuestionResponse.Builder responseBuilder = AskQuestionResponse.newBuilder();
             responseObserver.onNext(responseBuilder.build());
