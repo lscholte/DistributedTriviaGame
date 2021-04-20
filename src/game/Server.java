@@ -21,6 +21,8 @@ import protobuf.generated.LobbyServiceMessages.JoinLobbyRequest;
 import protobuf.generated.LobbyServiceMessages.JoinLobbyResponse;
 import protobuf.generated.LobbyServiceMessages.StartGameRequest;
 import protobuf.generated.LobbyServiceMessages.StartGameResponse;
+import protobuf.generated.LobbyServiceMessages.SynchronizeTimeRequest;
+import protobuf.generated.LobbyServiceMessages.SynchronizeTimeResponse;
 import protobuf.generated.QuestionServiceGrpc;
 import protobuf.generated.QuestionServiceMessages.AskQuestionRequest;
 import protobuf.generated.QuestionServiceMessages.FinishGameRequest;
@@ -205,6 +207,23 @@ public class Server {
                 }).start();
             }
         }
+
+        @Override
+        public void synchronizeTime(SynchronizeTimeRequest request, StreamObserver<SynchronizeTimeResponse> responseObserver) {
+            Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
+
+            SynchronizeTimeResponse.Builder responseBuilder = SynchronizeTimeResponse.newBuilder();
+            // Testing code
+//            long serverTime = System.currentTimeMillis() + 1000000;
+//            responseBuilder.setTimestamp(serverTime);
+//            System.out.println(new Date(serverTime));
+            responseBuilder.setTimestamp(System.currentTimeMillis());
+
+            responseObserver.onNext(responseBuilder.build());
+            responseObserver.onCompleted();
+
+        }
+
     }
 
     private class AnswerService extends AnswerServiceImplBase {
