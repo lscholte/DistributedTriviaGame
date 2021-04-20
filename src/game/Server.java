@@ -24,6 +24,7 @@ import protobuf.generated.LobbyServiceMessages.StartGameResponse;
 import protobuf.generated.QuestionServiceGrpc;
 import protobuf.generated.QuestionServiceMessages.AskQuestionRequest;
 import protobuf.generated.QuestionServiceMessages.AskQuestionResponse;
+import protobuf.generated.QuestionServiceMessages.FinishGameRequest;
 import protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest;
 import protobuf.generated.QuestionServiceMessages.UpdateScoresRequest;
 import protobuf.generated.QuestionServiceMessages.UpdateScoresResponse;
@@ -139,7 +140,7 @@ public class Server {
                 //Build an UpdateScoresRequest
                 UpdateScoresRequest.Builder updateScoresRequestBuilder = UpdateScoresRequest.newBuilder();
                 for (Player player : players) {
-                    UpdateScoresRequest.Player.Builder playerBuilder = UpdateScoresRequest.Player.newBuilder();
+                    protobuf.generated.QuestionServiceMessages.Player.Builder playerBuilder = protobuf.generated.QuestionServiceMessages.Player.newBuilder();
                     playerBuilder.setName(player.getName());
                     playerBuilder.setScore(player.getScore());
                     updateScoresRequestBuilder.addPlayers(playerBuilder.build());
@@ -190,6 +191,24 @@ public class Server {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+            }
+            
+            //Build an UpdateScoresRequest
+            FinishGameRequest.Builder finishGameRequestBuilder = FinishGameRequest.newBuilder();
+            for (Player player : players.stream().sorted((a, b) -> a.getScore() - b.getScore()).collect(Collectors.toList())) {
+                protobuf.generated.QuestionServiceMessages.Player.Builder playerBuilder = protobuf.generated.QuestionServiceMessages.Player.newBuilder();
+                playerBuilder.setName(player.getName());
+                playerBuilder.setScore(player.getScore());
+                finishGameRequestBuilder.addPlayers(playerBuilder.build());
+            }
+            FinishGameRequest finishGameRequest = finishGameRequestBuilder.build();
+            
+            //Send the requests to each player
+            for (Player player: players) {
+                new Thread(() -> {
+                    Logger.logInfo(String.format("Sending %s to player %s", ProtobufUtils.getPrintableMessage(finishGameRequest), player.getName()));
+                    player.getQuestionServiceStub().finishGame(finishGameRequest);                                        
+                }).start();
             }
         }
     }

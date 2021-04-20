@@ -15,13 +15,6 @@ import java.util.Date;
 
 public class Quiz implements ActionListener {
 
-    char guess;
-    char answer;
-    int index;
-    int correct_guesses=0;
-    int total_questions=10;//TODO: if we actually care about this, we should get this info from server
-    int result;
-
     JFrame frame = new JFrame();
     JTextField textField = new JTextField();
     JTextArea scoreArea = new JTextArea();
@@ -36,8 +29,6 @@ public class Quiz implements ActionListener {
     JLabel answer_labelD = new JLabel();
     JLabel time_label = new JLabel();
     JLabel seconds_left = new JLabel();
-    JTextField number_right = new JTextField();
-    JTextField percentage = new JTextField();
         
     private Timer timer;
     
@@ -124,30 +115,12 @@ public class Quiz implements ActionListener {
         seconds_left.setBorder(BorderFactory.createBevelBorder(1));
         seconds_left.setOpaque(true);
         seconds_left.setHorizontalAlignment(JTextField.CENTER);
-//        seconds_left.setText(String.valueOf(seconds));
 
         time_label.setBounds(535,475,100,25);
         time_label.setBackground(new Color(50,50,50));
         time_label.setForeground(new Color(255,0,0));
         time_label.setHorizontalAlignment(JTextField.CENTER);
         time_label.setText("Timer: ");
-
-        number_right.setBounds(225,225,200,100);
-        number_right.setBackground(new Color(25,25,25));
-        number_right.setForeground(new Color(25,255,0));
-        number_right.setBorder(BorderFactory.createBevelBorder(1));
-        number_right.setHorizontalAlignment(JTextField.CENTER);
-        number_right.setEditable(false);
-
-        percentage.setBounds(225,325,200,100);
-        percentage.setBackground(new Color(25,25,25));
-        percentage.setForeground(new Color(25,255,0));
-        percentage.setBorder(BorderFactory.createBevelBorder(1));
-        percentage.setHorizontalAlignment(JTextField.CENTER);
-        percentage.setEditable(false);
-
-//        frame.add(percentage);
-//        frame.add(number_right);
         
         frame.add(time_label);
         frame.add(seconds_left);
@@ -163,8 +136,6 @@ public class Quiz implements ActionListener {
         frame.add(textArea);
         frame.add(textField);
         frame.setVisible(true);
-
-//        nextQuestion();
     }
     
     public void updateScores(java.util.List<Player> players) {
@@ -184,110 +155,37 @@ public class Quiz implements ActionListener {
             timer.stop();
         }
         
-        if (index >= total_questions){
-            results();
-        }
-        else {
-            java.util.List<JLabel> answerLabels = new ArrayList<>();
-            answerLabels.add(answer_labelA);
-            answerLabels.add(answer_labelB);
-            answerLabels.add(answer_labelC);
-            answerLabels.add(answer_labelD);
-            
-            answerLabels.forEach(label -> label.setForeground(new Color(25, 255, 0)));
-            
-            textField.setText("Question " + question.getNumber());
-            textArea.setText(question.getText());
-            answer_labelA.setText(question.getOptions().get(0));
-            answer_labelB.setText(question.getOptions().get(1));
-            answer_labelC.setText(question.getOptions().get(2));
-            answer_labelD.setText(question.getOptions().get(3));
-            
-            buttonA.setEnabled(true);
-            buttonB.setEnabled(true);
-            buttonC.setEnabled(true);
-            buttonD.setEnabled(true);
-            
-            timer = new Timer(100, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    long remainingMillis = deadline.getTime() - new Date().getTime();
-                    
-                    seconds_left.setText(String.valueOf(remainingMillis/1000));
-                }
-            });
-            timer.start();
-        }
 
-    }
+        java.util.List<JLabel> answerLabels = new ArrayList<>();
+        answerLabels.add(answer_labelA);
+        answerLabels.add(answer_labelB);
+        answerLabels.add(answer_labelC);
+        answerLabels.add(answer_labelD);
+        
+        answerLabels.forEach(label -> label.setForeground(new Color(25, 255, 0)));
+        
+        textField.setText("Question " + question.getNumber());
+        textArea.setText(question.getText());
+        answer_labelA.setText(question.getOptions().get(0));
+        answer_labelB.setText(question.getOptions().get(1));
+        answer_labelC.setText(question.getOptions().get(2));
+        answer_labelD.setText(question.getOptions().get(3));
+        
+        buttonA.setEnabled(true);
+        buttonB.setEnabled(true);
+        buttonC.setEnabled(true);
+        buttonD.setEnabled(true);
+        
+        timer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                long remainingMillis = deadline.getTime() - new Date().getTime();
+                
+                seconds_left.setText(String.valueOf(remainingMillis/1000));
+            }
+        });
+        timer.start();
 
-//    public void displayAnswer() {
-////        Timer.stop();
-//        buttonA.setEnabled(false);
-//        buttonB.setEnabled(false);
-//        buttonC.setEnabled(false);
-//        buttonD.setEnabled(false);
-//
-//        if (answers[index] != 'A'){
-//            answer_labelA.setForeground(new Color(255,0,0));
-//        }
-//        if (answers[index] != 'B'){
-//            answer_labelB.setForeground(new Color(255,0,0));
-//        }
-//        if (answers[index] != 'C'){
-//            answer_labelC.setForeground(new Color(255,0,0));
-//        }
-//        if (answers[index] != 'D'){
-//            answer_labelD.setForeground(new Color(255,0,0));
-//        }
-//
-//        Timer pause = new Timer(2000, new ActionListener() {
-//
-//            //Flip colors back to green
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                answer_labelA.setForeground(new Color(25,255,0));
-//                answer_labelB.setForeground(new Color(25,255,0));
-//                answer_labelC.setForeground(new Color(25,255,0));
-//                answer_labelD.setForeground(new Color(25,255,0));
-//
-//                answer = ' ';
-////                seconds_left.setText(String.valueOf(seconds));
-//
-//                buttonA.setEnabled(true);
-//                buttonB.setEnabled(true);
-//                buttonC.setEnabled(true);
-//                buttonD.setEnabled(true);
-//
-//                index++;
-////                nextQuestion();
-//            }
-//        });
-//
-//        pause.setRepeats(false);
-//        pause.start();
-//    }
-
-    public void results() {
-        buttonA.setEnabled(false);
-        buttonB.setEnabled(false);
-        buttonC.setEnabled(false);
-        buttonD.setEnabled(false);
-
-        result = (int)((correct_guesses/(double)total_questions)*100);
-
-        textField.setText("Results");
-        textArea.setText("");
-        answer_labelA.setText("");
-        answer_labelB.setText("");
-        answer_labelC.setText("");
-        answer_labelD.setText("");
-
-        number_right.setText("("+correct_guesses+"/"+total_questions+")");
-        percentage.setText(result+"%");
-
-        frame.add(percentage);
-        frame.add(number_right);
     }
 
     @Override
@@ -325,9 +223,10 @@ public class Quiz implements ActionListener {
         answerLabels.add(answer_labelD);
         
         answerLabels.stream().filter(label -> !label.getText().equals(correctAnswer)).forEach(label -> label.setForeground(new Color(255, 0, 0)));
-        
-        if (isCorrect) {
-            correct_guesses++;
-        }
+    }
+    
+    public void close() {
+        frame.setVisible(false);
+        frame.dispose();
     }
 }

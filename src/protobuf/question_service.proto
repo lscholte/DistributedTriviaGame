@@ -18,6 +18,13 @@ service QuestionService
 	rpc UpdateScores(UpdateScoresRequest) returns (UpdateScoresResponse);
 	rpc UpdateLobbyPlayers(UpdateLobbyPlayersRequest) returns (UpdateLobbyPlayersResponse);
 	rpc StartGame(StartGameRequest) returns (StartGameResponse);
+	rpc FinishGame(FinishGameRequest) returns (FinishGameResponse);
+}
+
+message Player
+{
+	optional string name = 1;
+	optional int32 score = 2;
 }
 
 message AskQuestionRequest
@@ -35,11 +42,6 @@ message AskQuestionResponse
 
 message UpdateScoresRequest
 {
-	message Player
-	{
-		optional string name = 1;
-		optional int32 score = 2;
-	}
 	repeated Player players = 1;
 }
 
@@ -62,5 +64,14 @@ message StartGameRequest
 }
 
 message StartGameResponse
+{
+}
+
+message FinishGameRequest
+{
+	repeated Player players = 1;
+}
+
+message FinishGameResponse
 {
 }

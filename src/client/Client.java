@@ -12,6 +12,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import GUI.LobbyScreen;
 import GUI.Quiz;
+import GUI.ResultsScreen;
 import game.Server;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -32,6 +33,8 @@ import protobuf.generated.LobbyServiceMessages.StartGameRequest;
 import protobuf.generated.QuestionServiceGrpc.QuestionServiceImplBase;
 import protobuf.generated.QuestionServiceMessages.AskQuestionRequest;
 import protobuf.generated.QuestionServiceMessages.AskQuestionResponse;
+import protobuf.generated.QuestionServiceMessages.FinishGameRequest;
+import protobuf.generated.QuestionServiceMessages.FinishGameResponse;
 import protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest;
 import protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersResponse;
 import protobuf.generated.QuestionServiceMessages.UpdateScoresRequest;
@@ -238,7 +241,25 @@ public class Client {
             UpdateScoresResponse.Builder responseBuilder = UpdateScoresResponse.newBuilder();
             responseObserver.onNext(responseBuilder.build());
             responseObserver.onCompleted();
-        }        
+        }    
+        
+        @Override
+        public void finishGame(FinishGameRequest request,
+                StreamObserver<FinishGameResponse> responseObserver) {
+            
+            Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
+            List<Player> players = request.getPlayersList().stream().map(p -> new Player(p.getName(), p.getScore())).collect(Collectors.toList());
+                        
+            gui.close();
+            
+            ResultsScreen resultsScreen = new ResultsScreen();
+            resultsScreen.showResults(players);
+            
+            
+            FinishGameResponse.Builder responseBuilder = FinishGameResponse.newBuilder();
+            responseObserver.onNext(responseBuilder.build());
+            responseObserver.onCompleted();
+        } 
 
         @Override
         public void askQuestion(AskQuestionRequest request,
