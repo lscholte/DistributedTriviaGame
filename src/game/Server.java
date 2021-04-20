@@ -191,7 +191,7 @@ public class Server {
             
             //Build an UpdateScoresRequest
             FinishGameRequest.Builder finishGameRequestBuilder = FinishGameRequest.newBuilder();
-            for (Player player : players.stream().sorted((a, b) -> a.getScore() - b.getScore()).collect(Collectors.toList())) {
+            for (Player player : players.stream().sorted((a, b) -> b.getScore() - a.getScore()).collect(Collectors.toList())) {
                 protobuf.generated.QuestionServiceMessages.Player.Builder playerBuilder = protobuf.generated.QuestionServiceMessages.Player.newBuilder();
                 playerBuilder.setName(player.getName());
                 playerBuilder.setScore(player.getScore());

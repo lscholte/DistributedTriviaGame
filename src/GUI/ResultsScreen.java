@@ -57,7 +57,8 @@ public class ResultsScreen {
                 .append(" ")
                 .append(players.get(i).getScore())
                 .append(" - ")
-                .append(players.get(i).getName());
+                .append(players.get(i).getName())
+                .append(System.lineSeparator());
         }
         
         scoreArea.setText(stringBuilder.toString());
