@@ -2,11 +2,14 @@ package game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class Lobby {
     private UUID lobbyID;
     private List<Player> players;
+    
+    private Map<String, String> currentQuestion;
 
     public Lobby(){
         lobbyID = UUID.randomUUID();
@@ -23,5 +26,13 @@ public class Lobby {
 
     public List<Player> getPlayers(){
         return players;
+    }
+    
+    public void setCurrentQuestion(Map<String, String> currentQuestion) {
+        this.currentQuestion = currentQuestion;
+    }
+
+    public Map<String, String> getCurrentQuestion() {
+        return currentQuestion;
     }
 }

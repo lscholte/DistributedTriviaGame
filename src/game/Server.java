@@ -23,11 +23,9 @@ import protobuf.generated.LobbyServiceMessages.StartGameRequest;
 import protobuf.generated.LobbyServiceMessages.StartGameResponse;
 import protobuf.generated.QuestionServiceGrpc;
 import protobuf.generated.QuestionServiceMessages.AskQuestionRequest;
-import protobuf.generated.QuestionServiceMessages.AskQuestionResponse;
 import protobuf.generated.QuestionServiceMessages.FinishGameRequest;
 import protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest;
 import protobuf.generated.QuestionServiceMessages.UpdateScoresRequest;
-import protobuf.generated.QuestionServiceMessages.UpdateScoresResponse;
 import utilities.Logger;
 import utilities.ProtobufUtils;
 
@@ -43,9 +41,6 @@ public class Server {
     
     private MongoConnection dbConnection;
     
-    private Map<String, String> currentQuestion;
-    private Object questionLock = new Object();
-
     public Server() {
         grpcServer = ServerBuilder
                 .forPort(PORT)
@@ -149,26 +144,25 @@ public class Server {
                 
                 AskQuestionRequest.Builder questionRequestBuilder = AskQuestionRequest.newBuilder();
 
-                synchronized (questionLock) {
-                    //Build an AskQuestionRequest
+                //Build an AskQuestionRequest
 
-                    currentQuestion = dbConnection.getQuestion(new Random().nextInt(100) + 1);
-                    
-                    long questionDeadline = new Date().getTime() + QUESTION_DEADLINE_S * 1000;
-                    currentQuestion.put("deadline", Long.toString(questionDeadline));
+                Map<String, String> currentQuestion = dbConnection.getQuestion(new Random().nextInt(100) + 1);
+                lobby.setCurrentQuestion(currentQuestion);
+                
+                long questionDeadline = new Date().getTime() + QUESTION_DEADLINE_S * 1000;
+                currentQuestion.put("deadline", Long.toString(questionDeadline));
 
-                    questionRequestBuilder.setNumber(i);
-                    questionRequestBuilder.setQuestion(currentQuestion.get("question"));
-                    
-                    List<String> options = new ArrayList<String>(4);
-                    options.add(currentQuestion.get("option 1"));
-                    options.add(currentQuestion.get("option 2"));
-                    options.add(currentQuestion.get("option 3"));
-                    options.add(currentQuestion.get("option 4"));
-                    questionRequestBuilder.addAllOptions(options);
-                    
-                    questionRequestBuilder.setDeadline(new Date().getTime() + QUESTION_DEADLINE_S * 1000);
-                }
+                questionRequestBuilder.setNumber(i);
+                questionRequestBuilder.setQuestion(currentQuestion.get("question"));
+                
+                List<String> options = new ArrayList<String>(4);
+                options.add(currentQuestion.get("option 1"));
+                options.add(currentQuestion.get("option 2"));
+                options.add(currentQuestion.get("option 3"));
+                options.add(currentQuestion.get("option 4"));
+                questionRequestBuilder.addAllOptions(options);
+                
+                questionRequestBuilder.setDeadline(new Date().getTime() + QUESTION_DEADLINE_S * 1000);
 
                 AskQuestionRequest questionRequest = questionRequestBuilder.build();
 
@@ -219,25 +213,25 @@ public class Server {
         public void answer(AnswerRequest request, StreamObserver<AnswerResponse> responseObserver) {
                    
             AnswerResponse.Builder responseBuilder = AnswerResponse.newBuilder();
-            synchronized (questionLock) {
-                responseBuilder.setCorrectAnswer(currentQuestion.get("answer"));
-                if (request.getText().equals(currentQuestion.get("answer"))) {
-                    responseBuilder.setCorrect(true);
-                    Optional<Player> player = lobbyMap.get(UUID.fromString(request.getLobbyId())).getPlayers().stream().filter(p -> p.getId().equals(UUID.fromString(request.getPlayerId()))).findFirst();
-                    if (player.isPresent()) {
-                        long now = new Date().getTime();
-                        long deadline = Long.parseLong(currentQuestion.get("deadline"));
-                        
-                        int scoreToAdd = (int)(100 * ((deadline - now) / 1000.0)/QUESTION_DEADLINE_S);
-                        scoreToAdd = Math.max(0, Math.min(100, scoreToAdd));
-                        
-                        player.get().incrementScore(scoreToAdd);
-                    }
+            Lobby lobby = lobbyMap.get(UUID.fromString(request.getLobbyId()));
+            
+            responseBuilder.setCorrectAnswer(lobby.getCurrentQuestion().get("answer"));
+            if (request.getText().equals(lobby.getCurrentQuestion().get("answer"))) {
+                responseBuilder.setCorrect(true);
+                Optional<Player> player = lobbyMap.get(UUID.fromString(request.getLobbyId())).getPlayers().stream().filter(p -> p.getId().equals(UUID.fromString(request.getPlayerId()))).findFirst();
+                if (player.isPresent()) {
+                    long now = new Date().getTime();
+                    long deadline = Long.parseLong(lobby.getCurrentQuestion().get("deadline"));
+                    
+                    int scoreToAdd = (int)(100 * ((deadline - now) / 1000.0)/QUESTION_DEADLINE_S);
+                    scoreToAdd = Math.max(0, Math.min(100, scoreToAdd));
+                    
+                    player.get().incrementScore(scoreToAdd);
                 }
-                else {
-                    responseBuilder.setCorrect(false);
-                }   
             }
+            else {
+                responseBuilder.setCorrect(false);
+            }   
                         
             responseObserver.onNext(responseBuilder.build());
             responseObserver.onCompleted();
