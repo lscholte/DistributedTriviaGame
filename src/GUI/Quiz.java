@@ -5,7 +5,6 @@ import javax.swing.*;
 import org.apache.commons.lang3.tuple.Pair;
 
 import client.Client;
-import client.MultipleChoiceAnswer;
 import client.Player;
 import client.Question;
 
