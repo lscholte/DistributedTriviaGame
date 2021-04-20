@@ -8,16 +8,9 @@ import java.awt.*;
 
 public class ResultsScreen {
 
-    char guess;
-    char answer;
-    int index;
-    int correct_guesses=0;
-    int total_questions=10;//TODO: if we actually care about this, we should get this info from server
-    int result;
-
-    JFrame frame = new JFrame();
-    JTextField textField = new JTextField();
-    JTextArea scoreArea = new JTextArea();
+    private JFrame frame = new JFrame();
+    private JTextField textField = new JTextField();
+    private JTextArea scoreArea = new JTextArea();
             
     public ResultsScreen()   {
         
