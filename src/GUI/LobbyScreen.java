@@ -95,6 +95,7 @@ public class LobbyScreen implements ActionListener {
         
         nameInput.setBackground(new Color(25,25,25));
         nameInput.setForeground(new Color(25,255,0));
+        nameInput.setCaretColor(new Color(255,255,255));
         nameInput.setBorder(BorderFactory.createBevelBorder(1));
         nameInput.setEditable(true);
         nameInput.setVisible(true);
@@ -131,6 +132,7 @@ public class LobbyScreen implements ActionListener {
         
         uuidInput.setBackground(new Color(25,25,25));
         uuidInput.setForeground(new Color(25,255,0));
+        uuidInput.setCaretColor(new Color(255,255,255));
         uuidInput.setBorder(BorderFactory.createBevelBorder(1));
         uuidInput.setEditable(false);
         uuidInput.setVisible(false);

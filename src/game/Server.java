@@ -150,7 +150,7 @@ public class Server {
 
                 Map<String, String> currentQuestion = dbConnection.getQuestion(new Random().nextInt(100) + 1);
                 lobby.setCurrentQuestion(currentQuestion);
-                
+
                 long questionDeadline = new Date().getTime() + QUESTION_DEADLINE_S * 1000;
                 currentQuestion.put("deadline", Long.toString(questionDeadline));
 
@@ -163,7 +163,9 @@ public class Server {
                 options.add(currentQuestion.get("option 3"));
                 options.add(currentQuestion.get("option 4"));
                 questionRequestBuilder.addAllOptions(options);
-                
+
+                // testing code
+                //questionRequestBuilder.setDeadline(new Date().getTime() + 1000000 + QUESTION_DEADLINE_S * 1000);
                 questionRequestBuilder.setDeadline(new Date().getTime() + QUESTION_DEADLINE_S * 1000);
 
                 AskQuestionRequest questionRequest = questionRequestBuilder.build();
@@ -214,10 +216,10 @@ public class Server {
 
             SynchronizeTimeResponse.Builder responseBuilder = SynchronizeTimeResponse.newBuilder();
             // Testing code
-//            long serverTime = System.currentTimeMillis() + 1000000;
-//            responseBuilder.setTimestamp(serverTime);
-//            System.out.println(new Date(serverTime));
-            responseBuilder.setTimestamp(System.currentTimeMillis());
+            // long serverTime = new Date().getTime() + 1000000;
+            // responseBuilder.setTimestamp(serverTime);
+            // System.out.println(new Date(serverTime));
+            responseBuilder.setTimestamp(new Date().getTime());
 
             responseObserver.onNext(responseBuilder.build());
             responseObserver.onCompleted();
