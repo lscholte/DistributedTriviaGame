@@ -7,6 +7,8 @@ import client.Client;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.UUID;
 
 // Home Screen --- > Create Screen OR Joining Screen
@@ -104,9 +106,21 @@ public class LobbyScreen implements ActionListener {
         nameInput.setEditable(true);
         nameInput.setVisible(true);
         nameInput.setEnabled(true);
-        nameInput.addActionListener(event -> {
-            Create_Lobby_Button.setEnabled(!nameInput.getText().isEmpty());
-            Join_Lobby_Button.setEnabled(!nameInput.getText().isEmpty());
+        nameInput.addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {              
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                Create_Lobby_Button.setEnabled(!nameInput.getText().isEmpty());
+                Join_Lobby_Button.setEnabled(!nameInput.getText().isEmpty());  
+            } 
         });
 
         // Players joining status
