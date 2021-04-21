@@ -22,12 +22,12 @@ public class LobbyScreen implements ActionListener {
     JButton Join_Lobby_Button = new JButton();
 
     // Text Areas
-    JTextArea textArea = new JTextArea();
+//    JTextArea textArea = new JTextArea();
     JTextArea textArea2 = new JTextArea();
 
     // ID Input
     JPanel uuidPanel = new JPanel();
-    JLabel uuidLabel = new JLabel("Enter a Lobby ID:");
+    JLabel uuidLabel = new JLabel("");
     JTextField uuidInput = new JTextField("", 100);
     
     // Name input
@@ -81,17 +81,9 @@ public class LobbyScreen implements ActionListener {
         Join_Button.setVisible(false);
         Join_Button.setEnabled(false);
 
-        // Title
-        textArea.setBounds(0,50,650,50);
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        textArea.setBackground(new Color(25,25,25));
-        textArea.setForeground(new Color(25,255,0));
-        textArea.setBorder(BorderFactory.createBevelBorder(1));
-        textArea.setEditable(false);
         
         // Name input
-        namePanel.setBounds(0, 100, 650, 50);
+        namePanel.setBounds(0, 50, 650, 50);
         namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));
         namePanel.add(nameLabel);
         namePanel.add(nameInput);
@@ -123,6 +115,34 @@ public class LobbyScreen implements ActionListener {
                 Join_Lobby_Button.setEnabled(!nameInput.getText().isEmpty());  
             } 
         });
+        
+        // Lobby Input
+        uuidPanel.setBounds(0, 100, 650, 50);
+        uuidPanel.setLayout(new BoxLayout(uuidPanel, BoxLayout.X_AXIS));
+        uuidPanel.add(uuidLabel);
+        uuidPanel.add(uuidInput);
+        uuidPanel.setBackground(new Color(25,25,25));
+        uuidPanel.setForeground(new Color(25,255,0));
+        uuidPanel.setBorder(BorderFactory.createBevelBorder(1));
+        
+        uuidLabel.setBackground(new Color(25,25,25));
+        uuidLabel.setForeground(new Color(25,255,0));
+        uuidLabel.setVisible(false);
+        
+        uuidInput.setBackground(new Color(25,25,25));
+        uuidInput.setForeground(new Color(25,255,0));
+        uuidInput.setBorder(BorderFactory.createBevelBorder(1));
+        uuidInput.setEditable(false);
+        uuidInput.setVisible(false);
+        
+//        // Title
+//        textArea.setBounds(0,100,650,50);
+//        textArea.setLineWrap(true);
+//        textArea.setWrapStyleWord(true);
+//        textArea.setBackground(new Color(25,25,25));
+//        textArea.setForeground(new Color(25,255,0));
+//        textArea.setBorder(BorderFactory.createBevelBorder(1));
+//        textArea.setEditable(false);
 
         // Players joining status
         textArea2.setBounds(0,150,650,50);
@@ -133,30 +153,12 @@ public class LobbyScreen implements ActionListener {
         textArea2.setBorder(BorderFactory.createBevelBorder(1));
         textArea2.setEditable(false);
         textArea2.setText("");
-        
-        // Lobby Input
-        uuidPanel.setBounds(0, 150, 650, 50);
-        uuidPanel.setLayout(new BoxLayout(uuidPanel, BoxLayout.X_AXIS));
-        uuidPanel.add(uuidLabel);
-        uuidPanel.add(uuidInput);
-        uuidPanel.setBackground(new Color(25,25,25));
-        uuidPanel.setForeground(new Color(25,255,0));
-        uuidPanel.setBorder(BorderFactory.createBevelBorder(1));
-        uuidLabel.setBackground(new Color(25,25,25));
-        uuidLabel.setForeground(new Color(25,255,0));
-        
-        uuidInput.setBackground(new Color(25,25,25));
-        uuidInput.setForeground(new Color(25,255,0));
-        uuidInput.setBorder(BorderFactory.createBevelBorder(1));
-        uuidInput.setEditable(false);
-        uuidInput.setVisible(false);
-        uuidInput.setEnabled(false);
+       
 
 
         frame.add(Create_Lobby_Button);
         frame.add(Join_Lobby_Button);
         frame.add(Start_Button);
-        frame.add(textArea);
         frame.add(textArea2);
         frame.add(namePanel);
         frame.add(uuidPanel);
@@ -165,10 +167,6 @@ public class LobbyScreen implements ActionListener {
     }
 
     public void CreateLobbyScreen() {
-        uuidInput.setEditable(false);
-        uuidInput.setEnabled(false);
-        uuidInput.setVisible(false);
-        
         nameInput.setEditable(false);
         
         Create_Lobby_Button.setEnabled(false);
@@ -180,7 +178,12 @@ public class LobbyScreen implements ActionListener {
         Start_Button.setVisible(true);
         Start_Button.setEnabled(true);
 
-        textArea.setText("Your Lobby ID: " + lobbyUuid.toString());
+        uuidLabel.setText("Your Lobby ID:");
+        uuidLabel.setVisible(true);
+        
+        uuidInput.setVisible(true);
+        uuidInput.setEditable(false);
+        uuidInput.setText(lobbyUuid.toString());
     }
 
     public void JoinLobbyScreen() {
@@ -192,10 +195,10 @@ public class LobbyScreen implements ActionListener {
         Create_Lobby_Button.setVisible(false);
         Join_Lobby_Button.setVisible(false);
 
-        textArea.setText("Enter Lobby ID below:");
-
         textArea2.setVisible(false);
 
+        uuidLabel.setText("Enter a Lobby ID:");
+        uuidLabel.setVisible(true);
         uuidInput.setEditable(true);
         uuidInput.setVisible(true);
         uuidInput.setEnabled(true);
@@ -256,7 +259,6 @@ public class LobbyScreen implements ActionListener {
     public void setPlayers(java.util.List<String> players) {
         textArea2.setText(("Players: " + String.join(", ", players)));
 
-        uuidInput.setVisible(false);
         textArea2.setVisible(true);
     }
     
