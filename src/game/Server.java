@@ -32,7 +32,7 @@ import utilities.Logger;
 import utilities.ProtobufUtils;
 
 public class Server {
-    public static final int PORT = 7766;
+    public int PORT;
     
     //How long the player should have to submit an answer in seconds
     private static final int QUESTION_DEADLINE_S = 10;
@@ -43,7 +43,8 @@ public class Server {
     
     private MongoConnection dbConnection;
     
-    public Server() {
+    public Server(int port) {
+        this.PORT = port;
         grpcServer = ServerBuilder
                 .forPort(PORT)
                 .addService(new LobbyService())

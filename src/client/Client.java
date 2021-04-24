@@ -64,7 +64,7 @@ public class Client {
     private UUID playerId;
 
     public Client() throws UnknownHostException, IOException {
-        channel = ManagedChannelBuilder.forAddress("localhost", Server.PORT).usePlaintext().build();
+        channel = ManagedChannelBuilder.forAddress("localhost", 9901).usePlaintext().build();
 
         lobbyServiceBlockingStub = LobbyServiceGrpc.newBlockingStub(channel);
         answerServiceStub = AnswerServiceGrpc.newBlockingStub(channel);
