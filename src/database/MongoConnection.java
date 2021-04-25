@@ -1,6 +1,7 @@
 package database;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.MongoWriteException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -25,6 +26,15 @@ public class MongoConnection {
     public MongoConnection(String host, int port, String database, String collection){
         // create the connection to the DB
         this.mongoClient = new MongoClient(host, port);
+        this.database = mongoClient.getDatabase(database);
+        this.collection = this.database.getCollection(collection);
+    }
+
+    public MongoConnection(String URL, String database, String collection){
+        String mongoURL ="mongodb://" + URL + "/?replicaSet=trivia";
+        this.mongoClient = new MongoClient( new MongoClientURI(mongoURL));
+//        this.mongoClient = new MongoClient( new MongoClientURI(
+//                "mongodb://172.25.0.2:27017,172.25.0.3:27017,172.25.0.4:27017/?replicaSet=trivia"));
         this.database = mongoClient.getDatabase(database);
         this.collection = this.database.getCollection(collection);
     }

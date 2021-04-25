@@ -19,9 +19,9 @@ docker network create trivia-game-network
 #--add-host mongo1:127.0.0.1 --add-host mongo2:127.0.0.1 --add-host mongo3:127.0.0.1
 #--add-host mongo1:127.0.0.1 --add-host mongo2:127.0.0.1 --add-host mongo3:127.0.0.1
 
-Start-Process -FilePath docker -ArgumentList ("run -p 30001:30001 --network trivia-game-network --name mongo1 trivia-game-mongo mongod --replSet trivia-mongo-replica-set --port 30001")
-Start-Process -FilePath docker -ArgumentList ("run -p 30002:30002 --network trivia-game-network --name mongo2 trivia-game-mongo mongod --replSet trivia-mongo-replica-set --port 30002")
-Start-Process -FilePath docker -ArgumentList ("run -p 30003:30003 --network trivia-game-network --name mongo3 trivia-game-mongo mongod --replSet trivia-mongo-replica-set --port 30003")
+Start-Process -FilePath docker -ArgumentList ("run -p 30001:27017 --network trivia-game-network --name mongo1 trivia-game-mongo mongod --replSet trivia")
+Start-Process -FilePath docker -ArgumentList ("run -p 30002:27017 --network trivia-game-network --name mongo2 trivia-game-mongo mongod --replSet trivia")
+Start-Process -FilePath docker -ArgumentList ("run -p 30003:27017 --network trivia-game-network --name mongo3 trivia-game-mongo mongod --replSet trivia")
 
 Start-Sleep -Seconds 3
 
@@ -30,19 +30,51 @@ $mongo1Ip = docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}
 $mongo2Ip = docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mongo2
 $mongo3Ip = docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mongo3
 
+# $mongo1Ip = "172.25.0.2"
+# $mongo2Ip = "172.25.0.3"
+# $mongo3Ip = "172.25.0.4"
+
+$mongo1host = "{0}:27017" -f $mongo1Ip
+$mongo2host = "{0}:27017" -f $mongo2Ip
+$mongo3host = "{0}:27017" -f $mongo3Ip
+
+$config = "{
+            	'_id' : 'trivia',
+            	'members' : [
+            		{
+            			'_id' : 0,
+            			'host' : '$mongo1host'
+            		},
+            		{
+            			'_id' : 1,
+            			'host' : '$mongo2host'
+            		},
+            		{
+            			'_id' : 2,
+            			'host' : '$mongo3host'
+            		}
+            	],
+            	'settings' : {
+                    'heartbeatTimeoutSecs' : 1,
+                    'electionTimeoutMillis' : 1000
+                }
+            }"
+
+echo $config
 
 # Some replica set initialization. Perform this on any one of the mongo DB containers
-docker exec -it mongo1 mongo --port 30001 --eval "rs.initiate()"
-docker exec -it mongo1 mongo --port 30001 --eval ("rs.add('{0}:30002')" -f $mongo2Ip)
-docker exec -it mongo1 mongo --port 30001 --eval ("rs.add('{0}:30003')" -f $mongo3Ip)
+#docker exec -it mongo1 mongo --port 30001 --eval "rs.initiate()"
+#docker exec -it mongo1 mongo --port 30001 --eval ("rs.add('{0}:30002')" -f $mongo2Ip)
+#docker exec -it mongo1 mongo --port 30001 --eval ("rs.add('{0}:30003')" -f $mongo3Ip)
 
-# Add the questions to the primary. The other mongo DBs should automatically see this
-docker exec -it mongo1 mongoimport --port 30001 --jsonArray --db trivia --collection questions --file /TriviaQuiz.json
+docker exec -it mongo1 mongo --eval ("rs.initiate({0})" -f $config)
+
+# # Add the questions to the primary. The other mongo DBs should automatically see this
+docker exec -it mongo1 mongoimport --jsonArray --db trivia --collection questions --file TriviaQuiz.json
 
 
-#$args = ("{0}:30001" -f $mongo1Ip) + " " + ("{0}:30002" -f $mongo2Ip) + " " + ("{0}:30003" -f $mongo3Ip)
-#$args = "mongo1:30001 mongo2:30002 mongo3:30003"
-
+$args = ("{0}" -f $mongo1host) + "," + ("{0}" -f $mongo2host) + "," + ("{0}" -f $mongo3host)
+echo $args
 #Start-Process -FilePath docker -ArgumentList ("run -p 40001:7766 --network trivia-game-network --name server1 trivia-game-java java -jar /Server.jar $args")
 
 #Start-Process -FilePath java -ArgumentList ("-jar ./Server.jar $args")

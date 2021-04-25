@@ -43,7 +43,7 @@ public class Server {
     
     private MongoConnection dbConnection;
     
-    public Server() {
+    public Server(String args) {
         grpcServer = ServerBuilder
                 .forPort(PORT)
                 .addService(new LobbyService())
@@ -60,6 +60,7 @@ public class Server {
         }));
         
         dbConnection = new MongoConnection("localhost", 27017, "trivia","questions");
+        //dbConnection = new MongoConnection(args, "trivia", "questions");
     }
 
     public void start() throws IOException, InterruptedException {    
