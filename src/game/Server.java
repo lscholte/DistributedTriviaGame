@@ -1,6 +1,7 @@
 package game;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -9,6 +10,7 @@ import database.MongoConnection;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.ServerBuilder;
+import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 import protobuf.generated.AnswerServiceGrpc.AnswerServiceImplBase;
 import protobuf.generated.AnswerServiceMessages.AnswerRequest;
@@ -23,16 +25,29 @@ import protobuf.generated.LobbyServiceMessages.StartGameRequest;
 import protobuf.generated.LobbyServiceMessages.StartGameResponse;
 import protobuf.generated.LobbyServiceMessages.SynchronizeTimeRequest;
 import protobuf.generated.LobbyServiceMessages.SynchronizeTimeResponse;
-import protobuf.generated.QuestionServiceGrpc;
 import protobuf.generated.QuestionServiceMessages.AskQuestionRequest;
 import protobuf.generated.QuestionServiceMessages.FinishGameRequest;
 import protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest;
 import protobuf.generated.QuestionServiceMessages.UpdateScoresRequest;
+import protobuf.generated.TwoPhaseCommitCoordinatorMessages.TwoPhaseCommitRequest;
+import protobuf.generated.TwoPhaseCommitCoordinatorServiceGrpc;
+import protobuf.generated.TwoPhaseCommitCoordinatorServiceGrpc.TwoPhaseCommitCoordinatorServiceBlockingStub;
+import protobuf.generated.TwoPhaseCommitMessages.AddLobbyRequest;
+import protobuf.generated.TwoPhaseCommitMessages.AddPlayerRequest;
+import protobuf.generated.TwoPhaseCommitMessages.RequestDetails;
+import protobuf.generated.TwoPhaseCommitMessages.UpdatePlayerRequest;
+import protobuf.generated.TwoPhaseCommitMessages.UpdateQuestionRequest;
+import protobuf.generated.TwoPhaseCommitMessages.UpdateQuestionRequest.Question;
+import protobuf.generated.TwoPhaseCommitMessages.UpdateQuestionRequest.Question.KeyValue;
+import protobuf.generated.TwoPhaseCommitServerMessages.CommitRequest;
+import protobuf.generated.TwoPhaseCommitServerMessages.CommitResponse;
+import protobuf.generated.TwoPhaseCommitServerMessages.QueryCommitRequest;
+import protobuf.generated.TwoPhaseCommitServerMessages.QueryCommitResponse;
+import protobuf.generated.TwoPhaseCommitServerServiceGrpc.TwoPhaseCommitServerServiceImplBase;
 import utilities.Logger;
 import utilities.ProtobufUtils;
 
 public class Server {
-    public static final int PORT = 7766;
     
     //How long the player should have to submit an answer in seconds
     private static final int QUESTION_DEADLINE_S = 10;
@@ -40,14 +55,18 @@ public class Server {
     private io.grpc.Server grpcServer;
     
     private Map<UUID, Lobby> lobbyMap = new HashMap<>();
-    
+    private Map<UUID, Player> playerMap = new HashMap<>();
+        
     private MongoConnection dbConnection;
     
-    public Server() {
+    TwoPhaseCommitCoordinatorServiceBlockingStub coordinatorServiceStub;
+    
+    public Server(int port) {
         grpcServer = ServerBuilder
-                .forPort(PORT)
+                .forPort(port)
                 .addService(new LobbyService())
                 .addService(new AnswerService())
+                .addService(new TwoPhaseCommitServerService())
                 .build();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -60,11 +79,27 @@ public class Server {
         }));
         
         dbConnection = new MongoConnection("localhost", 27017, "trivia","questions");
+        
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 5000).usePlaintext().build();
+        coordinatorServiceStub = TwoPhaseCommitCoordinatorServiceGrpc.newBlockingStub(channel);
     }
 
     public void start() throws IOException, InterruptedException {    
         grpcServer.start();
         grpcServer.awaitTermination();
+    }
+    
+    private boolean twoPhaseCommit(RequestDetails requestDetails) {        
+        TwoPhaseCommitRequest.Builder requestBuilder = TwoPhaseCommitRequest.newBuilder();
+        requestBuilder.setDetails(requestDetails);
+        try {
+            return coordinatorServiceStub.twoPhaseCommit(requestBuilder.build()).getCommitted();
+
+        }
+        catch (StatusRuntimeException e) {
+            ProtobufUtils.handleGrpcError("TwoPhaseCommit", e.getStatus().getCode());
+        }
+        return false;
     }
 
     private class LobbyService extends LobbyServiceImplBase {
@@ -73,14 +108,25 @@ public class Server {
         public void createLobby(CreateLobbyRequest request, StreamObserver<CreateLobbyResponse> responseObserver) {
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
 
-            Lobby lobbyToBeCreated = new Lobby();
-            lobbyMap.put(lobbyToBeCreated.getLobbyID(), lobbyToBeCreated);
+            UUID lobbyId = UUID.randomUUID();
+            
+            AddLobbyRequest.Builder addLobbyRequestBuilder = AddLobbyRequest.newBuilder();
+            addLobbyRequestBuilder.setLobbyId(lobbyId.toString());
+            
+            RequestDetails.Builder requestDetailsBuilder = RequestDetails.newBuilder();
+            requestDetailsBuilder.setAddLobbyRequest(addLobbyRequestBuilder.build());
             
             CreateLobbyResponse.Builder responseBuilder = CreateLobbyResponse.newBuilder();
-            responseBuilder.setLobbyId(lobbyToBeCreated.getLobbyID().toString());
-            CreateLobbyResponse response = responseBuilder.build();
 
-            responseObserver.onNext(response);
+            if (!twoPhaseCommit(requestDetailsBuilder.build())) {
+                responseObserver.onNext(responseBuilder.build());
+                responseObserver.onCompleted();
+                return;
+            }
+            
+            responseBuilder.setLobbyId(lobbyId.toString());
+
+            responseObserver.onNext(responseBuilder.build());
             responseObserver.onCompleted();
         }
 
@@ -90,13 +136,26 @@ public class Server {
 
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
 
-            ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", request.getPlayerPort()).usePlaintext().build();
-            Player player = new Player(UUID.fromString(request.getPlayerId()), request.getPlayerName(), QuestionServiceGrpc.newBlockingStub(channel));
+            AddPlayerRequest.Builder addPlayerRequestBuilder = AddPlayerRequest.newBuilder();
+            addPlayerRequestBuilder.setLobbyId(request.getLobbyId());
+            addPlayerRequestBuilder.setPlayerId(request.getPlayerId());
+            addPlayerRequestBuilder.setPlayerName(request.getPlayerName());
+            addPlayerRequestBuilder.setPlayerIp("localhost");
+            addPlayerRequestBuilder.setPlayerPort(request.getPlayerPort());
+            
+            RequestDetails.Builder requestDetailsBuilder = RequestDetails.newBuilder();
+            requestDetailsBuilder.setAddPlayerRequest(addPlayerRequestBuilder.build());
+
+            if (!twoPhaseCommit(requestDetailsBuilder.build())) {
+                JoinLobbyResponse.Builder responseBuilder = JoinLobbyResponse.newBuilder();
+                responseObserver.onNext(responseBuilder.build());
+                responseObserver.onCompleted();
+                return;
+            }
             
             UUID lobbyID = UUID.fromString(request.getLobbyId());
 
             Lobby lobby = lobbyMap.get(lobbyID);
-            lobby.addPlayerToLobby(player);
             
             UpdateLobbyPlayersRequest.Builder updatePlayersRequestBuilder = UpdateLobbyPlayersRequest.newBuilder();
             updatePlayersRequestBuilder.addAllPlayerNames(lobby.getPlayers().stream().map(p -> p.getName()).collect(Collectors.toList()));
@@ -122,18 +181,17 @@ public class Server {
             responseObserver.onCompleted();
             
             UUID lobbyID = UUID.fromString(request.getLobbyId());
-
             Lobby lobby = lobbyMap.get(lobbyID);
-
             List<Player> players = lobby.getPlayers();
             
-            for (Player player: players) {
+            for (Player player : players) {
                 protobuf.generated.QuestionServiceMessages.StartGameRequest.Builder startGameRequestBuilder = protobuf.generated.QuestionServiceMessages.StartGameRequest.newBuilder();
                 startGameRequestBuilder.setLobbyId(lobbyID.toString());
                 player.getQuestionServiceStub().startGame(startGameRequestBuilder.build());
             }
 
             for (int i = 1; i <= 10; ++i) {
+                
                 //Build an UpdateScoresRequest
                 UpdateScoresRequest.Builder updateScoresRequestBuilder = UpdateScoresRequest.newBuilder();
                 for (Player player : players) {
@@ -168,11 +226,33 @@ public class Server {
                 //questionRequestBuilder.setDeadline(new Date().getTime() + 1000000 + QUESTION_DEADLINE_S * 1000);
                 questionRequestBuilder.setDeadline(new Date().getTime() + QUESTION_DEADLINE_S * 1000);
 
+                UpdateQuestionRequest.Builder updateQuestionRequestBuilder = UpdateQuestionRequest.newBuilder();
+                updateQuestionRequestBuilder.setLobbyId(request.getLobbyId());
+                Question.Builder questionBuilder = Question.newBuilder();
+                
+                for (Map.Entry<String, String> entry : currentQuestion.entrySet()) {
+                    
+                    KeyValue.Builder keyValueBuilder = KeyValue.newBuilder();
+                    keyValueBuilder.setKey(entry.getKey());
+                    keyValueBuilder.setValue(entry.getValue());
+                    
+                    questionBuilder.addEntries(keyValueBuilder.build());
+                }
+                
+                updateQuestionRequestBuilder.setCurrentQuestion(questionBuilder.build());
+                
+                RequestDetails.Builder requestDetailsBuilder = RequestDetails.newBuilder();
+                requestDetailsBuilder.setUpdateQuestionRequest(updateQuestionRequestBuilder.build());
+                twoPhaseCommit(requestDetailsBuilder.build());
+                
+                lobby = lobbyMap.get(lobbyID);
+                players = lobby.getPlayers();
+                
                 AskQuestionRequest questionRequest = questionRequestBuilder.build();
 
                                 
                 //Send the requests to each player
-                for (Player player: players) {
+                for (Player player : players) {
                     new Thread(() -> {
                         Logger.logInfo(String.format("Sending %s to player %s", ProtobufUtils.getPrintableMessage(updateScoresRequest), player.getName()));
                         
@@ -183,7 +263,7 @@ public class Server {
                     }).start();
                 }
                 
-                //Just a quick experiment to send questions every 10 seconds
+                //Send question every 10 seconds
                 try {
                     Thread.sleep(QUESTION_DEADLINE_S * 1000);
                 } catch (InterruptedException e) {
@@ -202,7 +282,7 @@ public class Server {
             FinishGameRequest finishGameRequest = finishGameRequestBuilder.build();
             
             //Send the requests to each player
-            for (Player player: players) {
+            for (Player player : players) {
                 new Thread(() -> {
                     Logger.logInfo(String.format("Sending %s to player %s", ProtobufUtils.getPrintableMessage(finishGameRequest), player.getName()));
                     player.getQuestionServiceStub().finishGame(finishGameRequest);                                        
@@ -235,20 +315,23 @@ public class Server {
                    
             AnswerResponse.Builder responseBuilder = AnswerResponse.newBuilder();
             Lobby lobby = lobbyMap.get(UUID.fromString(request.getLobbyId()));
-            
+                        
             responseBuilder.setCorrectAnswer(lobby.getCurrentQuestion().get("answer"));
             if (request.getText().equals(lobby.getCurrentQuestion().get("answer"))) {
                 responseBuilder.setCorrect(true);
-                Optional<Player> player = lobbyMap.get(UUID.fromString(request.getLobbyId())).getPlayers().stream().filter(p -> p.getId().equals(UUID.fromString(request.getPlayerId()))).findFirst();
-                if (player.isPresent()) {
-                    long now = new Date().getTime();
-                    long deadline = Long.parseLong(lobby.getCurrentQuestion().get("deadline"));
-                    
-                    int scoreToAdd = (int)(100 * ((deadline - now) / 1000.0)/QUESTION_DEADLINE_S);
-                    scoreToAdd = Math.max(0, Math.min(100, scoreToAdd));
-                    
-                    player.get().incrementScore(scoreToAdd);
-                }
+                long now = new Date().getTime();
+                long deadline = Long.parseLong(lobby.getCurrentQuestion().get("deadline"));
+                
+                int scoreToAdd = (int)(100 * ((deadline - now) / 1000.0)/QUESTION_DEADLINE_S);
+                scoreToAdd = Math.max(0, Math.min(100, scoreToAdd));
+                                   
+                UpdatePlayerRequest.Builder updatePlayerRequestBuilder = UpdatePlayerRequest.newBuilder();
+                updatePlayerRequestBuilder.setPlayerId(request.getPlayerId());
+                updatePlayerRequestBuilder.setScore(scoreToAdd);
+                
+                RequestDetails.Builder requestDetailsBuilder = RequestDetails.newBuilder();
+                requestDetailsBuilder.setUpdatePlayerRequest(updatePlayerRequestBuilder.build());
+                twoPhaseCommit(requestDetailsBuilder.build());
             }
             else {
                 responseBuilder.setCorrect(false);
@@ -260,4 +343,68 @@ public class Server {
 
     }
 
+    private class TwoPhaseCommitServerService extends TwoPhaseCommitServerServiceImplBase {
+        
+        @Override
+        public void queryCommit(QueryCommitRequest request, StreamObserver<QueryCommitResponse> responseObserver) {
+            Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
+
+            QueryCommitResponse.Builder responseBuilder = QueryCommitResponse.newBuilder();
+            responseBuilder.setShouldCommit(true);
+            
+            responseObserver.onNext(responseBuilder.build());
+            responseObserver.onCompleted();
+        }
+        
+        @Override
+        public void commit(CommitRequest request, StreamObserver<CommitResponse> responseObserver) {
+            Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
+            
+            switch (request.getDetails().getMsgCase()) {
+            case ADD_LOBBY_REQUEST:
+            {
+                AddLobbyRequest addLobbyRequest = request.getDetails().getAddLobbyRequest();
+                Lobby lobby = new Lobby(UUID.fromString(addLobbyRequest.getLobbyId()));
+                lobbyMap.put(lobby.getLobbyID(), lobby);
+                break;   
+            }
+            case ADD_PLAYER_REQUEST:
+            {
+                AddPlayerRequest addPlayerRequest = request.getDetails().getAddPlayerRequest();
+                Player player = new Player(
+                        UUID.fromString(addPlayerRequest.getPlayerId()),
+                        addPlayerRequest.getPlayerName(),
+                        InetSocketAddress.createUnresolved(addPlayerRequest.getPlayerIp(), addPlayerRequest.getPlayerPort()));
+                        
+                lobbyMap.get(UUID.fromString(addPlayerRequest.getLobbyId())).addPlayerToLobby(player);
+                playerMap.put(player.getId(), player);
+                break;   
+            }
+            case UPDATE_PLAYER_REQUEST:
+            {
+                UpdatePlayerRequest updatePlayerRequest = request.getDetails().getUpdatePlayerRequest();
+                
+                playerMap.get(UUID.fromString(updatePlayerRequest.getPlayerId())).incrementScore(updatePlayerRequest.getScore());
+                break;   
+            }
+            case UPDATE_QUESTION_REQUEST:
+            {
+                UpdateQuestionRequest updateQuestionRequest = request.getDetails().getUpdateQuestionRequest();
+                Lobby lobby = lobbyMap.get(UUID.fromString(updateQuestionRequest.getLobbyId()));
+                
+                Map<String, String> currentQuestion = new HashMap<>();
+                updateQuestionRequest.getCurrentQuestion().getEntriesList().forEach(entry -> currentQuestion.put(entry.getKey(), entry.getValue()));
+                lobby.setCurrentQuestion(currentQuestion);
+                
+                break;   
+            }
+            default:
+                break;
+            
+            }
+                        
+            responseObserver.onNext(CommitResponse.newBuilder().build());
+            responseObserver.onCompleted();
+        }
+    }
 }

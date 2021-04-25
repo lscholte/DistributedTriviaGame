@@ -12,7 +12,11 @@ public class Lobby {
     private Map<String, String> currentQuestion;
 
     public Lobby(){
-        lobbyID = UUID.randomUUID();
+        this(UUID.randomUUID());
+    }
+    
+    public Lobby(UUID lobbyID) {
+        this.lobbyID = lobbyID;
         players = new ArrayList<>();
     }
 
