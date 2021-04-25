@@ -89,6 +89,7 @@ public class Server {
         public void joinLobby(JoinLobbyRequest request,
                               StreamObserver<LobbyServiceMessages.JoinLobbyResponse> responseObserver) {
 
+
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
 
             ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", request.getPlayerPort()).usePlaintext().build();
@@ -260,5 +261,4 @@ public class Server {
         }
 
     }
-
 }

@@ -1,22 +1,23 @@
 package client;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.net.URI;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import io.grpc.*;
 import org.apache.commons.lang3.tuple.Pair;
 
 import GUI.LobbyScreen;
 import GUI.Quiz;
 import GUI.ResultsScreen;
-import game.Server;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.ServerBuilder;
 import io.grpc.Status.Code;
 import io.grpc.stub.StreamObserver;
 import protobuf.generated.AnswerServiceGrpc;
@@ -41,7 +42,6 @@ import protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersRequest;
 import protobuf.generated.QuestionServiceMessages.UpdateLobbyPlayersResponse;
 import protobuf.generated.QuestionServiceMessages.UpdateScoresRequest;
 import protobuf.generated.QuestionServiceMessages.UpdateScoresResponse;
-import io.grpc.StatusRuntimeException;
 import utilities.Logger;
 import utilities.ProtobufUtils;
 
@@ -64,7 +64,16 @@ public class Client {
     private UUID playerId;
 
     public Client() throws UnknownHostException, IOException {
-        channel = ManagedChannelBuilder.forAddress("localhost", 9901).usePlaintext().build();
+        NameResolverProvider nameResolverFactory = new MultiAddressNameResolverFactory(
+          new InetSocketAddress("localhost", 10000),
+           new InetSocketAddress("localhost", 11000),
+          new InetSocketAddress("localhost", 12000)
+        );
+        NameResolverRegistry nameResolverRegistry = NameResolverRegistry.getDefaultRegistry();
+        nameResolverRegistry.register(nameResolverFactory);
+
+        channel = ManagedChannelBuilder.forTarget("localhost").defaultLoadBalancingPolicy("round_robin")
+                .usePlaintext().build();
 
         lobbyServiceBlockingStub = LobbyServiceGrpc.newBlockingStub(channel);
         answerServiceStub = AnswerServiceGrpc.newBlockingStub(channel);
@@ -293,6 +302,48 @@ public class Client {
             AskQuestionResponse.Builder responseBuilder = AskQuestionResponse.newBuilder();
             responseObserver.onNext(responseBuilder.build());
             responseObserver.onCompleted();
+        }
+    }
+
+    // https://github.com/anarsultanov/examples/blob/master/grpc-client-side-load-balancing/src/main/java/dev/sultanov/grpc/loadbalancing/client/EchoClient.java
+    private static class MultiAddressNameResolverFactory extends NameResolverProvider{
+        final List<EquivalentAddressGroup> addresses;
+
+        MultiAddressNameResolverFactory(SocketAddress... addresses){
+            this.addresses = Arrays.stream(addresses).map(EquivalentAddressGroup::new).collect(Collectors.toList());
+        }
+
+        public NameResolver newNameResolver(URI notUsedURI, NameResolver.Args args){
+            return new NameResolver() {
+                @Override
+                public String getServiceAuthority() {
+                    return "Dummy Authority";
+                }
+
+                public void start(Listener2 listener){
+                    listener.onResult(ResolutionResult.newBuilder().setAddresses(addresses)
+                            .setAttributes(Attributes.EMPTY).build());
+                }
+
+                @Override
+                public void shutdown() {
+
+                }
+            };
+        }
+        @Override
+        public String getDefaultScheme() {
+            return "multi address";
+        }
+
+        @Override
+        protected boolean isAvailable() {
+            return true;
+        }
+
+        @Override
+        protected int priority() {
+            return 0;
         }
     }
 }
