@@ -1,17 +1,12 @@
 package database;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.MongoWriteException;
+import com.mongodb.*;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.set;
@@ -31,10 +26,27 @@ public class MongoConnection {
     }
 
     public MongoConnection(String URL, String database, String collection){
-        String mongoURL ="mongodb://" + URL + "/?replicaSet=trivia";
-        this.mongoClient = new MongoClient( new MongoClientURI(mongoURL));
+        // set server selection timeout to 2 sec
+        MongoClientOptions.Builder options = new MongoClientOptions.Builder();
+        options.serverSelectionTimeout(2000);
+
+        List<ServerAddress> saddress = new ArrayList<ServerAddress>();
+        for (String server : URL.split(",")) {
+            String[] address = server.split(":");
+            String ip = address[0];
+            int port = 27017;
+            if (address.length == 2) {
+                port = Integer.valueOf(address[1]);
+            }
+            saddress.add(new ServerAddress(ip, port));
+        }
+        this.mongoClient = new MongoClient(saddress, options.build());
+
+//        String mongoURL ="mongodb://" + URL + "/?replicaSet=trivia";
+//        this.mongoClient = new MongoClient(new MongoClientURI(mongoURL));
 //        this.mongoClient = new MongoClient( new MongoClientURI(
 //                "mongodb://172.25.0.2:27017,172.25.0.3:27017,172.25.0.4:27017/?replicaSet=trivia"));
+
         this.database = mongoClient.getDatabase(database);
         this.collection = this.database.getCollection(collection);
     }

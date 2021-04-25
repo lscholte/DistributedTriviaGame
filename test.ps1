@@ -68,7 +68,7 @@ echo $config
 #docker exec -it mongo1 mongo --port 30001 --eval ("rs.add('{0}:30003')" -f $mongo3Ip)
 
 docker exec -it mongo1 mongo --eval ("rs.initiate({0})" -f $config)
-# sleep
+Start-Sleep -Seconds 5
 
 # # Add the questions to the primary. The other mongo DBs should automatically see this
 docker exec -it mongo1 mongoimport --jsonArray --db trivia --collection questions --file TriviaQuiz.json

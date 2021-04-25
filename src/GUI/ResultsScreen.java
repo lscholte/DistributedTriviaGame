@@ -46,9 +46,10 @@ public class ResultsScreen {
     
   
 
-    public void showResults(java.util.List<Player> players) {
+    public void showResults(java.util.List<Player> players, String errormsg) {
         
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(errormsg + "\n\n");
         for (int i = 0; i < players.size(); ++i) {
             stringBuilder
                 .append("(")
