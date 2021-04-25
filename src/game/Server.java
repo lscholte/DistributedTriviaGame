@@ -150,17 +150,17 @@ public class Server {
 
                 //Build an AskQuestionRequest
                 Map<String, String> currentQuestion = null;
-//                for(int j=0; j<5; j++) {
-//                    try {
-//                        currentQuestion = dbConnection.getQuestion(new Random().nextInt(100) + 1);
-//                        break;
-//                    } catch (Exception e) {
-//                        try {
-//                            System.out.println("Error fetching question. Trying again");
-//                            Thread.sleep(1000);
-//                        }catch (Exception es) {}
-//                    }
-//                }
+                for(int j=0; j<5; j++) {
+                    try {
+                        currentQuestion = dbConnection.getQuestion(new Random().nextInt(100) + 1);
+                        break;
+                    } catch (Exception e) {
+                        try {
+                            System.out.println("Error fetching question. Trying again");
+                            Thread.sleep(1000);
+                        }catch (Exception es) {}
+                    }
+                }
 
                 // Map<String, String> currentQuestion = dbConnection.getQuestion(new Random().nextInt(100) + 1);
                 // if we where able to fetch a question within 5 tries, send the question
