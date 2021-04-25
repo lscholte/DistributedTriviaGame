@@ -59,8 +59,8 @@ public class Server {
             }
         }));
         
-        dbConnection = new MongoConnection("localhost", 27017, "trivia","questions");
-        //dbConnection = new MongoConnection(args, "trivia", "questions");
+        //dbConnection = new MongoConnection("localhost", 27017, "trivia","questions");
+        dbConnection = new MongoConnection(args, "trivia", "questions");
     }
 
     public void start() throws IOException, InterruptedException {    
@@ -148,8 +148,19 @@ public class Server {
                 AskQuestionRequest.Builder questionRequestBuilder = AskQuestionRequest.newBuilder();
 
                 //Build an AskQuestionRequest
+                Map<String, String> currentQuestion;
+                while(true) {
+                    try {
+                        currentQuestion = dbConnection.getQuestion(new Random().nextInt(100) + 1);
+                        break;
+                    } catch (Exception e) {
+                        try {
+                            Thread.sleep(1000);
+                        }catch (Exception es) {}
+                    }
+                }
 
-                Map<String, String> currentQuestion = dbConnection.getQuestion(new Random().nextInt(100) + 1);
+               // Map<String, String> currentQuestion = dbConnection.getQuestion(new Random().nextInt(100) + 1);
                 lobby.setCurrentQuestion(currentQuestion);
 
                 long questionDeadline = new Date().getTime() + QUESTION_DEADLINE_S * 1000;
