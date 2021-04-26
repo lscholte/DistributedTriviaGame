@@ -89,7 +89,7 @@ public class Client {
             }
         }));
 
-        grpcServer = ServerBuilder.forPort(18000).addService(new QuestionService()).build();
+        grpcServer = ServerBuilder.forPort(0).addService(new QuestionService()).build();
         grpcServer.start();
     }
 
@@ -301,6 +301,7 @@ public class Client {
             this.addresses = Arrays.stream(addresses).map(EquivalentAddressGroup::new).collect(Collectors.toList());
         }
 
+        @Override
         public NameResolver newNameResolver(URI notUsedURI, NameResolver.Args args){
             return new NameResolver() {
                 @Override
@@ -308,6 +309,7 @@ public class Client {
                     return "Dummy Authority";
                 }
 
+                @Override
                 public void start(Listener2 listener){
                     listener.onResult(ResolutionResult.newBuilder().setAddresses(addresses)
                             .setAttributes(Attributes.EMPTY).build());
