@@ -32,7 +32,7 @@ import utilities.ProtobufUtils;
  */
 public class Coordinator {
 
-    private static final int PORT = 5000;
+    public static final int PORT = 5000;
     
     private Server grpcServer;
     private List<TwoPhaseCommitServerServiceBlockingStub> serviceStubs;

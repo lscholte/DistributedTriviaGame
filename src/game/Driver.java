@@ -1,32 +1,40 @@
 package game;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
+import utilities.AddressParser;
 import utilities.Logger;
 
 public class Driver {
+    
+    private static final String USAGE = "USAGE: java -jar ./Server.jar port <mongoDbHost:port> ...";
 
-    public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
-        List<Server> servers = new ArrayList<>();
-        servers.add(new Server(10000));
-        servers.add(new Server(11000));
-        servers.add(new Server(12000));
-        servers.add(new Server(13000));
-        servers.add(new Server(14000));
-        ExecutorService executorService = Executors.newFixedThreadPool(5);
-        for(Server server: servers){
-            executorService.submit(() -> {
-                try {
-                    server.start();
-                }catch(IOException|InterruptedException e){
-                    e.printStackTrace();
-                }
-            });
+    public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {        
+        
+        int serverPort;
+        try {
+          serverPort = Integer.parseInt(args[0]);
         }
+        catch (NumberFormatException e) {
+          Logger.logError(USAGE);
+          return;
+        }
+        
+        List<InetSocketAddress> mongoDbAddresses = new ArrayList<>();
+        for (int i = 1; i < args.length; ++i) {
+            InetSocketAddress serverAddress = AddressParser.parseAddress(args[i]);
+            if (serverAddress == null) {
+                Logger.logError(USAGE);
+                return;
+            }
+            mongoDbAddresses.add(serverAddress);
+        }
+
+        Server server = new Server(serverPort, mongoDbAddresses);
+        server.start();
     }
 }

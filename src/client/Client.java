@@ -21,7 +21,6 @@ import GUI.ResultsScreen;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.ServerBuilder;
-import io.grpc.Status.Code;
 import io.grpc.stub.StreamObserver;
 import protobuf.generated.AnswerServiceGrpc;
 import protobuf.generated.AnswerServiceGrpc.AnswerServiceBlockingStub;
@@ -265,11 +264,12 @@ public class Client {
             
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
             List<Player> players = request.getPlayersList().stream().map(p -> new Player(p.getName(), p.getScore())).collect(Collectors.toList());
-                        
+            String errormsg = request.getErrorMsg();
+
             gui.close();
             
             ResultsScreen resultsScreen = new ResultsScreen();
-            resultsScreen.showResults(players);
+            resultsScreen.showResults(players, errormsg);
             
             
             FinishGameResponse.Builder responseBuilder = FinishGameResponse.newBuilder();
