@@ -131,6 +131,7 @@ public class Server {
             responseObserver.onCompleted();
             
             UUID lobbyID = UUID.fromString(request.getLobbyId());
+            String errormsg = "Game Over!";
 
             Lobby lobby = lobbyMap.get(lobbyID);
 
@@ -156,62 +157,71 @@ public class Server {
                 AskQuestionRequest.Builder questionRequestBuilder = AskQuestionRequest.newBuilder();
 
                 //Build an AskQuestionRequest
-                Map<String, String> currentQuestion;
-                while(true) {
+                Map<String, String> currentQuestion = null;
+                for(int j=0; j<5; j++) {
                     try {
                         currentQuestion = dbConnection.getQuestion(new Random().nextInt(100) + 1);
                         break;
                     } catch (Exception e) {
                         try {
+                            System.out.println("Error fetching question. Trying again");
                             Thread.sleep(1000);
                         }catch (Exception es) {}
                     }
                 }
 
-               // Map<String, String> currentQuestion = dbConnection.getQuestion(new Random().nextInt(100) + 1);
-                lobby.setCurrentQuestion(currentQuestion);
+                // Map<String, String> currentQuestion = dbConnection.getQuestion(new Random().nextInt(100) + 1);
+                // if we where able to fetch a question within 5 tries, send the question
+                // otherwise, break out of this loop and end the game prematurely
+                if(currentQuestion != null) {
+                    lobby.setCurrentQuestion(currentQuestion);
 
-                long questionDeadline = new Date().getTime() + QUESTION_DEADLINE_S * 1000;
-                currentQuestion.put("deadline", Long.toString(questionDeadline));
+                    long questionDeadline = new Date().getTime() + QUESTION_DEADLINE_S * 1000;
+                    currentQuestion.put("deadline", Long.toString(questionDeadline));
 
-                questionRequestBuilder.setNumber(i);
-                questionRequestBuilder.setQuestion(currentQuestion.get("question"));
-                
-                List<String> options = new ArrayList<String>(4);
-                options.add(currentQuestion.get("option 1"));
-                options.add(currentQuestion.get("option 2"));
-                options.add(currentQuestion.get("option 3"));
-                options.add(currentQuestion.get("option 4"));
-                questionRequestBuilder.addAllOptions(options);
+                    questionRequestBuilder.setNumber(i);
+                    questionRequestBuilder.setQuestion(currentQuestion.get("question"));
 
-                // testing code
-                //questionRequestBuilder.setDeadline(new Date().getTime() + 1000000 + QUESTION_DEADLINE_S * 1000);
-                questionRequestBuilder.setDeadline(new Date().getTime() + QUESTION_DEADLINE_S * 1000);
+                    List<String> options = new ArrayList<String>(4);
+                    options.add(currentQuestion.get("option 1"));
+                    options.add(currentQuestion.get("option 2"));
+                    options.add(currentQuestion.get("option 3"));
+                    options.add(currentQuestion.get("option 4"));
+                    questionRequestBuilder.addAllOptions(options);
 
-                AskQuestionRequest questionRequest = questionRequestBuilder.build();
+                    // testing code
+                    //questionRequestBuilder.setDeadline(new Date().getTime() + 1000000 + QUESTION_DEADLINE_S * 1000);
+                    questionRequestBuilder.setDeadline(new Date().getTime() + QUESTION_DEADLINE_S * 1000);
 
-                                
-                //Send the requests to each player
-                for (Player player: players) {
-                    new Thread(() -> {
-                        Logger.logInfo(String.format("Sending %s to player %s", ProtobufUtils.getPrintableMessage(updateScoresRequest), player.getName()));
-                        
-                        player.getQuestionServiceStub().updateScores(updateScoresRequest);
-                                            
-                        Logger.logInfo(String.format("Sending %s to player %s", ProtobufUtils.getPrintableMessage(questionRequest), player.getName()));
-                        player.getQuestionServiceStub().askQuestion(questionRequest);
-                    }).start();
+                    AskQuestionRequest questionRequest = questionRequestBuilder.build();
+
+
+                    //Send the requests to each player
+                    for (Player player : players) {
+                        new Thread(() -> {
+                            Logger.logInfo(String.format("Sending %s to player %s", ProtobufUtils.getPrintableMessage(updateScoresRequest), player.getName()));
+
+                            player.getQuestionServiceStub().updateScores(updateScoresRequest);
+
+                            Logger.logInfo(String.format("Sending %s to player %s", ProtobufUtils.getPrintableMessage(questionRequest), player.getName()));
+                            player.getQuestionServiceStub().askQuestion(questionRequest);
+                        }).start();
+                    }
+
+                    //Just a quick experiment to send questions every 10 seconds
+                    try {
+                        Thread.sleep(QUESTION_DEADLINE_S * 1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-                
-                //Just a quick experiment to send questions every 10 seconds
-                try {
-                    Thread.sleep(QUESTION_DEADLINE_S * 1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                else {
+                    errormsg = "Unable to fetch questions. Game ended.";
+                    break;
                 }
             }
             
-            //Build an UpdateScoresRequest
+            // Build an UpdateScoresRequest
             FinishGameRequest.Builder finishGameRequestBuilder = FinishGameRequest.newBuilder();
             for (Player player : players.stream().sorted((a, b) -> b.getScore() - a.getScore()).collect(Collectors.toList())) {
                 protobuf.generated.QuestionServiceMessages.Player.Builder playerBuilder = protobuf.generated.QuestionServiceMessages.Player.newBuilder();
@@ -219,6 +229,8 @@ public class Server {
                 playerBuilder.setScore(player.getScore());
                 finishGameRequestBuilder.addPlayers(playerBuilder.build());
             }
+            finishGameRequestBuilder.setErrorMsg(errormsg);
+
             FinishGameRequest finishGameRequest = finishGameRequestBuilder.build();
             
             //Send the requests to each player

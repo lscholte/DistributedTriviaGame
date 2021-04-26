@@ -268,11 +268,12 @@ public class Client {
             
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(request)));
             List<Player> players = request.getPlayersList().stream().map(p -> new Player(p.getName(), p.getScore())).collect(Collectors.toList());
-                        
+            String errormsg = request.getErrorMsg();
+
             gui.close();
             
             ResultsScreen resultsScreen = new ResultsScreen();
-            resultsScreen.showResults(players);
+            resultsScreen.showResults(players, errormsg);
             
             
             FinishGameResponse.Builder responseBuilder = FinishGameResponse.newBuilder();

@@ -180,8 +180,11 @@ public class Quiz implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 long remainingMillis = deadline.getTime() - new Date().getTime();
-                
-                seconds_left.setText(String.valueOf(remainingMillis/1000));
+                if(remainingMillis > 0) {
+                    seconds_left.setText(String.valueOf(remainingMillis / 1000));
+                } else {
+                    seconds_left.setText("0");
+                }
             }
         });
         timer.start();
