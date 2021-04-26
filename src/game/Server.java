@@ -1,9 +1,12 @@
 package game;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import com.mongodb.ServerAddress;
 
 import database.MongoConnection;
 import io.grpc.ManagedChannel;
@@ -43,7 +46,7 @@ public class Server {
     
     private MongoConnection dbConnection;
     
-    public Server(String args) {
+    public Server(List<InetSocketAddress> mongoDbAddresses) {
         grpcServer = ServerBuilder
                 .forPort(PORT)
                 .addService(new LobbyService())
@@ -59,8 +62,13 @@ public class Server {
             }
         }));
         
-        //dbConnection = new MongoConnection("localhost", 27017, "trivia","questions");
-        dbConnection = new MongoConnection(args, "trivia", "questions");
+        
+        List<ServerAddress> addresses =
+                mongoDbAddresses
+                    .stream()
+                    .map(address -> new ServerAddress(address.getHostString(), address.getPort()))
+                    .collect(Collectors.toList());
+        dbConnection = new MongoConnection(addresses, "trivia", "questions");
     }
 
     public void start() throws IOException, InterruptedException {    

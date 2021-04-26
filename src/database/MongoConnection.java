@@ -3,15 +3,19 @@ package database;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.MongoWriteException;
+import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.set;
@@ -25,16 +29,15 @@ public class MongoConnection {
 
     public MongoConnection(String host, int port, String database, String collection){
         // create the connection to the DB
-        this.mongoClient = new MongoClient(host, port);
-        this.database = mongoClient.getDatabase(database);
-        this.collection = this.database.getCollection(collection);
+        this(new MongoClient(host, port), database, collection);
     }
 
-    public MongoConnection(String URL, String database, String collection){
-        String mongoURL ="mongodb://" + URL + "/?replicaSet=trivia";
-        this.mongoClient = new MongoClient( new MongoClientURI(mongoURL));
-//        this.mongoClient = new MongoClient( new MongoClientURI(
-//                "mongodb://172.25.0.2:27017,172.25.0.3:27017,172.25.0.4:27017/?replicaSet=trivia"));
+    public MongoConnection(List<ServerAddress> addresses, String database, String collection) {
+        this(new MongoClient(addresses), database, collection);
+    }
+    
+    public MongoConnection(MongoClient mongoClient, String database, String collection) {
+        this.mongoClient = mongoClient;
         this.database = mongoClient.getDatabase(database);
         this.collection = this.database.getCollection(collection);
     }
