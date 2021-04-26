@@ -1,14 +1,12 @@
 package client;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.URI;
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -65,11 +63,27 @@ public class Client {
     private UUID lobbyId;
     private UUID playerId;
 
-    public Client() throws UnknownHostException, IOException {
+    public Client() throws IOException {
+        Logger.logInfo("Reading the config file");
+        List<String[]> servers = new ArrayList<>();
+        try{
+            File fileObject = new File("config.txt");
+            Scanner fileReader = new Scanner(fileObject);
+            while(fileReader.hasNextLine()){
+                String data = fileReader.nextLine();
+                String[] serverConfig = data.split(" ");
+                servers.add(serverConfig);
+            }
+            fileReader.close();
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+        List<InetSocketAddress> serverSockets = new ArrayList<>();
+        for(String[] serverConfig: servers){
+            serverSockets.add(new InetSocketAddress(serverConfig[0], Integer.parseInt(serverConfig[1])));
+        }
         NameResolverProvider nameResolverFactory = new MultiAddressNameResolverFactory(
-                new InetSocketAddress("localhost", 10000),
-                new InetSocketAddress("localhost", 11000),
-                new InetSocketAddress("localhost", 12000)
+                serverSockets
         );
         NameResolverRegistry nameResolverRegistry = NameResolverRegistry.getDefaultRegistry();
         nameResolverRegistry.register(nameResolverFactory);
@@ -297,8 +311,8 @@ public class Client {
     private static class MultiAddressNameResolverFactory extends NameResolverProvider{
         final List<EquivalentAddressGroup> addresses;
 
-        MultiAddressNameResolverFactory(SocketAddress... addresses){
-            this.addresses = Arrays.stream(addresses).map(EquivalentAddressGroup::new).collect(Collectors.toList());
+        MultiAddressNameResolverFactory(List<InetSocketAddress> addresses){
+            this.addresses = addresses.stream().map(EquivalentAddressGroup::new).collect(Collectors.toList());
         }
 
         @Override

@@ -15,15 +15,12 @@ public class Driver {
         
         
         List<InetSocketAddress> serverAddresses = new ArrayList<>();
-        for (int i = 0; i < args.length; ++i) {
-          InetSocketAddress serverAddress = AddressParser.parseAddress(args[i]);
-          if (serverAddress == null) {
-            return;
-          }
-          
-          serverAddresses.add(serverAddress);
-        }        
-        
+        serverAddresses.add(new InetSocketAddress("localhost", 10000));
+        serverAddresses.add(new InetSocketAddress("localhost", 11000));
+        serverAddresses.add(new InetSocketAddress("localhost", 12000));
+        serverAddresses.add(new InetSocketAddress("localhost", 13000));
+        serverAddresses.add(new InetSocketAddress("localhost", 14000));
+
         Coordinator coordinator = new Coordinator(serverAddresses);
         coordinator.start();
     }
