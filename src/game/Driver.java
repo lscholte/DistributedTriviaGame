@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import utilities.Logger;
+
 public class Driver {
 
-    public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {    
+    public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
         List<Server> servers = new ArrayList<>();
         servers.add(new Server(10000));
         servers.add(new Server(11000));

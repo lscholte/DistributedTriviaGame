@@ -18,6 +18,9 @@ import org.apache.commons.lang3.tuple.Pair;
 import GUI.LobbyScreen;
 import GUI.Quiz;
 import GUI.ResultsScreen;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import io.grpc.ServerBuilder;
 import io.grpc.Status.Code;
 import io.grpc.stub.StreamObserver;
 import protobuf.generated.AnswerServiceGrpc;
@@ -65,9 +68,9 @@ public class Client {
 
     public Client() throws UnknownHostException, IOException {
         NameResolverProvider nameResolverFactory = new MultiAddressNameResolverFactory(
-          new InetSocketAddress("localhost", 10000),
-           new InetSocketAddress("localhost", 11000),
-          new InetSocketAddress("localhost", 12000)
+                new InetSocketAddress("localhost", 10000),
+                new InetSocketAddress("localhost", 11000),
+                new InetSocketAddress("localhost", 12000)
         );
         NameResolverRegistry nameResolverRegistry = NameResolverRegistry.getDefaultRegistry();
         nameResolverRegistry.register(nameResolverFactory);
@@ -86,7 +89,7 @@ public class Client {
             }
         }));
 
-        grpcServer = ServerBuilder.forPort(0).addService(new QuestionService()).build();
+        grpcServer = ServerBuilder.forPort(18000).addService(new QuestionService()).build();
         grpcServer.start();
     }
 
@@ -119,7 +122,7 @@ public class Client {
                 Logger.logInfo("A lobby was not created");
             }
         } catch (StatusRuntimeException e) {
-            handleGrpcError("CreateLobby", e.getStatus().getCode());
+            ProtobufUtils.handleGrpcError("CreateLobby", e.getStatus().getCode());
         }
 
         return lobbyUuid;
@@ -143,7 +146,7 @@ public class Client {
             JoinLobbyResponse response = lobbyServiceBlockingStub.joinLobby(request);
             Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(response)));
         } catch (StatusRuntimeException e) {
-            handleGrpcError("JoinLobby", e.getStatus().getCode());
+            ProtobufUtils.handleGrpcError("JoinLobby", e.getStatus().getCode());
         }
     }
 
@@ -160,7 +163,7 @@ public class Client {
             lobbyServiceBlockingStub.startGame(request);
         }
         catch (StatusRuntimeException e) {
-            handleGrpcError("StartGame", e.getStatus().getCode());
+            ProtobufUtils.handleGrpcError("StartGame", e.getStatus().getCode());
         }
     }
 
@@ -190,24 +193,9 @@ public class Client {
                 return Pair.of(false, response.getCorrectAnswer());
             }
         } catch (StatusRuntimeException e) {
-            handleGrpcError("Answer", e.getStatus().getCode());
+            ProtobufUtils.handleGrpcError("Answer", e.getStatus().getCode());
         }
         return Pair.of(false, "");
-    }
-
-    private void handleGrpcError(String requestType, Code code) {
-        switch (code) {
-            case UNAVAILABLE:
-                Logger.logError(String.format("%s failed because server is unavailable", requestType));
-                break;
-            case DEADLINE_EXCEEDED:
-                Logger.logError(String.format("%s timed out waiting for response", requestType));
-                break;
-            default:
-                Logger.logError(String.format("%s failed with error status code %s", requestType,
-                        code.toString()));
-                break;
-        }
     }
 
     private class QuestionService extends QuestionServiceImplBase {
@@ -227,7 +215,7 @@ public class Client {
                 Logger.logInfo(String.format("Received %s", ProtobufUtils.getPrintableMessage(response)));
                 serverTime = response.getTimestamp();
             } catch (StatusRuntimeException e) {
-                handleGrpcError("Time Synchronization", e.getStatus().getCode());
+                ProtobufUtils.handleGrpcError("Time Synchronization", e.getStatus().getCode());
             }
             long endTime = System.currentTimeMillis();
             long syncTime = serverTime + ((endTime - startTime)/2);

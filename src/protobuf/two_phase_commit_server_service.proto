@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package protobuf;
+
+import "two_phase_commit_messages.proto";
+
+option java_package			= "protobuf.generated";
+option java_outer_classname = "TwoPhaseCommitServerMessages";
+
+service TwoPhaseCommitServerService
+{
+	rpc QueryCommit(QueryCommitRequest)	returns (QueryCommitResponse);
+	rpc Commit(CommitRequest) returns (CommitResponse);
+}
+
+message QueryCommitRequest
+{
+}
+
+message QueryCommitResponse
+{
+	optional bool should_commit	= 2;
+}
+
+message CommitRequest
+{
+	optional RequestDetails details = 1;
+}
+
+message CommitResponse
+{
+}

@@ -2,6 +2,7 @@ package utilities;
 
 import com.google.protobuf.Message;
 
+import io.grpc.Status.Code;
 import io.grpc.stub.StreamObserver;
 
 public final class ProtobufUtils {
@@ -27,6 +28,21 @@ public final class ProtobufUtils {
             @Override
             public void onError(Throwable throwable) {}
         };
+    }
+    
+    public static void handleGrpcError(String requestType, Code code) {
+        switch (code) {
+            case UNAVAILABLE:
+                Logger.logError(String.format("%s failed because server is unavailable", requestType));
+                break;
+            case DEADLINE_EXCEEDED:
+                Logger.logError(String.format("%s timed out waiting for response", requestType));
+                break;
+            default:
+                Logger.logError(String.format("%s failed with error status code %s", requestType,
+                        code.toString()));
+                break;
+        }
     }
 
 }

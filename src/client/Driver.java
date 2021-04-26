@@ -1,7 +1,11 @@
 package client;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
+
+import utilities.AddressParser;
+import utilities.Logger;
 
 public class Driver {
 
@@ -10,5 +14,4 @@ public class Driver {
         Client client = new Client();
         client.start();
     }
-
 }
