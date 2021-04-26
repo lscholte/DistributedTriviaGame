@@ -66,11 +66,14 @@ args="$mongo1host $mongo2host $mongo3host"
 echo $args
 
 # Run the game server, connecting it to the Mongo databases
-gnome-terminal -- sh -c "java -jar ./Coordinator.jar localhost:10000 localhost:11000 localhost:12000"
+gnome-terminal -- sh -c "java -jar ./Coordinator.jar localhost:10000 localhost:11000 localhost:12000 localhost:13000 localhost:14000"
 
 gnome-terminal -- sh -c "java -jar ./Server.jar 10000 $args"
 gnome-terminal -- sh -c "java -jar ./Server.jar 11000 $args"
 gnome-terminal -- sh -c "java -jar ./Server.jar 12000 $args"
+gnome-terminal -- sh -c "java -jar ./Server.jar 13000 $args"
+gnome-terminal -- sh -c "java -jar ./Server.jar 14000 $args"
+
 
 
 
