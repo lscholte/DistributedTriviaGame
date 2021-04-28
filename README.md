@@ -1,5 +1,5 @@
 # Overview
-This is a simple distributed trivia game.
+This is a simple distributed trivia game. The git repository is located at: https://github.com/lscholte/DistributedTriviaGame
 
 Major components include
 * A cluster of 1 or more MongoDB containers which hold multiple-choice trivia questions
